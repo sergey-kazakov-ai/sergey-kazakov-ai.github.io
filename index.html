@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sergey Kazakov — Solutions / AI Automation Engineer</title>
+<meta name="description" content="I build production AI agents, integrations & full-stack tools for real businesses. AI sales agent over a 15k-SKU catalog, CRM↔ERP integration, construction ERP from scratch.">
+<meta property="og:title" content="Sergey Kazakov — Solutions / AI Automation Engineer">
+<meta property="og:description" content="Production AI agents, CRM↔ERP integrations & full-stack tools — built for real businesses, running in production.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@500;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F3F4F7;
+  --node:#FFFFFF;
+  --ink:#11141F;
+  --body:#3D4354;
+  --muted:#5A6172;
+  --dim:#8B93A7;
+  --wire:#C9CFDC;
+  --line:#E3E6EE;
+  --accent:#4353FF;
+  --accent-ink:#2F3BD4;
+  --accent-soft:rgba(67,83,255,.07);
+  --run:#16A34A;
+  --stage:#B45309;
+  --display:'Schibsted Grotesk',sans-serif;
+  --sans:'IBM Plex Sans',system-ui,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+body{
+  background:var(--paper);
+  background-image:radial-gradient(var(--wire) 1px, transparent 1.2px);
+  background-size:24px 24px;
+  color:var(--body);
+  font-family:var(--sans);font-size:16.5px;line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+::selection{background:var(--accent);color:#fff}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+.wrap{max-width:1100px;margin:0 auto;padding:0 24px}
+h1,h2,h3{font-family:var(--display);color:var(--ink)}
+a:focus-visible,button:focus-visible{outline:2.5px solid var(--accent);outline-offset:3px;border-radius:4px}
+
+/* ---------- nav ---------- */
+nav{position:fixed;top:0;left:0;right:0;z-index:50;background:rgba(243,244,247,.85);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav-inner{max-width:1100px;margin:0 auto;padding:13px 24px;display:flex;align-items:center;gap:28px}
+.logo{font-family:var(--mono);font-weight:600;font-size:14.5px;color:var(--ink);display:inline-flex;align-items:center;gap:9px}
+.logo .port{width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.nav-links{display:flex;gap:22px;margin-left:auto;align-items:center}
+.nav-links a{font-size:14.5px;font-weight:500;color:var(--muted);transition:color .2s;cursor:pointer}
+.nav-links a:hover,.nav-links a:focus-visible{color:var(--ink)}
+.nav-icon{display:inline-flex;color:var(--muted);transition:color .2s}
+.nav-icon:hover,.nav-icon:focus-visible{color:var(--accent)}
+.nav-icon svg{width:19px;height:19px;fill:currentColor}
+
+/* ---------- node primitives ---------- */
+.node{background:var(--node);border:1px solid var(--line);border-radius:14px;box-shadow:0 1px 2px rgba(17,20,31,.04),0 8px 24px -12px rgba(17,20,31,.08);position:relative;transition:border-color .25s,box-shadow .25s,transform .25s}
+.node:hover{border-color:var(--accent);box-shadow:0 1px 2px rgba(17,20,31,.04),0 16px 40px -16px rgba(67,83,255,.25)}
+.port-l,.port-r{position:absolute;top:50%;width:11px;height:11px;border-radius:50%;background:var(--node);border:2px solid var(--wire);transform:translateY(-50%);transition:border-color .25s,background .25s}
+.port-l{left:-6px}
+.port-r{right:-6px}
+.node:hover .port-l,.node:hover .port-r{border-color:var(--accent);background:var(--accent-soft)}
+.badge{font-family:var(--mono);font-size:11.5px;font-weight:500;border-radius:999px;padding:4px 12px;display:inline-flex;align-items:center;gap:7px;white-space:nowrap}
+.badge .b-dot{width:7px;height:7px;border-radius:50%}
+.badge-run{color:var(--run);background:rgba(22,163,74,.09)}
+.badge-run .b-dot{background:var(--run)}
+.badge-stage{color:var(--stage);background:rgba(180,83,9,.09)}
+.badge-stage .b-dot{background:var(--stage)}
+.badge-pre{color:var(--muted);background:rgba(90,97,114,.09)}
+.badge-pre .b-dot{background:var(--dim)}
+
+/* ---------- hero ---------- */
+.hero{padding:148px 0 72px;display:flex;align-items:center;gap:56px}
+.hero-text{flex:1;min-width:0}
+.eyebrow{font-family:var(--mono);font-size:13px;font-weight:500;color:var(--accent-ink);letter-spacing:.02em;margin-bottom:20px;display:inline-flex;align-items:center;gap:10px}
+.eyebrow::before{content:"";width:26px;height:2px;background:var(--accent)}
+h1{font-size:clamp(36px,5.6vw,58px);font-weight:800;line-height:1.04;letter-spacing:-.025em;margin-bottom:20px}
+h1 .hl{color:var(--accent-ink);position:relative;white-space:nowrap}
+h1 .hl::after{content:"";position:absolute;left:0;right:0;bottom:.04em;height:.12em;background:var(--accent-soft);z-index:-1}
+.hero-sub{font-size:clamp(17.5px,2.1vw,20px);color:var(--muted);max-width:580px;margin-bottom:26px}
+.hero-sub strong{color:var(--ink);font-weight:600}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:34px}
+.chip{font-family:var(--mono);font-size:12px;color:var(--muted);background:var(--node);border:1px solid var(--line);border-radius:999px;padding:6px 14px;display:inline-flex;align-items:center;gap:8px}
+.chip .dot{width:7px;height:7px;border-radius:50%;background:var(--run)}
+.btns{display:flex;gap:14px;flex-wrap:wrap}
+.btn{font-family:var(--mono);font-size:14px;font-weight:500;padding:13px 26px;border-radius:10px;display:inline-flex;align-items:center;gap:9px;transition:background .2s,border-color .2s,color .2s,box-shadow .2s;cursor:pointer;min-height:44px}
+.btn svg{width:16px;height:16px;fill:currentColor}
+.btn-primary{background:var(--accent);color:#fff;box-shadow:0 8px 20px -8px rgba(67,83,255,.5)}
+.btn-primary:hover{background:var(--accent-ink)}
+.btn-ghost{border:1.5px solid var(--wire);color:var(--ink);background:var(--node)}
+.btn-ghost:hover{border-color:var(--accent);color:var(--accent-ink)}
+.hero-photo{flex-shrink:0;width:240px;padding:14px;text-align:center}
+.hero-photo img{width:100%;height:auto;aspect-ratio:1;object-fit:cover;border-radius:9px}
+.hero-photo figcaption{font-family:var(--mono);font-size:12px;color:var(--dim);padding:12px 4px 2px;display:flex;justify-content:space-between;gap:8px}
+.hero-photo figcaption .on{color:var(--run)}
+
+/* ---------- proof bar ---------- */
+.proof{padding:0 0 8px}
+.proof-inner{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.proof-item{padding:24px 20px;text-align:left}
+.proof-num{font-family:var(--display);font-size:clamp(26px,3vw,34px);font-weight:800;color:var(--ink);letter-spacing:-.02em}
+.proof-num em{font-style:normal;color:var(--accent-ink)}
+.proof-label{font-size:13.5px;color:var(--muted);margin-top:4px;line-height:1.45}
+
+/* ---------- sections ---------- */
+section{padding:88px 0 8px}
+.sec-label{font-family:var(--mono);font-size:13px;font-weight:500;color:var(--accent-ink);margin-bottom:12px;display:inline-flex;align-items:center;gap:10px}
+.sec-label::before{content:"";width:26px;height:2px;background:var(--accent)}
+h2{font-size:clamp(27px,3.7vw,38px);font-weight:800;letter-spacing:-.02em;margin-bottom:14px}
+.sec-intro{color:var(--muted);max-width:660px;margin-bottom:46px;font-size:17px}
+
+/* ---------- pipeline (flagships + wire spine) ---------- */
+.pipeline{position:relative}
+.pipeline::before{content:"";position:absolute;left:-34px;top:-20px;bottom:30px;border-left:2px dashed var(--wire)}
+.flag{padding:42px;margin-bottom:40px}
+.flag::before{content:"";position:absolute;left:-40px;top:54px;width:11px;height:11px;border-radius:50%;background:var(--paper);border:2.5px solid var(--accent);z-index:1}
+.flag::after{content:"";position:absolute;left:-28px;top:59px;width:28px;border-top:2px dashed var(--wire)}
+.flag-head{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:8px}
+.flag-type{font-family:var(--mono);font-size:11.5px;font-weight:500;color:var(--accent-ink);background:var(--accent-soft);border-radius:6px;padding:4px 10px}
+.flag h3{font-size:clamp(21px,2.7vw,27px);font-weight:700;letter-spacing:-.015em;width:100%}
+.flag-problem{color:var(--muted);margin:12px 0 24px;max-width:780px}
+.flag-problem b{color:var(--ink);font-weight:600}
+.flag-cols{display:grid;grid-template-columns:1fr 1fr;gap:38px;align-items:start}
+.flag-bullets{list-style:none;display:flex;flex-direction:column;gap:13px}
+.flag-bullets li{padding-left:26px;position:relative;font-size:15.5px}
+.flag-bullets li::before{content:"";position:absolute;left:4px;top:.62em;width:9px;height:9px;border-radius:50%;border:2px solid var(--accent);background:var(--node)}
+.flag-bullets b{color:var(--ink);font-weight:600}
+.shot{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff;box-shadow:0 6px 24px -10px rgba(17,20,31,.12)}
+.shot img{width:100%}
+.shot-cap{font-family:var(--mono);font-size:11.5px;color:var(--dim);margin-top:10px;text-align:center}
+.stack-row{font-family:var(--mono);font-size:12px;color:var(--muted);margin-top:26px;display:flex;flex-wrap:wrap;gap:8px}
+.stack-row span{background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:4px 11px}
+.flow{font-family:var(--mono);font-size:12.8px;line-height:2.15;background:#FAFBFD;border:1px solid var(--line);border-radius:10px;padding:22px 24px;color:var(--muted);overflow-x:auto}
+.flow .fk{color:var(--accent-ink);font-weight:600}
+.flow .fa{color:var(--dim)}
+.flow .fv{color:var(--ink);font-weight:500}
+
+/* ---------- more projects grid ---------- */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:40px}
+.card{padding:26px}
+.card h4{font-family:var(--display);font-size:16.5px;font-weight:700;color:var(--ink);margin-bottom:9px;display:flex;align-items:center;gap:11px;letter-spacing:-.01em}
+.card h4 svg{width:19px;height:19px;stroke:var(--accent);fill:none;stroke-width:1.8;flex-shrink:0}
+.card p{font-size:14.5px;color:var(--muted)}
+.card p b{color:var(--body);font-weight:600}
+.card .badge{margin-top:16px}
+
+/* ---------- background ---------- */
+.bg-cols{display:grid;grid-template-columns:1.5fr 1fr;gap:38px;align-items:start;margin-top:32px}
+.bg-cols .story p{margin-bottom:16px;font-size:16.5px}
+.bg-cols .story b{color:var(--ink)}
+.anchor-box{padding:28px;border-left:3px solid var(--accent)}
+.anchor-box h4{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--accent-ink);margin-bottom:12px}
+.anchor-box p{font-size:14.5px;color:var(--muted)}
+
+/* ---------- how i work ---------- */
+.how{padding:42px;max-width:880px}
+.how p{font-size:clamp(17px,2vw,20px);line-height:1.7;color:var(--body)}
+.how p b{color:var(--ink)}
+.how .accent{color:var(--accent-ink)}
+
+/* ---------- contact ---------- */
+.contact{text-align:center;padding:96px 0 50px}
+.contact .sec-label{justify-content:center}
+.contact .sec-label::before{display:none}
+.contact h2{margin-bottom:14px}
+.contact>p{color:var(--muted);max-width:540px;margin:0 auto 34px}
+.email{font-family:var(--mono);font-size:clamp(18px,3vw,27px);font-weight:600;color:var(--accent-ink);transition:color .2s;border-bottom:2px dashed var(--wire)}
+.email:hover{color:var(--accent)}
+.contact .btns{justify-content:center;margin-top:36px}
+footer{border-top:1px solid var(--line);margin-top:60px;background:var(--node)}
+.foot-inner{max-width:1100px;margin:0 auto;padding:24px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+footer p{font-family:var(--mono);font-size:12px;color:var(--dim)}
+footer a{color:var(--muted);border-bottom:1px dashed var(--wire);transition:color .2s}
+footer a:hover{color:var(--accent-ink)}
+
+/* ---------- reveal ---------- */
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .55s ease,transform .55s ease}
+.reveal.in{opacity:1;transform:none}
+@media (prefers-reduced-motion: reduce){.reveal{opacity:1;transform:none}}
+
+/* ---------- responsive ---------- */
+@media (max-width:980px){
+  .pipeline::before,.flag::before,.flag::after{display:none}
+}
+@media (max-width:900px){
+  .hero{flex-direction:column-reverse;gap:38px;padding-top:118px}
+  .hero-photo{width:190px}
+  .flag-cols,.bg-cols{grid-template-columns:1fr}
+  .grid{grid-template-columns:1fr 1fr}
+  .proof-inner{grid-template-columns:1fr 1fr}
+}
+@media (max-width:560px){
+  .grid{grid-template-columns:1fr}
+  .flag{padding:28px 22px}
+  .nav-links a.nav-txt{display:none}
+  .proof-inner{grid-template-columns:1fr 1fr;gap:12px}
+  .proof-item{padding:18px 14px}
+}
+</style>
+</head>
+<body>
+
+<nav aria-label="Main navigation">
+  <div class="nav-inner">
+    <a class="logo" href="#top"><span class="port" aria-hidden="true"></span>sergey.kazakov</a>
+    <div class="nav-links">
+      <a class="nav-txt" href="#projects">Projects</a>
+      <a class="nav-txt" href="#more">More</a>
+      <a class="nav-txt" href="#background">Background</a>
+      <a class="nav-txt" href="#contact">Contact</a>
+      <a class="nav-icon" href="https://www.linkedin.com/in/sergey-kazakov-97962424" target="_blank" rel="noopener" aria-label="LinkedIn profile">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 1 1 0-4.123 2.062 2.062 0 0 1 0 4.123zM7.119 20.452H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+      </a>
+      <a class="nav-icon" href="https://github.com/sergey-kazakov-ai" target="_blank" rel="noopener" aria-label="GitHub profile">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<main id="top" class="wrap">
+
+  <!-- ================= HERO ================= -->
+  <header class="hero">
+    <div class="hero-text">
+      <p class="eyebrow">solutions · ai automation · integration engineer</p>
+      <h1>I build <span class="hl">production AI</span>, integrations &amp; full&#8209;stack tools for real businesses.</h1>
+      <p class="hero-sub">A customer-facing AI agent selling across a <strong>15,000-SKU catalog</strong>. A deep <strong>CRM↔ERP integration</strong>. A <strong>~43k-LOC ERP</strong> built from scratch. All shipped end-to-end — and most of it running in production today.</p>
+      <div class="chips">
+        <span class="chip"><span class="dot" aria-hidden="true"></span>open to work · available immediately</span>
+        <span class="chip">tel aviv area · israel</span>
+        <span class="chip">en · he (learning) · ru</span>
+      </div>
+      <div class="btns">
+        <a class="btn btn-primary" href="#projects">View projects</a>
+        <a class="btn btn-ghost" href="https://www.linkedin.com/in/sergey-kazakov-97962424" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 1 1 0-4.123 2.062 2.062 0 0 1 0 4.123zM7.119 20.452H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          LinkedIn
+        </a>
+      </div>
+    </div>
+    <figure class="hero-photo node">
+      <span class="port-l" aria-hidden="true"></span>
+      <img src="assets/avatar.jpg" alt="Sergey Kazakov" width="240" height="240">
+      <figcaption><span>sergey_kazakov</span><span class="on">● active</span></figcaption>
+    </figure>
+  </header>
+
+  <!-- ================= PROOF BAR ================= -->
+  <div class="proof" role="list" aria-label="Key numbers">
+    <div class="proof-inner">
+      <div class="proof-item node reveal" role="listitem"><div class="proof-num">15<em>,</em>000</div><div class="proof-label">SKU catalog served by my AI agent in production</div></div>
+      <div class="proof-item node reveal" role="listitem"><div class="proof-num">~43<em>k</em></div><div class="proof-label">lines of TypeScript — an ERP built solo, from scratch</div></div>
+      <div class="proof-item node reveal" role="listitem"><div class="proof-num">4</div><div class="proof-label">production MCP servers on the official SDK</div></div>
+      <div class="proof-item node reveal" role="listitem"><div class="proof-num">15<em>+</em></div><div class="proof-label">years building businesses around hardware &amp; software</div></div>
+    </div>
+  </div>
+
+  <!-- ================= FLAGSHIPS ================= -->
+  <section id="projects">
+    <p class="sec-label">flagship projects</p>
+    <h2>Built for real businesses.<br>Running in production.</h2>
+    <p class="sec-intro">Everything below was built end-to-end for a real company — most of it runs in production today; none of it is a tutorial project. Codebases are private (live business code) — I gladly walk through architecture and code on a call.</p>
+
+    <div class="pipeline">
+
+    <!-- P12 -->
+    <article class="flag node reveal">
+      <span class="port-r" aria-hidden="true"></span>
+      <div class="flag-head">
+        <span class="flag-type">node: ai-agent</span>
+        <span class="badge badge-run"><span class="b-dot" aria-hidden="true"></span>in production</span>
+        <h3>AI Sales Agent “Petr” — conversational commerce</h3>
+      </div>
+      <p class="flag-problem"><b>Problem:</b> an e-commerce store with 15,000 SKUs (laptop parts) — managers can’t cover every chat, and off-the-shelf chatbots can’t actually <b>sell</b> from a live catalog: check stock, pick compatible parts, quote price and delivery.</p>
+      <div class="shot">
+        <img src="assets/petr-canvas.png" alt="The production n8n workflow of the AI sales agent: 46 nodes with orchestration agent, tool sub-agents, Redis buffer and Telegram handoff branches" loading="lazy">
+      </div>
+      <p class="shot-cap">the actual production workflow — 46 nodes, live on the site &amp; CRM</p>
+      <div class="flag-cols" style="margin-top:30px">
+        <ul class="flag-bullets">
+          <li><b>Multi-tool orchestration</b> (LangChain agent): SQL + vector search, product compatibility, laptop-matrix finder, calculator, reasoning tool.</li>
+          <li><b>Hybrid RAG</b> — Supabase pgvector + PostgreSQL: vectors alone fail on exact part numbers, SQL alone fails on fuzzy human questions.</li>
+          <li><b>Supplier fallback</b>: out of stock → the agent searches supplier sites, calculates delivery &amp; final price, and signals procurement what to buy.</li>
+          <li><b>Cost-aware model routing</b> (gpt-5 → gpt-5-mini → gpt-4.1) + Redis message-debounce. Token cost is a production constraint — I treat it like one.</li>
+          <li><b>Human-in-the-loop</b>: hands off to a live manager at the right moment; Telegram alerts to manager &amp; procurement.</li>
+        </ul>
+        <div>
+          <div class="shot"><img src="assets/rag-pipeline.png" alt="RAG ingestion pipeline in n8n: Google Drive file trigger, PDF extraction, OpenAI embeddings into Supabase vector store" loading="lazy"></div>
+          <p class="shot-cap">knowledge-ingestion pipeline: Drive → PDF → embeddings → vector store</p>
+        </div>
+      </div>
+      <div class="stack-row" aria-label="Technology stack">
+        <span>n8n</span><span>LangChain</span><span>OpenAI gpt-5 / 4.1</span><span>Supabase pgvector</span><span>PostgreSQL</span><span>Redis</span><span>Perplexity</span><span>Bitrix24</span><span>Telegram</span>
+      </div>
+    </article>
+
+    <!-- P13 -->
+    <article class="flag node reveal">
+      <span class="port-r" aria-hidden="true"></span>
+      <div class="flag-head">
+        <span class="flag-type">node: erp</span>
+        <span class="badge badge-stage"><span class="b-dot" aria-hidden="true"></span>final-stage development</span>
+        <h3>StroyKontrol — construction ERP from scratch</h3>
+      </div>
+      <p class="flag-problem"><b>Problem:</b> a construction company set out to replace its ~$800/month commercial ERP with a system it owns.</p>
+      <div class="flag-cols">
+        <ul class="flag-bullets">
+          <li><b>~43,000 lines of TypeScript</b> — 23 pages, ~120 components, a <b>47-entity PostgreSQL model</b> with row-level-security multitenancy (owner → foreman → accountant).</li>
+          <li><b>Document-AI</b>: invoice/spec PDFs → Gemini 2.5 Flash Vision → structured JSON (supplier, line items, VAT) with token-based billing. Migrated from Claude API; 17 pipeline iterations.</li>
+          <li><b>Genuinely hard domain logic</b>: Excel estimate tree-parser, fuzzy material matching with Russian-morphology stemming, splitting one invoice line across multiple estimates, warehouse reconciliation, foreman timesheets.</li>
+          <li><b>Engineering discipline</b>: vitest unit tests + Playwright e2e, performance audits — 13/13 modules passing.</li>
+        </ul>
+        <div>
+          <div class="flow" role="img" aria-label="Document AI pipeline: PDF to Supabase Storage to Edge Function to Gemini Vision to validation to PostgreSQL to UI">
+<span class="fk">document-ai pipeline</span><br>
+<span class="fv">PDF / photo</span> <span class="fa">→</span> <span class="fv">Supabase Storage</span><br>
+<span class="fa">→</span> <span class="fv">Edge Function</span> <span class="fa">(Deno · JWT + org checks)</span><br>
+<span class="fa">→</span> <span class="fv">Gemini 2.5 Flash Vision</span> <span class="fa">(structured JSON · t=0)</span><br>
+<span class="fa">→</span> <span class="fv">validation</span> <span class="fa">(VAT recalc · supplier vs payer)</span><br>
+<span class="fa">→</span> <span class="fv">token-based billing</span> <span class="fa">(atomic RPC)</span><br>
+<span class="fa">→</span> <span class="fv">PostgreSQL</span> <span class="fa">(47 entities · RLS multitenant)</span>
+          </div>
+          <p class="shot-cap">modules: estimates · procurement · warehouse · finance · site control · gantt</p>
+        </div>
+      </div>
+      <div class="stack-row" aria-label="Technology stack">
+        <span>Next.js 16</span><span>React 19</span><span>TypeScript</span><span>Supabase</span><span>Tailwind 4 + shadcn/ui</span><span>Gemini Vision</span><span>vitest</span><span>Playwright</span>
+      </div>
+    </article>
+
+    <!-- P01 -->
+    <article class="flag node reveal">
+      <span class="port-r" aria-hidden="true"></span>
+      <div class="flag-head">
+        <span class="flag-type">node: integration</span>
+        <span class="badge badge-run"><span class="b-dot" aria-hidden="true"></span>in production</span>
+        <h3>Bitrix24 ↔ 1C ↔ Website — deep CRM↔ERP integration</h3>
+      </div>
+      <p class="flag-problem"><b>Problem:</b> managers juggled the CRM, the ERP (1C — the accounting system of record) and the website. Multi-warehouse + multi-organization accounting made every sale a multi-document ritual.</p>
+      <div class="flag-cols">
+        <ul class="flag-bullets">
+          <li><b>Custom deal widget</b> inside the CRM: product selection, splitting a deal into sub-deals by warehouse/organization, stock reservation — multi-step ERP operations in a couple of clicks. 33 shipped iterations.</li>
+          <li><b>Full payment domain</b>: cash &amp; card acquiring (idempotent by RRN), bank-statement parsing with an auto-classifier posting into the ERP, online payments via HMAC-signed webhooks with a manager claim-flow.</li>
+          <li><b>Custom HTTP service inside the ERP</b> (1C/BSL extension, TLS-pinned) + PHP proxy layer + REST/webhook clients — the integration backbone.</li>
+          <li><b>AI-assisted module pipeline</b>: AI generates ERP extension modules (BSL); delivery automated — git-diff guard → packaging → SFTP → build watcher → check/apply/rollback — while production apply stays a separate authorized step.</li>
+          <li><b>Ops maturity</b>: own secrets-management layer, zero-downtime credential-rotation runbook, OAuth keepalive automation.</li>
+        </ul>
+        <div>
+          <div class="flow" role="img" aria-label="Integration architecture: website, bots and bank statements flow into Bitrix24 CRM, through custom widgets and PHP proxy into the 1C ERP, with events pushed back and an AI module pipeline">
+<span class="fk">integration backbone</span><br>
+<span class="fv">website · bots · bank statements</span> <span class="fa">→</span> <span class="fv">Bitrix24 CRM</span><br>
+<span class="fa">→</span> <span class="fv">custom widgets</span> <span class="fa">(deal split · cash desk · documents)</span><br>
+<span class="fa">→</span> <span class="fv">PHP proxy layer</span> <span class="fa">(125 files · 29 libs)</span><br>
+<span class="fa">→</span> <span class="fv">1C HTTP service</span> <span class="fa">(BSL extension · TLS-pinned)</span><br>
+<span class="fa">→</span> <span class="fv">1C:Enterprise ERP</span> <span class="fa">(multi-warehouse · multi-org)</span><br>
+<span class="fa">⇄</span> <span class="fv">event subscriptions push back to CRM</span><br>
+<span class="fk">ai pipeline</span> <span class="fa">BSL gen → SFTP → build → check/apply/rollback</span>
+          </div>
+          <p class="shot-cap">plus a self-hosted analytics dashboard: money · sales · warehouse · health</p>
+        </div>
+      </div>
+      <div class="stack-row" aria-label="Technology stack">
+        <span>PHP</span><span>1C:Enterprise 8.3 / BSL</span><span>Python</span><span>Bash</span><span>REST / webhooks</span><span>MCP</span>
+      </div>
+    </article>
+
+    </div>
+  </section>
+
+  <!-- ================= MORE ================= -->
+  <section id="more">
+    <p class="sec-label">more projects</p>
+    <h2>The rest of the stack</h2>
+    <div class="grid">
+      <div class="card node reveal">
+        <h4><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2v4m0 12v4M2 12h4m12 0h4M5 5l3 3m8 8l3 3M5 19l3-3m8-8l3-3" stroke-linecap="round"/></svg>Multi-agent business assistant</h4>
+        <p>Cost-aware Claude routing (Haiku→Sonnet→Opus), prompt caching, file-vault memory, scheduled LLM reflection; deterministic supply analytics — ABC/XYZ, reorder points, anomaly detection.</p>
+        <span class="badge badge-pre"><span class="b-dot" aria-hidden="true"></span>built · pre-production</span>
+      </div>
+      <div class="card node reveal">
+        <h4><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="6" rx="2"/><rect x="3" y="14" width="18" height="6" rx="2"/><path d="M7 7h.01M7 17h.01" stroke-linecap="round"/></svg>4 production MCP servers</h4>
+        <p>Official SDK, deployed on Railway: 3× Bitrix24 + Google Ads (TypeScript, ~10 tools, <b>OAuth passed Google’s app verification</b>) — replaced an outsourced agency, saving ~$200–300/mo.</p>
+        <span class="badge badge-run"><span class="b-dot" aria-hidden="true"></span>in production</span>
+      </div>
+      <div class="card node reveal">
+        <h4><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35" stroke-linecap="round"/></svg>Entity-resolution engine</h4>
+        <p>Production scraper + weighted matcher for catalog products without unique IDs (part number, model, voltage, fuzzy title) → competitor price &amp; availability intelligence.</p>
+        <span class="badge badge-run"><span class="b-dot" aria-hidden="true"></span>working</span>
+      </div>
+      <div class="card node reveal">
+        <h4><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 17l6-6-6-6M12 19h8" stroke-linecap="round" stroke-linejoin="round"/></svg>Ops automation layer</h4>
+        <p>n8n on a self-managed VPS: supplier price-file ingestion (SSH → CSV/XLS → Postgres), daily bank-statement digests, receivables reports to Telegram.</p>
+        <span class="badge badge-run"><span class="b-dot" aria-hidden="true"></span>in production</span>
+      </div>
+      <div class="card node reveal">
+        <h4><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.5 11.5l-9-9-9 9M5 10v10h5v-6h4v6h5V10" stroke-linecap="round" stroke-linejoin="round"/></svg>Telegram ops bots</h4>
+        <p>Courier logistics bot (aiogram), receivables-control bot, bank-RPA — small tools that quietly run daily operations.</p>
+        <span class="badge badge-run"><span class="b-dot" aria-hidden="true"></span>in production</span>
+      </div>
+      <div class="card node reveal">
+        <h4><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3.6 9h16.8M3.6 15h16.8M12 3a15 15 0 010 18M12 3a15 15 0 000 18"/></svg>Production e-commerce site</h4>
+        <p>Bitrix/PHP storefront: bePaid payments, GA4, smart search, −74% page-load time. The site my AI agent and integrations live on.</p>
+        <span class="badge badge-run"><span class="b-dot" aria-hidden="true"></span>in production</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= BACKGROUND ================= -->
+  <section id="background">
+    <p class="sec-label">background</p>
+    <h2>Engineer, but also the person who answered the phone</h2>
+    <div class="bg-cols">
+      <div class="story">
+        <p>15+ years of building businesses around hardware and software: grew a laptop-parts e-commerce company from <b>hands-on screen repair</b> to a 15k-SKU operation with a team of 15, including international sourcing from China (trade, customs, certification). Ran an <b>official Asus laptop service</b> operation. Co-founded and launched a private-cinema business.</p>
+        <p>That's why my systems survive contact with reality: I've been the engineer, the owner, the support line and the customer — often in the same week. Engineer by education (metrology, standardization &amp; certification).</p>
+      </div>
+      <div class="anchor-box node reveal">
+        <h4>anchor skill: 1C:Enterprise</h4>
+        <p>Set up the company's accounting on 1C from scratch and know the configuration in depth — it's the backbone my CRM↔ERP integration runs on. Deep, defensible, and rare in combination with modern AI engineering.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= HOW I WORK ================= -->
+  <section>
+    <p class="sec-label">how i work</p>
+    <div class="how node reveal" style="margin-top:26px">
+      <span class="port-l" aria-hidden="true"></span><span class="port-r" aria-hidden="true"></span>
+      <p>I'm an <b class="accent">AI-leveraged engineer</b>: I design the architecture, orchestrate modern LLMs end-to-end, integrate, deploy, and <b>own the result in production</b>. My edge isn't typing every line by hand — it's shipping working systems under real business constraints: cost, reliability, security, messy data, and people who actually use them.</p>
+    </div>
+  </section>
+
+  <!-- ================= CONTACT ================= -->
+  <section class="contact" id="contact">
+    <p class="sec-label">output</p>
+    <h2>Let's build something that ships</h2>
+    <p>Open to Solutions / AI / Integration / Customer Success Engineer roles — Tel Aviv area or remote. Available immediately.</p>
+    <a class="email" href="mailto:kazaksg@gmail.com">kazaksg@gmail.com</a>
+    <div class="btns">
+      <a class="btn btn-primary" href="https://www.linkedin.com/in/sergey-kazakov-97962424" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="btn btn-ghost" href="https://github.com/sergey-kazakov-ai" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="foot-inner">
+    <p>© 2026 Sergey Kazakov</p>
+    <p>this page: hand-built static HTML/CSS, no frameworks · <a href="https://github.com/sergey-kazakov-ai" target="_blank" rel="noopener">view source on GitHub</a></p>
+  </div>
+</footer>
+
+<script>
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
