@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Sergey Kazakov — Solutions / AI Automation Engineer</title>
-<meta name="description" content="I build production AI agents, integrations & full-stack tools for real businesses. AI sales agent over a 15k-SKU catalog, CRM↔ERP integration, construction ERP from scratch.">
+<meta name="description" content="I build production AI agents, integrations & full-stack tools for real businesses. AI sales agent over a 15k-SKU catalog, CRM↔ERP integration, a construction ERP I build with a partner.">
 <meta property="og:title" content="Sergey Kazakov — Solutions / AI Automation Engineer">
 <meta property="og:description" content="Production AI agents, CRM↔ERP integrations & full-stack tools — built for real businesses, running in production.">
 <meta property="og:type" content="website">
@@ -235,7 +235,7 @@ footer a:hover{color:var(--accent-ink)}
     <div class="hero-text">
       <p class="eyebrow">solutions · ai automation · integration engineer</p>
       <h1>I build <span class="hl">production AI</span>, integrations &amp; full&#8209;stack tools for real businesses.</h1>
-      <p class="hero-sub">A customer-facing AI agent selling across a <strong>15,000-SKU catalog</strong>. A deep <strong>CRM↔ERP integration</strong>. A <strong>~43k-LOC ERP</strong> built from scratch. All shipped end-to-end — and most of it running in production today.</p>
+      <p class="hero-sub">A customer-facing AI agent selling across a <strong>15,000-SKU catalog</strong>. A deep <strong>CRM↔ERP integration</strong>. A <strong>construction ERP</strong> I build with a partner. All shipped end-to-end — and most of it running in production today.</p>
       <div class="chips">
         <span class="chip"><span class="dot" aria-hidden="true"></span>open to work · available immediately</span>
         <span class="chip">tel aviv area · israel</span>
@@ -260,7 +260,7 @@ footer a:hover{color:var(--accent-ink)}
   <div class="proof" role="list" aria-label="Key numbers">
     <div class="proof-inner">
       <div class="proof-item node reveal" role="listitem"><div class="proof-num">15<em>,</em>000</div><div class="proof-label">SKU catalog served by my AI agent in production</div></div>
-      <div class="proof-item node reveal" role="listitem"><div class="proof-num">~43<em>k</em></div><div class="proof-label">lines of TypeScript — an ERP built solo, from scratch</div></div>
+      <div class="proof-item node reveal" role="listitem"><div class="proof-num">~43<em>k</em></div><div class="proof-label">lines of TypeScript in a construction ERP I build with a partner</div></div>
       <div class="proof-item node reveal" role="listitem"><div class="proof-num">4</div><div class="proof-label">production MCP servers on the official SDK</div></div>
       <div class="proof-item node reveal" role="listitem"><div class="proof-num">15<em>+</em></div><div class="proof-label">years building businesses around hardware &amp; software</div></div>
     </div>
@@ -311,15 +311,15 @@ footer a:hover{color:var(--accent-ink)}
       <div class="flag-head">
         <span class="flag-type">node: erp</span>
         <span class="badge badge-stage"><span class="b-dot" aria-hidden="true"></span>final-stage development</span>
-        <h3>StroyKontrol — construction ERP from scratch</h3>
+        <h3>StroyKontrol — construction ERP (two-person team)</h3>
       </div>
       <p class="flag-problem"><b>Problem:</b> a construction company set out to replace its ~$800/month commercial ERP with a system it owns.</p>
       <div class="flag-cols">
         <ul class="flag-bullets">
-          <li><b>~43,000 lines of TypeScript</b> — 23 pages, ~120 components, a <b>47-entity PostgreSQL model</b> with row-level-security multitenancy (owner → foreman → accountant).</li>
+          <li><b>My part</b>: I drove the product requirements and business logic, shipped foreman accounts with role-based access (RLS) and the owner/manager accounting &amp; reporting views, and own on-site onboarding and integration with the client.</li>
+          <li><b>Domain logic I specified</b>: Excel estimate tree-parser, fuzzy material matching with Russian-morphology stemming, splitting one invoice line across multiple estimates, warehouse reconciliation, foreman timesheets.</li>
           <li><b>Document-AI</b>: invoice/spec PDFs → Gemini 2.5 Flash Vision → structured JSON (supplier, line items, VAT) with token-based billing. Migrated from Claude API; 17 pipeline iterations.</li>
-          <li><b>Genuinely hard domain logic</b>: Excel estimate tree-parser, fuzzy material matching with Russian-morphology stemming, splitting one invoice line across multiple estimates, warehouse reconciliation, foreman timesheets.</li>
-          <li><b>Engineering discipline</b>: vitest unit tests + Playwright e2e, performance audits — 13/13 modules passing.</li>
+          <li><b>The product</b>: ~43,000 lines of TypeScript, ~120 components, a <b>~30-table PostgreSQL model</b> with row-level-security multitenancy (owner → foreman → accountant); vitest + Playwright, 13/13 modules passing.</li>
         </ul>
         <div>
           <div class="flow" role="img" aria-label="Document AI pipeline: PDF to Supabase Storage to Edge Function to Gemini Vision to validation to PostgreSQL to UI">
@@ -329,7 +329,7 @@ footer a:hover{color:var(--accent-ink)}
 <span class="fa">→</span> <span class="fv">Gemini 2.5 Flash Vision</span> <span class="fa">(structured JSON · t=0)</span><br>
 <span class="fa">→</span> <span class="fv">validation</span> <span class="fa">(VAT recalc · supplier vs payer)</span><br>
 <span class="fa">→</span> <span class="fv">token-based billing</span> <span class="fa">(atomic RPC)</span><br>
-<span class="fa">→</span> <span class="fv">PostgreSQL</span> <span class="fa">(47 entities · RLS multitenant)</span>
+<span class="fa">→</span> <span class="fv">PostgreSQL</span> <span class="fa">(~30 tables · RLS multitenant)</span>
           </div>
           <p class="shot-cap">modules: estimates · procurement · warehouse · finance · site control · gantt</p>
         </div>
