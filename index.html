@@ -310,7 +310,6 @@ footer a:hover{color:var(--accent-ink)}
       <span class="port-r" aria-hidden="true"></span>
       <div class="flag-head">
         <span class="flag-type">node: erp</span>
-        <span class="badge badge-stage"><span class="b-dot" aria-hidden="true"></span>final-stage development</span>
         <h3>StroyKontrol — construction ERP (two-person team)</h3>
       </div>
       <p class="flag-problem"><b>Problem:</b> a construction company set out to replace its ~$800/month commercial ERP with a system it owns.</p>
@@ -319,7 +318,7 @@ footer a:hover{color:var(--accent-ink)}
           <li><b>My part</b>: I drove the product requirements and business logic, shipped foreman accounts with role-based access (RLS) and the owner/manager accounting &amp; reporting views, and own on-site onboarding and integration with the client.</li>
           <li><b>Domain logic I specified</b>: Excel estimate tree-parser, fuzzy material matching with Russian-morphology stemming, splitting one invoice line across multiple estimates, warehouse reconciliation, foreman timesheets.</li>
           <li><b>Document-AI</b>: invoice/spec PDFs → Gemini 2.5 Flash Vision → structured JSON (supplier, line items, VAT) with token-based billing. Migrated from Claude API; 17 pipeline iterations.</li>
-          <li><b>The product</b>: ~43,000 lines of TypeScript, ~120 components, a <b>~30-table PostgreSQL model</b> with row-level-security multitenancy (owner → foreman → accountant); vitest + Playwright, 13/13 modules passing.</li>
+          <li><b>The product</b>: ~43,000 lines of TypeScript, ~120 components, a <b>~30-table PostgreSQL model</b> with row-level-security multitenancy (owner → foreman → accountant).</li>
         </ul>
         <div>
           <div class="flow" role="img" aria-label="Document AI pipeline: PDF to Supabase Storage to Edge Function to Gemini Vision to validation to PostgreSQL to UI">
