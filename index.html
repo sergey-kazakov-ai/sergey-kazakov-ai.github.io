@@ -206,6 +206,25 @@ footer a:hover{color:var(--accent-ink)}
   .proof-inner{grid-template-columns:1fr 1fr;gap:12px}
   .proof-item{padding:18px 14px}
 }
+/* ---- arch diagrams (scoped: .skd-) ---- */
+.skd{margin:24px 0 4px}
+.skd-lbl{font-family:var(--mono);font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.05em;text-align:center;margin:0 0 8px}
+.skd-infra{margin-top:16px;border-top:1px dashed var(--line);padding-top:14px}
+.skd-row{display:flex;gap:10px;align-items:stretch;justify-content:center;flex-wrap:wrap;margin:0 0 8px}
+.skd-n{background:var(--node,#fff);border:1.5px solid var(--line);border-radius:10px;padding:9px 13px;min-width:112px;text-align:center;flex:0 1 auto}
+.skd-n .t{font-weight:700;font-size:13px;color:var(--ink)}
+.skd-n .d{font-size:10.5px;color:var(--muted);margin-top:3px;line-height:1.35}
+.skd-n.key{border-color:var(--accent-ink);background:#eef0fe}
+.skd-n.key .t{color:var(--accent-ink)}
+.skd-n.span{flex:1 1 100%}
+.skd-arr{display:flex;align-items:center;justify-content:center;color:var(--dim);font-size:17px;font-weight:700}
+.skd-sep{position:relative;text-align:center;margin:14px 0}
+.skd-sep:before{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:var(--line)}
+.skd-sep span{position:relative;background:var(--node,#fff);padding:0 12px;color:var(--dim);font-size:11.5px}
+.skd-band{background:#eef0fe;border:1px dashed #c4caf2;border-radius:9px;padding:8px 12px;margin:8px 0;font-size:12px;color:#2a3050;text-align:center}
+.skd-band b{color:var(--accent-ink)}
+.skd-chips{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:9px}
+.skd-chips span{font-family:var(--mono);font-size:11px;color:var(--muted);background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:3px 10px}
 </style>
 </head>
 <body>
@@ -313,25 +332,37 @@ footer a:hover{color:var(--accent-ink)}
         <h3>StroyKontrol — construction ERP (two-person team)</h3>
       </div>
       <p class="flag-problem"><b>Problem:</b> a construction company set out to replace its ~$800/month commercial ERP with a system it owns.</p>
-      <div class="flag-cols">
-        <ul class="flag-bullets">
-          <li><b>My part</b>: I drove the product requirements and business logic, shipped foreman accounts with role-based access (RLS) and the owner/manager accounting &amp; reporting views, and own on-site onboarding and integration with the client.</li>
-          <li><b>Domain logic I specified</b>: Excel estimate tree-parser, fuzzy material matching with Russian-morphology stemming, splitting one invoice line across multiple estimates, warehouse reconciliation, foreman timesheets.</li>
-          <li><b>Document-AI</b>: invoice/spec PDFs → Gemini 2.5 Flash Vision → structured JSON (supplier, line items, VAT) with token-based billing. Migrated from Claude API; 17 pipeline iterations.</li>
-          <li><b>The product</b>: ~43,000 lines of TypeScript, ~120 components, a <b>~30-table PostgreSQL model</b> with row-level-security multitenancy (owner → foreman → accountant).</li>
-        </ul>
-        <div>
-          <div class="flow" role="img" aria-label="Document AI pipeline: PDF to Supabase Storage to Edge Function to Gemini Vision to validation to PostgreSQL to UI">
-<span class="fk">document-ai pipeline</span><br>
-<span class="fv">PDF / photo</span> <span class="fa">→</span> <span class="fv">Supabase Storage</span><br>
-<span class="fa">→</span> <span class="fv">Edge Function</span> <span class="fa">(Deno · JWT + org checks)</span><br>
-<span class="fa">→</span> <span class="fv">Gemini 2.5 Flash Vision</span> <span class="fa">(structured JSON · t=0)</span><br>
-<span class="fa">→</span> <span class="fv">validation</span> <span class="fa">(VAT recalc · supplier vs payer)</span><br>
-<span class="fa">→</span> <span class="fv">token-based billing</span> <span class="fa">(atomic RPC)</span><br>
-<span class="fa">→</span> <span class="fv">PostgreSQL</span> <span class="fa">(~30 tables · RLS multitenant)</span>
-          </div>
-          <p class="shot-cap">modules: estimates · procurement · warehouse · finance · site control · gantt</p>
+      <ul class="flag-bullets">
+        <li><b>My part</b>: I drove the product requirements and business logic, shipped foreman accounts with role-based access (RLS) and the owner/manager accounting &amp; reporting views, and own on-site onboarding and integration with the client.</li>
+        <li><b>Domain logic I specified</b>: Excel estimate tree-parser, fuzzy material matching with Russian-morphology stemming, splitting one invoice line across multiple estimates, warehouse reconciliation, foreman timesheets.</li>
+        <li><b>Document-AI</b>: invoice/spec PDFs → Gemini 2.5 Flash Vision → structured JSON (supplier, line items, VAT) with token-based billing. Migrated from Claude API; 17 pipeline iterations.</li>
+        <li><b>The product</b>: ~43,000 lines of TypeScript, ~120 components, a <b>~30-table PostgreSQL model</b> with row-level-security multitenancy (owner → foreman → accountant).</li>
+      </ul>
+
+      <div class="skd" role="img" aria-label="StroyKontrol construction ERP: Excel estimates parsed by a tree-parser and invoice PDFs extracted by Gemini Vision document-AI, flowing through estimates, procurement, warehouse, finance, site control and reporting on a 30-table Postgres model with row-level-security multitenancy">
+        <div class="skd-lbl">Inputs → extraction</div>
+        <div class="skd-row">
+          <div class="skd-n"><div class="t">Excel estimates (.xlsx)</div></div>
+          <div class="skd-arr">→</div>
+          <div class="skd-n"><div class="t">Tree-parser</div><div class="d">auto-detect columns · sections → works → items</div></div>
+          <div class="skd-n"><div class="t">Invoice / spec PDFs</div></div>
+          <div class="skd-arr">→</div>
+          <div class="skd-n key"><div class="t">Document-AI</div><div class="d">Storage → Edge Function · Gemini 2.5 Vision → JSON → validation (VAT, supplier)</div></div>
         </div>
+        <div class="skd-sep"><span>↓ one connected flow</span></div>
+        <div class="skd-row">
+          <div class="skd-n"><div class="t">Estimates</div></div><div class="skd-arr">→</div>
+          <div class="skd-n"><div class="t">Procurement</div><div class="d">fuzzy material matching · split invoice across estimates</div></div><div class="skd-arr">→</div>
+          <div class="skd-n"><div class="t">Warehouse</div></div><div class="skd-arr">→</div>
+          <div class="skd-n"><div class="t">Finance</div><div class="d">plan vs actual</div></div>
+        </div>
+        <div class="skd-row">
+          <div class="skd-n"><div class="t">Site control</div><div class="d">foreman photos &amp; checklists</div></div>
+          <div class="skd-arr">→</div>
+          <div class="skd-n key"><div class="t">Reporting</div><div class="d">owner / manager</div></div>
+          <div class="skd-n"><div class="t">Gantt · tasks</div></div>
+        </div>
+        <div class="skd-n span"><div class="t">Supabase PostgreSQL · ~30 tables · Row-Level-Security multitenant</div><div class="d">roles: owner / admin / manager / foreman / supply_manager / accountant / client</div></div>
       </div>
       <div class="stack-row" aria-label="Technology stack">
         <span>Next.js 16</span><span>React 19</span><span>TypeScript</span><span>Supabase</span><span>Tailwind 4 + shadcn/ui</span><span>Gemini Vision</span><span>vitest</span><span>Playwright</span>
@@ -347,27 +378,33 @@ footer a:hover{color:var(--accent-ink)}
         <h3>Bitrix24 ↔ 1C ↔ Website — deep CRM↔ERP integration</h3>
       </div>
       <p class="flag-problem"><b>Problem:</b> managers juggled the CRM, the ERP (1C — the accounting system of record) and the website. Multi-warehouse + multi-organization accounting made every sale a multi-document ritual.</p>
-      <div class="flag-cols">
-        <ul class="flag-bullets">
-          <li><b>Custom deal widget</b> inside the CRM: product selection, splitting a deal into sub-deals by warehouse/organization, stock reservation — multi-step ERP operations in a couple of clicks. 33 shipped iterations.</li>
-          <li><b>Full payment domain</b>: cash &amp; card acquiring (idempotent by RRN), bank-statement parsing with an auto-classifier posting into the ERP, online payments via HMAC-signed webhooks with a manager claim-flow.</li>
-          <li><b>Custom HTTP service inside the ERP</b> (1C/BSL extension, TLS-pinned) + PHP proxy layer + REST/webhook clients — the integration backbone.</li>
-          <li><b>AI-assisted module pipeline</b>: AI generates ERP extension modules (BSL); delivery automated — git-diff guard → packaging → SFTP → build watcher → check/apply/rollback — while production apply stays a separate authorized step.</li>
-          <li><b>Ops maturity</b>: own secrets-management layer, zero-downtime credential-rotation runbook, OAuth keepalive automation.</li>
-        </ul>
-        <div>
-          <div class="flow" role="img" aria-label="Integration architecture: website, bots and bank statements flow into Bitrix24 CRM, through custom widgets and PHP proxy into the 1C ERP, with events pushed back and an AI module pipeline">
-<span class="fk">integration backbone</span><br>
-<span class="fv">website · bots · bank statements</span> <span class="fa">→</span> <span class="fv">Bitrix24 CRM</span><br>
-<span class="fa">→</span> <span class="fv">custom widgets</span> <span class="fa">(deal split · cash desk · documents)</span><br>
-<span class="fa">→</span> <span class="fv">PHP proxy layer</span> <span class="fa">(125 files · 29 libs)</span><br>
-<span class="fa">→</span> <span class="fv">1C HTTP service</span> <span class="fa">(BSL extension · TLS-pinned)</span><br>
-<span class="fa">→</span> <span class="fv">1C:Enterprise ERP</span> <span class="fa">(multi-warehouse · multi-org)</span><br>
-<span class="fa">⇄</span> <span class="fv">event subscriptions push back to CRM</span><br>
-<span class="fk">ai pipeline</span> <span class="fa">BSL gen → SFTP → build → check/apply/rollback</span>
-          </div>
-          <p class="shot-cap">plus a self-hosted analytics dashboard: money · sales · warehouse · health</p>
+      <ul class="flag-bullets">
+        <li><b>Custom deal widget</b> inside the CRM: product selection, splitting a deal into sub-deals by warehouse/organization, stock reservation — multi-step ERP operations in a couple of clicks. 33 shipped iterations.</li>
+        <li><b>Full payment domain</b>: cash &amp; card acquiring (idempotent by RRN), bank-statement parsing with an auto-classifier posting into the ERP, online payments via HMAC-signed webhooks with a manager claim-flow.</li>
+        <li><b>Custom HTTP service inside the ERP</b> (1C/BSL extension, TLS-pinned) + PHP proxy layer + REST/webhook clients — the integration backbone.</li>
+        <li><b>AI-assisted module pipeline</b>: AI generates ERP extension modules (BSL); delivery automated — git-diff guard → packaging → SFTP → build watcher → check/apply/rollback — while production apply stays a separate authorized step.</li>
+        <li><b>Ops maturity</b>: own secrets-management layer, zero-downtime credential-rotation runbook, OAuth keepalive automation.</li>
+      </ul>
+
+      <div class="skd" role="img" aria-label="Bitrix24 CRM hub two-way synced with 1C ERP; website, AI agent, payment acquiring and bank statements flow into the CRM; integration backbone is a PHP proxy and a 1C BSL HTTP service; an AI pipeline delivers 1C modules with check apply rollback">
+        <div class="skd-lbl">Channels → flow into the CRM</div>
+        <div class="skd-row">
+          <div class="skd-n"><div class="t">Website</div><div class="d">orders · online payments (HMAC webhooks)</div></div>
+          <div class="skd-n"><div class="t">AI agent “Petr”</div><div class="d">advises &amp; sells, hands off to a manager</div></div>
+          <div class="skd-n"><div class="t">Payment acquiring</div><div class="d">cash &amp; card · idempotent by RRN</div></div>
+          <div class="skd-n"><div class="t">Bank statement</div><div class="d">file import</div></div>
         </div>
+        <div class="skd-sep"><span>↓ everything flows into the CRM hub</span></div>
+        <div class="skd-row">
+          <div class="skd-n key" style="flex:1 1 360px"><div class="t">Bitrix24 — CRM (hub)</div><div class="d">manager's workspace · deal widget: split by warehouse/org, stock reservation · payment auto-classifier</div></div>
+          <div class="skd-arr">⟷</div>
+          <div class="skd-n key" style="flex:1 1 230px"><div class="t">1C — ERP</div><div class="d">system of record · multi-warehouse / multi-org · documents &amp; payments posted here</div></div>
+        </div>
+        <div class="skd-band">↕ <b>Two-way sync</b> (deals · documents · payments). Acquiring is reflected in <b>both CRM and 1C</b> (idempotent by RRN); bank statements → auto-classifier → postings in 1C.</div>
+        <div class="skd-lbl skd-infra">⚙️ Under the hood — infrastructure</div>
+        <div class="skd-n span"><div class="t">Integration backbone — the link between CRM and 1C</div><div class="d">PHP proxy (125 files, 29 libs) ⟷ HTTP service inside 1C (BSL extension, TLS-pinned) · REST / webhooks</div></div>
+        <div class="skd-band">⚙️ <b>Code delivery (DevOps):</b> AI generates 1C extension modules (BSL) → git-diff guard → packaging → SFTP → build watcher → <b>check / apply / rollback</b> (production apply = separate authorized step)</div>
+        <div class="skd-chips"><span>own secrets layer + zero-downtime rotation</span><span>self-hosted analytics: money / sales / warehouse / health</span><span>5 parallel dev branches</span></div>
       </div>
       <div class="stack-row" aria-label="Technology stack">
         <span>PHP</span><span>1C:Enterprise 8.3 / BSL</span><span>Python</span><span>Bash</span><span>REST / webhooks</span><span>MCP</span>
