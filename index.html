@@ -411,6 +411,30 @@ footer a:hover{color:var(--accent-ink)}
       </div>
     </article>
 
+    <!-- Document-AI -->
+    <article class="flag node reveal">
+      <span class="port-r" aria-hidden="true"></span>
+      <div class="flag-head">
+        <span class="flag-type">node: document-ai</span>
+        <span class="badge badge-run"><span class="b-dot" aria-hidden="true"></span>in production</span>
+        <h3>Document-AI service — receipt &amp; waybill recognition</h3>
+      </div>
+      <p class="flag-problem"><b>Problem:</b> accounting paperwork arrives as photos and PDFs — receipts, waybills — and someone retypes them into spreadsheets by hand. Slow, error-prone, and a shared bot for several companies needs isolation and cost control, not just OCR.</p>
+      <div class="shot">
+        <img src="assets/ocr-workflow.png" alt="The production n8n workflow of the document-AI service: Telegram intake, whitelist and monthly-limit checks, document-type routing, Google Vision OCR for images and PDF, LLM field extraction, per-client Google Sheets tables and usage counters" loading="lazy">
+      </div>
+      <p class="shot-cap">the actual production workflow — Telegram intake to structured client tables</p>
+      <ul class="flag-bullets" style="margin-top:30px">
+        <li><b>Recognition pipeline</b>: Google Vision OCR (images &amp; PDF) → LLM field extraction (OpenAI) → structured rows in per-client Google Sheets tables, created and initialized automatically.</li>
+        <li><b>Multi-company by design</b>: user &amp; company lookup, whitelist, access control — one bot serves several organizations with isolated client tables.</li>
+        <li><b>Cost governance</b>: per-user monthly limits with usage counters — AI spend per user is bounded, not open-ended.</li>
+        <li><b>Document-type routing</b> (receipt vs waybill) with separate extraction schemas, plus file validation: type, size caps, invalid-file handling.</li>
+      </ul>
+      <div class="stack-row" aria-label="Technology stack">
+        <span>n8n</span><span>Google Vision</span><span>OpenAI</span><span>Telegram API</span><span>Google Sheets</span>
+      </div>
+    </article>
+
     </div>
   </section>
 
