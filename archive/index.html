@@ -1,0 +1,781 @@
+<meta charset="utf-8">
+<title>Digitization Test 858/26</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700;900&family=Assistant:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --paper:#F2F3F0; --surface:#FFFFFF; --surface2:#E8EBE5; --ink:#131A18; --body:#3A443F;
+  --muted:#6B7671; --line:#D5DAD2; --accent:#145A50; --accent-ink:#0E443C;
+  --accent-soft:rgba(20,90,80,.075); --flag:#A9660C; --flag-soft:rgba(169,102,12,.15);
+  --fix:#186B4A; --fix-soft:rgba(24,107,74,.13); --ok:#1F6B3A;
+  --display:'Frank Ruhl Libre', Georgia, 'Times New Roman', serif;
+  --sans:'Assistant', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --mono:'IBM Plex Mono', ui-monospace, 'SF Mono', monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F1413; --surface:#171E1C; --surface2:#1F2825; --ink:#E9EEEB; --body:#B7C2BC;
+    --muted:#889389; --line:#2A3430; --accent:#5CBCA8; --accent-ink:#8FD8C8;
+    --accent-soft:rgba(92,188,168,.12); --flag:#E0A34A; --flag-soft:rgba(224,163,74,.16);
+    --fix:#5FCB9B; --fix-soft:rgba(95,203,155,.15); --ok:#5EC17F;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F1413; --surface:#171E1C; --surface2:#1F2825; --ink:#E9EEEB; --body:#B7C2BC;
+  --muted:#889389; --line:#2A3430; --accent:#5CBCA8; --accent-ink:#8FD8C8;
+  --accent-soft:rgba(92,188,168,.12); --flag:#E0A34A; --flag-soft:rgba(224,163,74,.16);
+  --fix:#5FCB9B; --fix-soft:rgba(95,203,155,.15); --ok:#5EC17F;
+}
+
+*{box-sizing:border-box}
+body{background:var(--paper); color:var(--body); font-family:var(--sans);
+     font-size:17px; line-height:1.65; -webkit-font-smoothing:antialiased}
+html[dir="rtl"] body{font-size:17.5px}
+.wrap{max-width:900px; margin:0 auto; padding-inline:20px; padding-block:0 72px}
+
+html[data-lang="he"] .en{display:none}
+html[data-lang="en"] .he{display:none}
+span.he,span.en{display:inline}
+html[data-lang="he"] span.en{display:none}
+html[data-lang="en"] span.he{display:none}
+
+h1,h2,h3{font-family:var(--display); color:var(--ink); text-wrap:balance; margin:0; font-weight:700}
+h1{font-size:clamp(28px,5.4vw,46px); line-height:1.18; font-weight:900; letter-spacing:-.01em}
+h2{font-size:clamp(22px,3.4vw,30px); line-height:1.25}
+h3{font-size:19px; line-height:1.35}
+p{margin:0}
+a{color:var(--accent-ink); text-decoration-thickness:1px; text-underline-offset:3px}
+.lede{font-size:clamp(17px,2.2vw,19.5px); color:var(--body); max-width:66ch}
+.small{font-size:14.5px; color:var(--muted); line-height:1.55}
+.eyebrow{font-family:var(--mono); font-size:11.5px; letter-spacing:.16em; text-transform:uppercase;
+         color:var(--accent-ink); display:block; margin-bottom:10px}
+.num{font-variant-numeric:tabular-nums}
+
+.topbar{display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;
+        padding-block:18px; border-bottom:1px solid var(--line); margin-bottom:38px}
+.brand{display:flex; align-items:baseline; gap:10px; flex-wrap:wrap}
+.brand strong{font-family:var(--display); color:var(--ink); font-size:17px; font-weight:700}
+.brand span{font-size:14px; color:var(--muted)}
+.langs{display:flex; border:1px solid var(--line); border-radius:2px; overflow:hidden; background:var(--surface)}
+.langs button{font-family:var(--mono); font-size:12px; letter-spacing:.08em; padding:7px 13px;
+              background:transparent; color:var(--muted); border:0; cursor:pointer}
+.langs button[aria-pressed="true"]{background:var(--accent); color:#fff}
+:root[data-theme="dark"] .langs button[aria-pressed="true"]{color:#0F1413}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .langs button[aria-pressed="true"]{color:#0F1413}}
+.langs button:focus-visible{outline:2px solid var(--accent); outline-offset:-2px}
+
+section{padding-block:44px; border-top:1px solid var(--line)}
+section:first-of-type{border-top:0; padding-top:0}
+.stack{display:flex; flex-direction:column; gap:18px}
+
+.hero{padding-bottom:10px}
+.hero h1{margin-bottom:18px}
+.source{display:flex; gap:10px; flex-wrap:wrap; align-items:center; font-size:13.5px;
+        color:var(--muted); font-family:var(--mono);
+        border-inline-start:3px solid var(--accent); padding-inline-start:12px; margin-top:22px}
+
+.stats{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line);
+       border:1px solid var(--line); margin-top:8px}
+@media (max-width:640px){.stats{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:400px){.stats{grid-template-columns:1fr}}
+.stat{background:var(--surface); padding:16px 18px; display:flex; flex-direction:column; gap:4px}
+.stat b{font-family:var(--mono); font-size:19px; font-weight:500; color:var(--ink);
+        line-height:1.2; font-variant-numeric:tabular-nums}
+.stat span{font-size:13.5px; color:var(--muted); line-height:1.4}
+.stat.flagged b{color:var(--flag)}
+.stat.good b{color:var(--fix)}
+.stat .was{font-family:var(--mono); font-size:12px; color:var(--muted)}
+
+.ba{display:grid; grid-template-columns:1fr 1fr; gap:18px; align-items:start}
+
+@media (max-width:720px){.ba{grid-template-columns:1fr}}
+.pane{border:1px solid var(--line); background:var(--surface); display:flex; flex-direction:column; min-width:0}
+.pane-head{display:flex; justify-content:space-between; align-items:center; gap:10px; padding:10px 14px;
+           border-bottom:1px solid var(--line); background:var(--surface2); font-family:var(--mono);
+           font-size:11.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted)}
+.pane-head b{color:var(--ink); font-weight:500}
+.scanbox{background:#fff}
+.scanbox img{display:block; width:100%; max-width:100%}
+.textbox{padding:15px 17px; background:var(--surface);
+         direction:rtl; text-align:right; font-size:15px; line-height:1.75; color:var(--ink)}
+.textbox .ln{margin-bottom:2px}
+.textbox w{display:inline}
+.textbox w[data-s="f"]{background:var(--fix-soft); box-shadow:0 1px 0 var(--fix); border-radius:2px}
+.textbox w[data-s="r"]{background:var(--flag-soft); box-shadow:0 1px 0 var(--flag); border-radius:2px}
+.textbox mark{background:var(--accent); color:#fff; border-radius:2px; padding:0 2px}
+/* Демо — единственный блок шире колонки текста: страница показывается крупно,
+   а кегль распознанного текста подобран так, чтобы обе панели кончались вместе.
+   Высота скана растёт от ширины, высота текста — от кегля (40 строк, переносов нет),
+   поэтому кегль привязан к ширине окна. Замерено: 1320px + 13px → 918 / 942. */
+@media (min-width:721px){
+  .ba,.verdict{--bleed:min(1200px, calc(100vw - 40px));
+      width:var(--bleed); margin-inline:calc((100% - var(--bleed))/2)}
+  .ba .textbox{font-size:clamp(11px, calc(1.17vw - 1.2px), 13.3px); line-height:1.45}
+  /* 2px между строками × 40 строк = 80px чистого воздуха, из-за него низ не сходился */
+  .ba .textbox .ln{margin-bottom:0}
+}
+.legend{display:flex; gap:16px; flex-wrap:wrap; font-size:13.5px; color:var(--muted); margin-top:4px}
+.legend i{display:inline-block; width:13px; height:13px; border-radius:2px; vertical-align:-2px; margin-inline-end:6px}
+.legend .f{background:var(--fix-soft); box-shadow:0 1px 0 var(--fix)}
+.legend .r{background:var(--flag-soft); box-shadow:0 1px 0 var(--flag)}
+
+.controls{display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-bottom:14px}
+.controls input[type="search"]{font-family:var(--sans); font-size:15px; padding:9px 12px;
+  min-width:200px; flex:1 1 200px; border:1px solid var(--line); background:var(--surface);
+  color:var(--ink); border-radius:2px}
+.controls input:focus-visible,.chip:focus-visible{outline:2px solid var(--accent); outline-offset:1px}
+.chip{font-family:var(--mono); font-size:12.5px; padding:7px 10px; border:1px solid var(--line);
+      background:var(--surface); color:var(--body); cursor:pointer; border-radius:2px}
+.chip:hover{border-color:var(--accent); color:var(--accent-ink)}
+.hits{font-family:var(--mono); font-size:13px; color:var(--muted); white-space:nowrap}
+
+.facts{display:grid; grid-template-columns:repeat(auto-fit,minmax(215px,1fr)); gap:1px;
+       background:var(--line); border:1px solid var(--line)}
+.fact{background:var(--surface); padding:12px 15px; display:flex; flex-direction:column; gap:2px}
+.fact b{font-family:var(--mono); font-size:15px; color:var(--ink); font-weight:500}
+.fact span{font-size:13px; color:var(--muted)}
+
+.cases{display:flex; flex-direction:column; gap:1px; background:var(--line); border:1px solid var(--line)}
+.case{background:var(--surface); padding:14px 16px; display:grid;
+      grid-template-columns:minmax(0,1.1fr) minmax(0,1fr); gap:16px; align-items:center}
+@media (max-width:720px){.case{grid-template-columns:1fr}}
+.case figure{margin:0; background:#fff; border:1px solid var(--line); padding:4px}
+.case img{display:block; width:100%}
+.case .why{display:flex; flex-direction:column; gap:5px}
+.case .why p{font-size:14.5px; line-height:1.5}
+.badge{font-family:var(--mono); font-size:11.5px; letter-spacing:.08em; padding:3px 7px;
+       border-radius:2px; align-self:flex-start}
+.badge.conf{background:var(--surface2); color:var(--ink)}
+.badge.hand{background:var(--flag-soft); color:var(--flag)}
+
+.tablewrap{overflow-x:auto; border:1px solid var(--line); background:var(--surface)}
+table{border-collapse:collapse; width:100%; font-size:15px}
+th,td{padding:10px 14px; text-align:start; border-bottom:1px solid var(--line)}
+th{font-family:var(--mono); font-size:11.5px; letter-spacing:.1em; text-transform:uppercase;
+   color:var(--muted); font-weight:400; background:var(--surface2); white-space:nowrap}
+td{color:var(--ink); font-variant-numeric:tabular-nums}
+td.nw{white-space:nowrap}
+tr:last-child td{border-bottom:0}
+td.yes{color:var(--ok); font-family:var(--mono); font-size:13.5px}
+td.gain{color:var(--fix); font-family:var(--mono); font-size:13.5px; white-space:nowrap}
+
+.transcript{max-height:420px; overflow:auto; border:1px solid var(--line); background:var(--surface);
+            direction:rtl; text-align:right}
+.seg{display:grid; grid-template-columns:62px 1fr; gap:12px; padding:5px 14px; font-size:15px;
+     color:var(--ink); line-height:1.6}
+.seg:nth-child(odd){background:var(--accent-soft)}
+.seg time{font-family:var(--mono); font-size:12.5px; color:var(--muted); direction:ltr;
+          text-align:left; padding-top:3px}
+.seg.anchor{background:var(--flag-soft)}
+.seg.anchor .t{font-weight:700}
+
+.callout{border:1px solid var(--line); border-inline-start:3px solid var(--accent); background:var(--surface); padding:18px 20px;
+         display:flex; flex-direction:column; gap:10px}
+.callout h3{color:var(--accent-ink)}
+.note{border-inline-start:3px solid var(--line); padding-inline-start:14px; font-size:14.5px; color:var(--muted)}
+.strip{border:1px solid var(--line); background:#fff; padding:6px}
+.cta{border:1px solid var(--line); border-inline-start:3px solid var(--accent); background:var(--surface); padding:18px 20px;
+     display:flex; flex-direction:column; gap:8px; margin-top:6px}
+.cta .big{font-family:var(--display); font-size:clamp(18px,2.6vw,22px); color:var(--ink); line-height:1.4}
+.stats.four{grid-template-columns:repeat(4,1fr)}
+@media (max-width:820px){.stats.four{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:400px){.stats.four{grid-template-columns:1fr}}
+details.deep{border:1px solid var(--line); background:var(--surface)}
+details.deep>summary{cursor:pointer; padding:16px 18px; font-family:var(--mono); font-size:12.5px;
+  letter-spacing:.12em; text-transform:uppercase; color:var(--accent-ink); list-style:none}
+details.deep>summary::-webkit-details-marker{display:none}
+details.deep>summary::before{content:'+'; margin-inline-end:10px; font-weight:700}
+details.deep[open]>summary::before{content:'\2212'}
+details.deep>summary:focus-visible{outline:2px solid var(--accent); outline-offset:-2px}
+.deep-body{padding:0 18px 8px}
+.deep-body section{border-top:1px solid var(--line)}
+.deep-body section:first-child{border-top:0}
+.flow{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line)}
+@media (max-width:720px){.flow{grid-template-columns:1fr}}
+.step{background:var(--surface); padding:18px 18px 20px; display:flex; flex-direction:column; gap:8px}
+.step .who{font-family:var(--mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent-ink)}
+.step h3{font-size:17.5px}
+.step p{font-size:14.5px; line-height:1.55; color:var(--body)}
+.step.theirs .who{color:var(--flag)}
+.ask{border:1px solid var(--line); border-inline-start:3px solid var(--flag); background:var(--surface); padding:18px 20px; display:flex; flex-direction:column; gap:9px}
+.ask h3{color:var(--ink)}
+.strip img{display:block; width:100%}
+
+.offer{border:2px solid var(--ink); background:var(--surface); padding:26px 24px;
+       display:flex; flex-direction:column; gap:14px}
+.offer h2{font-size:clamp(21px,3.2vw,28px)}
+.offer .big{font-family:var(--display); font-size:clamp(19px,2.8vw,24px); color:var(--ink); line-height:1.4}
+.contact{display:flex; flex-wrap:wrap; gap:8px 22px; font-family:var(--mono); font-size:14px;
+         color:var(--ink); padding-top:6px; border-top:1px solid var(--line)}
+
+.svc{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:1px;
+     background:var(--line); border:1px solid var(--line)}
+.svc div{background:var(--surface); padding:14px 16px; font-size:15px; color:var(--ink); line-height:1.5}
+
+footer{padding-block:28px; border-top:1px solid var(--line); font-size:13.5px; color:var(--muted)}
+/* ПАНЧ: один и тот же запрос, два числа */
+.verdict{display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-bottom:18px}
+@media (max-width:560px){.verdict{grid-template-columns:1fr}}
+.v{border:1px solid var(--line); background:var(--surface); padding:16px 18px;
+   display:flex; align-items:baseline; gap:12px; min-width:0}
+.v b{font-family:var(--display); font-weight:900; font-size:clamp(38px,7vw,60px); line-height:.9;
+     font-variant-numeric:tabular-nums}
+.v span{font-size:14px; color:var(--muted); line-height:1.35}
+.v-pdf{border-color:var(--line)} .v-pdf b{color:var(--muted)}
+.v-txt{border-color:var(--accent); box-shadow:inset 0 0 0 1px var(--accent)} .v-txt b{color:var(--accent-ink)}
+
+/* список 19 мест */
+.places td{font-size:15px}
+.places .w{font-size:17px; color:var(--ink)}
+.places .miss{color:var(--flag); font-family:var(--mono); font-size:13px; white-space:nowrap}
+.places .got{color:var(--ok); font-family:var(--mono); font-size:13px; white-space:nowrap}
+.places .kind{color:var(--muted); font-size:13.5px}
+.places tr.legit td{background:var(--flag-soft)}
+
+/* расшифровка: окно без ловушки, полностью — по кнопке */
+.transcript.win{max-height:none; overflow:visible}
+.more{font-family:var(--mono); font-size:12.5px; letter-spacing:.08em; padding:9px 14px;
+      border:1px solid var(--line); background:var(--surface); color:var(--accent-ink);
+      cursor:pointer; border-radius:2px; align-self:flex-start}
+.more:hover{border-color:var(--accent)}
+.more:focus-visible{outline:2px solid var(--accent); outline-offset:1px}
+
+@media (prefers-reduced-motion:reduce){*{animation:none!important; transition:none!important}}
+</style>
+
+<div class="wrap">
+
+<div class="topbar">
+  <div class="brand">
+    <strong><span class="he">סרגיי קזקוב</span><span class="en">Sergey Kazakov</span></strong>
+    <span><span class="he">עיבוד נתונים ודיגיטציה של מסמכים</span><span class="en">Data processing and document digitization</span></span>
+  </div>
+  <div class="langs" role="group" aria-label="Language">
+    <button id="lang-he" type="button" aria-pressed="true">עברית</button>
+    <button id="lang-en" type="button" aria-pressed="false">EN</button>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero stack">
+  <h1>
+    <span class="he">מאה וחמישים מסמכים באתר שלכם — ואף אחד מהם לא נמצא בחיפוש</span>
+    <span class="en">A hundred and fifty documents on your site — and not one of them turns up in a search</span>
+  </h1>
+  <p class="lede">
+    <span class="he">פתחו פרוטוקול מהאתר ונסו לחפש בו מילה. התוצאה תהיה אפס — גם כשהמילה מול העיניים על המסך: הקובץ הוא תמונה, לא טקסט. כך מתפרסמים פרוטוקולי המועצה מאז 2012, וכך נראים רוב הארכיונים הסרוקים בישראל. אנחנו הופכים אותם לטקסט שאפשר לחפש בו, לצטט ממנו ולבנות עליו מפתח.</span>
+    <span class="en">Open a protocol from the site and search for a word in it. The result is zero — even with the word in front of you on the screen: the file is an image, not text. Council protocols have been published this way since 2012, and most scanned archives in Israel look the same. We turn them into text you can search, quote and index.</span>
+  </p>
+  <div class="cta">
+    <p class="big"><span class="he">תנו לנו פריט אחד — תיק, קלטת או תיקיית סריקות. נחזיר אותו מעובד תוך שלושה ימי עבודה, בחינם וללא התחייבות.</span>
+    <span class="en">Give us one item — a file, a tape, a folder of scans. We return it processed within three working days, free and with no commitment.</span></p>
+    <p class="small"><span class="he">בהמשך העמוד אפשר לראות בדיוק מה מקבלים — על מסמך ציבורי אמיתי, מתחילתו ועד סופו.</span>
+    <span class="en">Further down this page you can see exactly what that looks like — on a real public document, start to finish.</span></p>
+  </div>
+  <p class="source">
+    <span class="he">הדוגמאות בעמוד: פרוטוקול מליאה 858/26 של המועצה האזורית מרחבים · חומר ציבורי · אין כאן חומר של אף לקוח</span>
+    <span class="en">Examples on this page: plenum protocol 858/26 of the Merhavim Regional Council · public material · no client material appears here</span>
+  </p>
+</section>
+
+<!-- SCAN -> TEXT -->
+<section class="stack">
+  <div>
+    <span class="eyebrow"><span class="he">דוגמה מלאה, מההתחלה ועד הסוף</span><span class="en">A full example, start to finish</span></span>
+    <h2><span class="he">ישיבה אחת, שני סוגי חומר קשים</span><span class="en">One session, two hard kinds of material</span></h2>
+  </div>
+  <p class="lede">
+    <span class="he">כדי לא להישאר ברמת ההצהרות, לקחנו ישיבה אחת של מועצה אזורית וטיפלנו בכל מה שפורסם ממנה — גם בסריקה וגם בהקלטת הקול. שני סוגי חומר שקשה לעבוד איתם: תמונה שאין בה טקסט, ודיבור חופשי של עשרה אנשים בחדר. להלן מה שיצא, שלב אחרי שלב.</span>
+    <span class="en">Rather than stay at the level of claims, we took one regional-council session and handled everything published from it — the scan and the audio recording alike. Two kinds of material that are hard to work with: an image containing no text, and ten people talking freely in a room. Here is what came out, step by step.</span>
+  </p>
+  <p class="lede">
+    <span class="he"><b>קודם הסריקה.</b> קובץ ה־PDF של הפרוטוקול הוא ארבעה צילומים. המדפסת־סורקת (Canon iR-ADV C5850) שמרה תמונה, לא טקסט: חיפוש מילה בקובץ מחזיר אפס תוצאות. כך מתפרסמים פרוטוקולי המועצה מאז 2012.</span>
+    <span class="en"><b>The scan first.</b> The protocol PDF is four photographs. The office copier (Canon iR-ADV C5850) saved an image, not text: searching for any word returns nothing. Council protocols have been published this way since 2012.</span>
+  </p>
+
+  <div class="controls">
+    <label class="hits" for="q"><span class="he">חפשו בטקסט:</span><span class="en">Search the text:</span></label>
+    <input type="search" id="q" placeholder="858/26">
+    <button class="chip" type="button" data-q="מועצה">מועצה</button>
+    <button class="chip" type="button" data-q="858/26">858/26</button>
+    <button class="chip" type="button" data-q="249,500">249,500</button>
+    <button class="chip" type="button" data-q="651-1506815">651-1506815</button>
+    <button class="chip" type="button" data-q="17:30">17:30</button>
+  </div>
+
+  <div class="verdict">
+    <div class="v v-pdf"><b class="num">0</b><span><span class="he">תוצאות בקובץ ה־PDF שפורסם באתר</span><span class="en">results in the PDF published on the site</span></span></div>
+    <div class="v v-txt"><b class="num" id="hits">0</b><span><span class="he">תוצאות באותו עמוד אחרי העיבוד</span><span class="en">results in the same page after processing</span></span></div>
+  </div>
+
+  <div class="ba">
+    <div class="pane scan">
+      <div class="pane-head"><b><span class="he">לפני · הסריקה</span><span class="en">Before · the scan</span></b><span class="num">PDF · 1/4</span></div>
+      <div class="scanbox"><img src="assets/scan-page1.jpg?v=2" alt="Scanned first page of protocol 858/26"></div>
+    </div>
+    <div class="pane">
+      <div class="pane-head"><b><span class="he">אחרי · טקסט שניתן לחיפוש</span><span class="en">After · searchable text</span></b><span class="num">1/4</span></div>
+      <div class="textbox" id="txt"></div>
+    </div>
+  </div>
+  <p class="legend">
+    <span><i class="f"></i><span class="he">תוקן על פי כלל בעל שם</span><span class="en">corrected by a named rule</span></span>
+    <span><i class="r"></i><span class="he">הועבר לבדיקת אדם</span><span class="en">sent to a human</span></span>
+    <span class="small"><span class="he">עמוד 1 מתוך 4, כפי שהמערכת הפיקה אותו</span><span class="en">page 1 of 4, exactly as produced</span></span>
+  </p>
+  <p class="note">
+    <span class="he">להפיק טקסט מסריקה אינו הקושי — יש לכך כלים. הם פשוט אינם מספיקים: התוצאה נראית מוגמרת, אבל המכונה אינה מסמנת היכן טעתה, וחלק מהטעויות אינן ג׳יבריש אלא מילה עברית תקינה אחרת — ואז שותקים גם המילון וגם בודק האיות. במסמך הזה יש חמישה מקומות כאלה מתוך תשעה־עשר. לארכיון לא הטקסט עצמו קובע, אלא אם ידוע לאילו מקומות אין להאמין — ומי אחראי עליהם.</span>
+    <span class="en">Getting text out of a scan is not the hard part — there are tools for that. They are simply not enough: the result looks finished, but the machine does not mark where it erred, and some errors are not gibberish but a different, perfectly valid Hebrew word — at which point the dictionary and the spellchecker both stay silent. In this document there are five such places out of nineteen. For an archive what counts is not the text itself, but whether it is known which places not to trust — and who answers for them.</span>
+  </p>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="stack">
+  <div>
+    <span class="eyebrow"><span class="he">איך העבודה בנויה</span><span class="en">How the work is built</span></span>
+    <h2><span class="he">מכונה, הגהה של דובר עברית, ובקרה שלכם</span><span class="en">Machine, a native-speaker proofread, and your own control</span></h2>
+  </div>
+  <p class="lede">
+    <span class="he">אנחנו לא מוכרים אחוזים. מסמך ארכיוני נמסר מוגה, והמקומות שאינם קריאים במקור מסומנים בנפרד — זה התקן המקצועי, ולא התחמקות. האחוזים בהמשך העמוד הם רק ההוכחה שאנחנו יודעים למדוד את עצמנו.</span>
+    <span class="en">We do not sell percentages. An archival document is delivered proofread, and whatever is unreadable in the source is marked as such — that is the professional standard, not an excuse. The percentages further down the page are only the proof that we can measure ourselves.</span>
+  </p>
+  <div class="flow">
+    <div class="step">
+      <span class="who"><span class="he">שלב 1 · אנחנו</span><span class="en">Step 1 · us</span></span>
+      <h3><span class="he">קו הייצור</span><span class="en">The pipeline</span></h3>
+      <p><span class="he">זיהוי, בניית מבנה וחמש בדיקות שנשענות על אמות מידה מחוץ למנוע הזיהוי. כל תיקון נרשם עם שם הכלל שהפעיל אותו, כך שאפשר לבדוק אותנו בדיעבד.</span>
+      <span class="en">Recognition, structuring and five checks resting on yardsticks outside the recognition engine. Every correction is logged with the rule that made it, so our work can be audited after the fact.</span></p>
+    </div>
+    <div class="step">
+      <span class="who"><span class="he">שלב 2 · אנחנו</span><span class="en">Step 2 · us</span></span>
+      <h3><span class="he">הגהה של דובר עברית</span><span class="en">A native-speaker proofread</span></h3>
+      <p><span class="he">את המקומות המסומנים המגיה בודק ראשונים, אבל קורא את הכול — כי חלק מהשגיאות מכונה אינה יכולה לתפוס עקרונית: במקום המילה הנכונה יוצאת מילה עברית תקינה אחרת. לכן המגיה הוא דובר עברית שמכיר גם את האזור ואת שמותיו. מה שאינו קריא במקור מסומן, ולא מנוחש. ההגהה כלולה במחיר, והאחריות לתוצאה שלנו.</span>
+      <span class="en">The proofreader checks the marked places first but reads everything — because some errors a machine cannot catch in principle: instead of the right word it produces a different, perfectly valid Hebrew one. So the proofreader is a native speaker who also knows the region and its names. Whatever is unreadable in the source is marked, not guessed. Proofreading is included in the price, and the result is our responsibility.</span></p>
+    </div>
+    <div class="step theirs">
+      <span class="who"><span class="he">שלב 3 · אתם</span><span class="en">Step 3 · you</span></span>
+      <h3><span class="he">בקרה מדגמית</span><span class="en">Sample-based control</span></h3>
+      <p><span class="he">אנחנו מציעים את נוהל הקבלה בעצמנו: כמה יחידות נבדקות, מה נחשב שגיאה ומה נחשב בלתי קריא במקור. מוסכם לפני תחילת העבודה, לא אחריה.</span>
+      <span class="en">We propose the acceptance procedure ourselves: how many units are checked, what counts as an error and what counts as unreadable in the source. Agreed before the work starts, not after.</span></p>
+    </div>
+  </div>
+  <div class="ask">
+    <h3><span class="he">מה נדרש מכם — כיול על החומר שלכם, פעם אחת</span><span class="en">What we need from you — one calibration on your own material</span></h3>
+    <p><span class="he">לא מגיה ולא כוח אדם לאורך הפרויקט. קודם אנחנו מריצים את <b>כל המנה</b> ומוציאים ממנה רשימה מרוכזת אחת: מונחים מקומיים, ראשי תיבות, שמות יישובים ואנשים, איות שנוי במחלוקת, וכל המקומות שבהם המערכת מתלבטת. איש שלכם עובר על <b>הרשימה</b>, לא על הארכיון. מה שהוא מאשר הופך לכלל שפועל על כל המנה — גם על התיקים שטרם נפתחו.</span>
+    <span class="en">Not a proofreader, and not staff time across the project. First we run <b>the whole batch</b> and draw one consolidated list out of it: local terms, abbreviations, names of settlements and people, contested spellings, and every place where the system hesitates. Your person goes through <b>the list</b>, not through the archive. What they confirm becomes a rule that applies across the entire batch — including files not yet opened.</span></p>
+    <p><span class="he">ככל שהחומר מגוון יותר, כך הרשימה ארוכה יותר — אבל היא תמיד קצרה מהארכיון עצמו, והיא נבנית ממנו ולא מניחוש.</span>
+    <span class="en">The more varied the material, the longer that list — but it is always shorter than the archive itself, and it is built from the archive rather than guessed at.</span></p>
+  </div>
+</section>
+
+<!-- WHAT WE DO -->
+<section class="stack">
+  <div>
+    <span class="eyebrow"><span class="he">מה אנחנו עושים</span><span class="en">What we do</span></span>
+    <h2><span class="he">עיבוד נתונים ודיגיטציה של מסמכים</span><span class="en">Data processing and document digitization</span></h2>
+  </div>
+  <div class="svc">
+    <div><span class="he">סריקות, כתבי יד, קלטות וסרטים ← טקסט ומבנה</span><span class="en">Scans, manuscripts, tapes and film → text and structure</span></div>
+    <div><span class="he">בניית מפתחות, מאגרים וקטלוגים מחומר מפוזר</span><span class="en">Building indexes, registers and catalogues out of scattered material</span></div>
+    <div><span class="he">הקלטות ווידאו ← תמליל עם חותמות זמן וסימון דוברים</span><span class="en">Audio and video → transcripts with timecodes and speaker marking</span></div>
+    <div><span class="he">הרכבת דוח או טבלה ממקורות שונים</span><span class="en">Assembling a report or table from mixed sources</span></div>
+    <div><span class="he">התאמת מסמכים לדרישות של הגוף המקבל</span><span class="en">Formatting documents to a receiving body's requirements</span></div>
+    <div><span class="he">בדיקה אוטומטית ורשימת המקומות שנשארו לאדם</span><span class="en">Automatic verification plus the list of places left for a human</span></div>
+  </div>
+  <p class="lede">
+    <span class="he">אני עובד בקו ייצור: זיהוי, בניית מבנה, חמש בדיקות ורשימת ספקות. בעבודות גדולות אני מצרף עוזרים. היקף של מאות תיקים אינו מרתיע, ולוח הזמנים נמדד בשבועות ולא בשנים.</span>
+    <span class="en">I work as a pipeline: recognition, structuring, five checks and a list of doubts. On large batches I bring in helpers. A few hundred files is not daunting, and the schedule is measured in weeks, not years.</span>
+  </p>
+  <div class="callout">
+    <h3><span class="he">דיוק בעבודה קודמת</span><span class="en">Precision on earlier work</span></h3>
+    <p><span class="he">עבודה עבור חוקרת באוניברסיטת בר־אילן (ללא תוכן החומר, שאינו מפורסם): 231 עמודים עם סימון בכתב יד הפכו ל־436 רשומות מובנות. שלושה מעברי בדיקה, 510 קטעים הושוו למקור, 8 אי־התאמות — כולן הוסברו על ידי המהדורה שממנה צוטט.</span>
+    <span class="en">Work for a researcher at Bar-Ilan University (content withheld — it is unpublished): 231 pages of handwritten markup became 436 structured records. Three verification passes, 510 fragments compared against the source, 8 discrepancies — every one of them explained by the edition quoted.</span></p>
+  </div>
+</section>
+
+<!-- PROOF -->
+<section class="stack">
+  <div>
+    <span class="eyebrow"><span class="he">במה זה מגובה</span><span class="en">What backs this up</span></span>
+    <h2><span class="he">מדדנו את עצמנו מול המסמך הרשמי שלכם</span><span class="en">We measured ourselves against your own official document</span></h2>
+  </div>
+  <p class="lede">
+    <span class="he">המועצה מפרסמת לכל ישיבה שלושה קבצים: סריקה, פרוטוקול נגיש והקלטת קול. זה מאפשר דבר נדיר — לבדוק את העבודה שלנו מול המסמך הרשמי שלכם עצמכם, ולא מול הצהרה. מתוך 711 מילים בגוף המסמך נמצאו <b>19 מקומות</b> שנקראו אחרת מהמסמך הרשמי; 12 מהם המערכת סימנה בעצמה עוד לפני שמישהו השווה. כולם ברשימה שלמטה — כולל שבעת המקומות שהחמצנו.</span>
+    <span class="en">The council publishes three files for every session: a scan, an accessible protocol and an audio recording. That allows something rare — checking our work against your own official document rather than against a claim. Out of 711 words in the body, <b>19 places</b> were read differently from the official document; 12 of them the system marked itself before anyone compared. All of them are in the list below — including the seven we missed.</span>
+  </p>
+
+  <div class="tablewrap"><table class="places"><thead><tr><th><span class="he">במסמך הרשמי</span><span class="en">In the official document</span></th><th><span class="he">מה שקראה המכונה</span><span class="en">What the machine read</span></th><th><span class="he">סימון עצמי</span><span class="en">Self-flagged</span></th><th><span class="he">סוג</span><span class="en">Kind</span></th></tr></thead><tbody>
+<tr><td class="w"><bdi>פרג'</bdi></td><td class="w"><bdi>פרגי</bdi></td><td class="got"><span class="he">סומן</span><span class="en">flagged</span></td><td class="kind"><span class="he">גרש בשם נקרא כאות</span><span class="en">apostrophe in a name read as a letter</span></td></tr>
+<tr class="legit"><td class="w"><bdi>דרום</bdi></td><td class="w"><bdi>דרוס</bdi></td><td class="miss"><span class="he">לא סומן</span><span class="en">missed</span></td><td class="kind"><span class="he">אות סופית נקראה כאחרת · <b>מילה עברית תקינה</b></span><span class="en">a final letter read as another · <b>a legitimate Hebrew word</b></span></td></tr>
+<tr><td class="w"><bdi>חג'ג'</bdi></td><td class="w"><bdi>חגיגי</bdi></td><td class="got"><span class="he">סומן</span><span class="en">flagged</span></td><td class="kind"><span class="he">גרש בשם נקרא כאות</span><span class="en">apostrophe in a name read as a letter</span></td></tr>
+<tr><td class="w"><bdi>תש"ז</bdi></td><td class="w"><bdi>תש"ו</bdi></td><td class="miss"><span class="he">לא סומן</span><span class="en">missed</span></td><td class="kind"><span class="he">אות בודדת בקיצור שנה</span><span class="en">a single letter in a year abbreviation</span></td></tr>
+<tr><td class="w"><bdi>בי"ס</bdi></td><td class="w"><bdi>ביייס</bdi></td><td class="got"><span class="he">סומן</span><span class="en">flagged</span></td><td class="kind"><span class="he">גרשיים בראשי תיבות</span><span class="en">gershayim in an abbreviation</span></td></tr>
+<tr><td class="w"><bdi>מיסים</bdi></td><td class="w"><bdi>מיסיס</bdi></td><td class="got"><span class="he">סומן</span><span class="en">flagged</span></td><td class="kind"><span class="he">אות סופית נקראה כאחרת</span><span class="en">a final letter read as another</span></td></tr>
+<tr><td class="w"><bdi>א'</bdi></td><td class="w"><bdi>אי</bdi></td><td class="got"><span class="he">סומן</span><span class="en">flagged</span></td><td class="kind"><span class="he">גרש בשם נקרא כאות</span><span class="en">apostrophe in a name read as a letter</span></td></tr>
+<tr><td class="w"><bdi>פרג'</bdi></td><td class="w"><bdi>פרגי</bdi></td><td class="got"><span class="he">סומן</span><span class="en">flagged</span></td><td class="kind"><span class="he">גרש בשם נקרא כאות</span><span class="en">apostrophe in a name read as a letter</span></td></tr>
+<tr class="legit"><td class="w"><bdi>חם</bdi></td><td class="w"><bdi>חס</bdi></td><td class="miss"><span class="he">לא סומן</span><span class="en">missed</span></td><td class="kind"><span class="he">אות סופית נקראה כאחרת · <b>מילה עברית תקינה</b></span><span class="en">a final letter read as another · <b>a legitimate Hebrew word</b></span></td></tr>
+<tr><td class="w"><bdi>בי"ס</bdi></td><td class="w"><bdi>ביייס</bdi></td><td class="got"><span class="he">סומן</span><span class="en">flagged</span></td><td class="kind"><span class="he">גרשיים בראשי תיבות</span><span class="en">gershayim in an abbreviation</span></td></tr>
+<tr><td class="w"><bdi>החינוך</bdi></td><td class="w"><bdi>התינוך</bdi></td><td class="got"><span class="he">סומן</span><span class="en">flagged</span></td><td class="kind"><span class="he">ח׳ נקראה כ־ת׳</span><span class="en">het read as tav</span></td></tr>
+<tr><td class="w"><bdi>מיסים</bdi></td><td class="w"><bdi>מיסיס</bdi></td><td class="got"><span class="he">סומן</span><span class="en">flagged</span></td><td class="kind"><span class="he">אות סופית נקראה כאחרת</span><span class="en">a final letter read as another</span></td></tr>
+<tr><td class="w"><bdi>א'</bdi></td><td class="w"><bdi>אי</bdi></td><td class="got"><span class="he">סומן</span><span class="en">flagged</span></td><td class="kind"><span class="he">גרש בשם נקרא כאות</span><span class="en">apostrophe in a name read as a letter</span></td></tr>
+<tr><td class="w"><bdi>שכזה</bdi></td><td class="w"><bdi>שכוּה</bdi></td><td class="got"><span class="he">סומן</span><span class="en">flagged</span></td><td class="kind"><span class="he">החלפת אותיות</span><span class="en">letters swapped</span></td></tr>
+<tr class="legit"><td class="w"><bdi>פיתוח</bdi></td><td class="w"><bdi>פיתות</bdi></td><td class="miss"><span class="he">לא סומן</span><span class="en">missed</span></td><td class="kind"><span class="he">ח׳ נקראה כ־ת׳ · <b>מילה עברית תקינה</b></span><span class="en">het read as tav · <b>a legitimate Hebrew word</b></span></td></tr>
+<tr class="legit"><td class="w"><bdi>חם</bdi></td><td class="w"><bdi>חס</bdi></td><td class="miss"><span class="he">לא סומן</span><span class="en">missed</span></td><td class="kind"><span class="he">אות סופית נקראה כאחרת · <b>מילה עברית תקינה</b></span><span class="en">a final letter read as another · <b>a legitimate Hebrew word</b></span></td></tr>
+<tr><td class="w"><bdi>ארמי פרג' שמעון פרץ</bdi></td><td class="w"><bdi>—</bdi></td><td class="miss"><span class="he">לא סומן</span><span class="en">missed</span></td><td class="kind"><span class="he">שני שמות בגוש החתימות לא נקראו כלל</span><span class="en">two names in the signature block not read at all</span></td></tr>
+<tr><td class="w"><bdi>ראש המועצה</bdi></td><td class="w"><bdi>רא צה</bdi></td><td class="got"><span class="he">סומן</span><span class="en">flagged</span></td><td class="kind"><span class="he">המילה נשברה לשתיים</span><span class="en">the word broke in two</span></td></tr>
+<tr class="legit"><td class="w"><bdi>המועצה</bdi></td><td class="w"><bdi>מועצה</bdi></td><td class="miss"><span class="he">לא סומן</span><span class="en">missed</span></td><td class="kind"><span class="he">ה״א הידיעה אבדה · <b>מילה עברית תקינה</b></span><span class="en">the definite article dropped · <b>a legitimate Hebrew word</b></span></td></tr>
+</tbody></table></div>
+
+  <p class="small">
+    <span class="he">שבעה מקומות לא סומנו. <b>בחמישה מהם הטעות מייצרת מילה עברית תקינה</b> — „בית חם” נקרא „בית חס”, „פיתוח” נקרא „פיתות”. המילון שותק, הצורה תקינה, הסריקה חדה: כלל לא יתפוס את זה לעולם, רק אדם שמבין את המשפט. שני הנותרים: אות אחת בקיצור שנה, ושני שמות בגוש החתימות שלא נקראו כלל. זו בדיוק הסיבה שהשלב השני הוא הגהה של דובר עברית, ולא בדיקה של המסומנים בלבד.</span>
+    <span class="en">Seven places went unflagged. <b>In five of them the error produces a perfectly legitimate Hebrew word</b> — "warm house" read as something else, "development" read as "pitas". The dictionary stays silent, the form is valid, the scan is sharp: no rule will ever catch this, only a person who understands the sentence. The remaining two: one letter in a year abbreviation, and two names in the signature block that were not read at all. This is precisely why step two is a native-speaker proofread, and not a check of the flagged words alone.</span>
+  </p>
+
+  <div class="stats four">
+    <div class="stat"><b class="num">0</b><span><span class="he">תווים של טקסט בקובץ המקורי</span><span class="en">characters of text in the source file</span></span></div>
+    <div class="stat"><b><span class="he">12 מתוך 12</span><span class="en">12 of 12</span></b><span><span class="he">עובדות מפתח — מספרים, תאריכים ומזהים</span><span class="en">key facts — numbers, dates, identifiers</span></span></div>
+    <div class="stat"><b class="num">0</b><span><span class="he">שיבושים בסדר הקריאה</span><span class="en">reading-order violations</span></span></div>
+    <div class="stat"><b class="num">17</b><span><span class="he">מילים שהמכונה סימנה לבדיקה — 12 פגעו בטעות אמיתית, 5 היו אזעקות שווא</span><span class="en">words the machine marked for review — 12 hit a real error, 5 were false alarms</span></span></div>
+  </div>
+</section>
+
+<!-- FACTS -->
+<section class="stack">
+  <div>
+    <h3><span class="he">מה שקובע במסמך מנהלי — אם אפשר לסמוך על המספרים</span><span class="en">What decides an administrative document — whether the numbers can be trusted</span></h3>
+  </div>
+  <div class="facts">
+    <div class="fact"><b>858/26</b><span><span class="he">מספר הפרוטוקול</span><span class="en">protocol number</span></span></div>
+    <div class="fact"><b>10/06/2026</b><span><span class="he">תאריך הישיבה</span><span class="en">session date</span></span></div>
+    <div class="fact"><b>17:30</b><span><span class="he">שעת הפתיחה</span><span class="en">start time</span></span></div>
+    <div class="fact"><b>249,500 ₪</b><span><span class="he">תב״ר אנרגיה מקיימת</span><span class="en">sustainable-energy budget item</span></span></div>
+    <div class="fact"><b>82,293 ₪</b><span><span class="he">תב״ר נגישות ראייה</span><span class="en">vision-accessibility budget item</span></span></div>
+    <div class="fact"><b>651-1506815</b><span><span class="he">מספר התכנית</span><span class="en">planning scheme number</span></span></div>
+    <div class="fact"><b>856/26</b><span><span class="he">פרוטוקול שאושר</span><span class="en">protocol approved</span></span></div>
+    <div class="fact"><b>857/26</b><span><span class="he">פרוטוקול שאושר</span><span class="en">protocol approved</span></span></div>
+    <div class="fact"><b>2027</b><span><span class="he">שנת צו המיסים</span><span class="en">year of the tax order</span></span></div>
+    <div class="fact"><b>15/4/24</b><span><span class="he">תאריך המינוי</span><span class="en">date of appointment</span></span></div>
+    <div class="fact"><b>7%</b><span><span class="he">תוספת שטח לבנייה</span><span class="en">added building area</span></span></div>
+    <div class="fact"><b>50 מ״ר</b><span><span class="he">חלופת התוספת</span><span class="en">alternative added area</span></span></div>
+  </div>
+</section>
+
+<!-- AUDIO -->
+<section class="stack">
+  <div>
+    <span class="eyebrow"><span class="he">ב. הקלטה ← תמליל</span><span class="en">B. Recording → transcript</span></span>
+    <h2><span class="he">‎18 דקות דיבור, מתומללות עם חותמות זמן</span><span class="en">18 minutes of speech, transcribed with timecodes</span></h2>
+  </div>
+  <p class="lede">
+    <span class="he">הפרוטוקול הרשמי מסכם החלטות בכ־700 מילים. ההקלטה מכילה את הדיון עצמו, והתמליל שלנו — כ־2,550 מילים ב־231 מקטעים עם חותמות זמן. הסיכום שומר מה הוחלט; התמליל שומר גם למה, ומי אמר מה.</span>
+    <span class="en">The official protocol summarises decisions in about 700 words. The recording holds the discussion itself, and our transcript comes to about 2,550 words in 231 timecoded segments. The summary keeps what was decided; the transcript also keeps why, and who said it.</span>
+  </p>
+  <div class="transcript win" id="tr"></div>
+  <button class="more" id="more" type="button">
+    <span class="he">להציג את כל 231 המקטעים</span><span class="en">Show all 231 segments</span>
+  </button>
+  <p class="small">
+    <span class="he">בשנייה ‎00:20 יושב הראש פותח: „פותח את מליאת המועצה מספר 858/26”. שלושת מספרי הפרוטוקולים שנדונו בישיבה מופיעים גם בסריקה וגם בהקלטה — סורק ומיקרופון הם שני מכשירים בלתי תלויים, ולטעות באותה טעות הם לא יכולים.</span>
+    <span class="en">At 00:20 the chair opens: "opening council plenum number 858/26". The three protocol numbers handled in the session appear in the scan and in the recording alike — a scanner and a microphone are independent instruments, and they cannot make the same mistake.</span>
+  </p>
+</section>
+
+<!-- COST -->
+<section class="stack">
+  <div>
+    <span class="eyebrow"><span class="he">כמה זה עולה היום</span><span class="en">What it costs today</span></span>
+    <h2><span class="he">‎70 דקות לפרוטוקול — כתוב בקבצים שלכם</span><span class="en">70 minutes per protocol — recorded in your own files</span></h2>
+  </div>
+  <p class="lede">
+    <span class="he">לא הערכנו ולא ניחשנו: מאפייני הקבצים הרשמיים עצמם מראים 70 דקות עריכה לפרוטוקול אחד ו־73 לשני. שתים־עשרה ישיבות בשנה — יותר משעת עובד על כל פרוטוקול נגיש.</span>
+    <span class="en">No estimate and no guess: the properties of the official files themselves show 70 minutes of editing for one protocol and 73 for another. Twelve sessions a year — over an hour of staff time for every accessible protocol.</span>
+  </p>
+  <p class="note">
+    <span class="he">לדיוק: אלו 70 דקות של הפקת הגרסה הנגישה מתוך פרוטוקול כתוב, לא תמלול מאפס.</span>
+    <span class="en">To be precise: those 70 minutes are producing the accessible version from an already written protocol, not transcribing from scratch.</span>
+  </p>
+</section>
+
+<!-- OFFER -->
+<section>
+  <div class="offer">
+    <h2><span class="he">ההצעה: תיק אחד, בחינם</span><span class="en">The offer: one file, free</span></h2>
+    <p class="big"><span class="he">תנו לנו פריט אחד מהארכיון שלכם — תיק, קלטת או תיקיית סריקות. נחזיר אותו מעובד תוך שלושה ימי עבודה, ללא תשלום וללא התחייבות, יחד עם רשימת המקומות שנשארו לבדיקת אדם.</span>
+    <span class="en">Give us one item from your archive — a file, a tape, a folder of scans. We return it processed within three working days, free and with no commitment, together with the list of places left for human review.</span></p>
+    <p class="lede"><span class="he">אני בישראל, בנגב, ואפשר להגיע לפגישה. העיבוד רץ במחשב מקומי; חומר של לקוח אינו עולה לשירותי ענן ונמחק לפי דרישה. נספח הגנת מידע נשלח לפי בקשה.</span>
+    <span class="en">I am in Israel, in the Negev, and can come in person. Processing runs on a local machine; client material is not uploaded to cloud services and is deleted on request. A data-protection annex is available on request.</span></p>
+    <div class="contact">
+      <span>kazaksg@gmail.com</span>
+      <span dir="ltr">+972 54-828-3963</span>
+      <span><span class="he">עברית · אנגלית · רוסית</span><span class="en">Hebrew · English · Russian</span></span>
+    </div>
+  </div>
+</section>
+
+<!-- DEEP -->
+<section class="stack">
+  <div>
+    <span class="eyebrow"><span class="he">למי שמגיע עד לכאן</span><span class="en">For whoever reads this far</span></span>
+    <h2><span class="he">איך זה עשוי — הפרטים הטכניים</span><span class="en">How it is built — the technical detail</span></h2>
+  </div>
+  <p class="lede">
+    <span class="he">מכאן והלאה זה כבר בית המלאכה: למה ציון ביטחון אינו עדות, אילו חמש בדיקות רצות על הטקסט, ולמה החלטנו לא לתקן לפי רוב. אין כאן הבטחות — רק מה שנמדד ואיך.</span>
+    <span class="en">From here on this is the workshop: why a confidence score is not evidence, which five checks run over the text, and why we decided not to correct by majority. No promises here — only what was measured and how.</span>
+  </p>
+
+<section class="stack">
+  <div>
+    <span class="eyebrow"><span class="he">הדבר החשוב ביותר בעמוד הזה</span><span class="en">The most important thing on this page</span></span>
+    <h2><span class="he">ביטחון גבוה אינו אומר נכון</span><span class="en">High confidence does not mean correct</span></h2>
+  </div>
+  <p class="lede">
+    <span class="he">מנוע הזיהוי נותן ציון לכל מילה. הציון אומר „ראיתי בבירור”, ולא „קראתי נכון”. שגיאה שיטתית חוזרת על עצמה בעקביות ובציון גבוה, ולפי כל סימן פנימי היא נראית אמינה. מערכת שנשענת על הציון בלבד שותקת בדיוק במקומות המסוכנים.</span>
+    <span class="en">The engine scores every word. The score says "I saw this clearly", not "I read this correctly". A systematic error repeats consistently and with a high score, and by every internal sign it looks trustworthy. A system that relies on the score alone stays silent exactly where it matters.</span>
+  </p>
+  <div class="cases">
+    <div class="case">
+      <figure><img src="assets/fix-tavar.png" alt="Abbreviation misread in the scan"></figure>
+      <div class="why">
+        <span class="badge conf">conf 90 · ×12</span>
+        <p><span class="he">קיצור תקציבי שבו הגרשיים נקראו כשתי אותיות יו״ד. חוזר שתים־עשרה פעמים בציון ממוצע 92 — ולא היה מסומן לעולם. נתפס בבדיקת מורפולוגיה מול מילון עברי.</span>
+        <span class="en">A budget abbreviation whose quotation mark was read as two yods. It repeats twelve times at an average score of 92 — and would never have been flagged. Caught by a morphology check against a Hebrew dictionary.</span></p>
+      </div>
+    </div>
+    <div class="case">
+      <figure><img src="assets/fix-hachlata.png" alt="Formula misread in the scan"></figure>
+      <div class="why">
+        <span class="badge conf">conf 88 · ×9</span>
+        <p><span class="he">המילה „החלטה” נקראה בצורה שגויה תשע פעמים, בציון גבוה. כאן ההכרעה באה מהמבנה: זו נוסחה קבועה שחוזרת אחרי כל סעיף בפרוטוקול.</span>
+        <span class="en">The word for "decision" was misread nine times, at a high score. Here the structure decides: it is a fixed formula that follows every item in a protocol.</span></p>
+      </div>
+    </div>
+    <div class="case">
+      <figure><img src="assets/rev-hinuch.png" alt="Word with a final letter in the middle"></figure>
+      <div class="why">
+        <span class="badge hand">conf 90 → <span class="he">לאדם</span><span class="en">to a human</span></span>
+        <p><span class="he">אות סופית באמצע מילה — צורה שאינה קיימת בעברית. הציון 90, כלומר הסריקה ברורה; מה שנשבר הוא המילה, לא התמונה. לכן היא עוברת לאדם ולא מתוקנת בניחוש.</span>
+        <span class="en">A final-form letter in the middle of a word — a shape Hebrew does not allow. Score 90: the scan is clear, it is the word that is broken. So it goes to a human rather than being guessed at.</span></p>
+      </div>
+    </div>
+  </div>
+  <div class="callout">
+    <h3><span class="he">למה לא הכרענו לפי רוב</span><span class="en">Why we did not decide by majority</span></h3>
+    <p><span class="he">אפשר היה לתקן לפי הצורה שחוזרת הכי הרבה במסמך. בדקנו — ובשלושה מקרים מתוך שלושה הרוב היה בוחר דווקא בשגיאה, כי הצורה השגויה חזרה יציב ובציון גבוה יותר מהנכונה. לכן ההכרעה נשענת על אמת מידה חיצונית — מילון, תבנית, רצף מספרים — ולא על הסטטיסטיקה של המנוע על עצמו.</span>
+    <span class="en">We could have corrected by whichever form repeats most in the document. We tested it — and in three cases out of three the majority would have picked the error, because the wrong form repeated more consistently and at a higher score than the right one. So decisions rest on an external yardstick — a dictionary, a format, a number sequence — never on the engine's own statistics.</span></p>
+  </div>
+</section>
+
+
+<section class="stack">
+  <div>
+    <span class="eyebrow"><span class="he">איך זה עובד</span><span class="en">How it works</span></span>
+    <h2><span class="he">חמש בדיקות במקום אחת</span><span class="en">Five checks instead of one</span></h2>
+  </div>
+  <p class="lede">
+    <span class="he">אחרי שהטקסט כולו קיים, אפשר לשאול שאלות שאי אפשר לשאול על מילה בודדת. כל בדיקה נשענת על משהו שניתן לאמת מחוץ למנוע הזיהוי, וכל תיקון נרשם עם שם הכלל שהפעיל אותו.</span>
+    <span class="en">Once the whole text exists, questions can be asked that a single word cannot answer. Each check rests on something verifiable outside the recognition engine, and every correction is logged with the name of the rule that made it.</span>
+  </p>
+  <div class="tablewrap">
+    <table>
+      <thead><tr>
+        <th><span class="he">בדיקה</span><span class="en">Check</span></th>
+        <th><span class="he">על מה היא נשענת</span><span class="en">What it rests on</span></th>
+        <th><span class="he">תיקונים</span><span class="en">Fixes</span></th>
+      </tr></thead>
+      <tbody>
+        <tr><td class="nw"><span class="he">גיאומטריית השורה</span><span class="en">Line geometry</span></td>
+            <td><span class="he">סדר הקריאה מהקואורדינטות, לא מסדר הבלוקים</span><span class="en">reading order from coordinates, not block order</span></td>
+            <td class="nw"><span class="he">תנאי לשאר</span><span class="en">enables the rest</span></td></tr>
+        <tr><td class="nw"><span class="he">שפת האזור</span><span class="en">Script of the zone</span></td>
+            <td><span class="he">טקסט לטיני נקרא במודל לטיני</span><span class="en">Latin text is read by a Latin model</span></td>
+            <td class="gain">1</td></tr>
+        <tr><td class="nw"><span class="he">תבנית</span><span class="en">Format</span></td>
+            <td><span class="he">כתובת אתר, מיקוד, סכום, תאריך, מספר תכנית</span><span class="en">web address, postcode, sum, date, plan number</span></td>
+            <td class="nw"><span class="he">אימות</span><span class="en">verification</span></td></tr>
+        <tr><td class="nw"><span class="he">מבנה</span><span class="en">Structure</span></td>
+            <td><span class="he">רצף מספור הסעיפים, נוסחאות קבועות של פרוטוקול</span><span class="en">agenda numbering sequence, fixed protocol formulas</span></td>
+            <td class="gain">17</td></tr>
+        <tr><td class="nw"><span class="he">מורפולוגיה</span><span class="en">Morphology</span></td>
+            <td><span class="he">אותיות סופיות וגרשיים, מול מילון עברי</span><span class="en">final letters and gershayim, against a Hebrew dictionary</span></td>
+            <td class="gain">43</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="lede">
+    <span class="he">סך הכול 61 תיקונים. 49 מהם מאומתים ישירות מול המסמך הרשמי של המועצה, ואף תיקון לא הרע את התוצאה. היתר נוגעים למספור הסעיפים, שאותו אי אפשר לאמת מול המסמך הרשמי כלל: שם הוא ממוספר אוטומטית והמספרים אינם חלק מהטקסט.</span>
+    <span class="en">Sixty-one corrections in all. Forty-nine are verified directly against the council's official document, and not one correction made the result worse. The rest concern agenda numbering, which the official document cannot verify at all: there it is numbered automatically and the numbers are not part of the text.</span>
+  </p>
+
+  <h3><span class="he">דוגמה: שורת הכותרת התחתונה</span><span class="en">Example: the footer line</span></h3>
+  <div class="strip"><img src="assets/footer-strip.png" alt="Footer strip of the scanned page"></div>
+  <p class="small">
+    <span class="he">השורה הזאת יצאה כג׳יבריש עברי, ושלוש מילים בה קיבלו ציון 0, 6 ו־27 — לא מפני שהיא מטושטשת, אלא מפני שהיא כתובה באותיות לטיניות ונקראה במודל עברי. מעבר אחד במודל לטיני מחזיר אותה במלואה: www.merchavim.org.il · מיקוד 8510300. אותה שורה חוזרת בארבעת העמודים, כך שהיא מאומתת ארבע פעמים.</span>
+    <span class="en">This line came out as Hebrew gibberish, three of its words scoring 0, 6 and 27 — not because it is blurred, but because it is written in Latin letters and was read by a Hebrew model. One pass with a Latin model returns it in full: www.merchavim.org.il · postcode 8510300. The same line repeats on all four pages, so it is verified four times over.</span>
+  </p>
+</section>
+
+
+<section class="stack">
+  <div>
+    <span class="eyebrow"><span class="he">מה שאיננו מבטיחים</span><span class="en">What we do not promise</span></span>
+    <h2><span class="he">‎17 מילים מסומנות למגיה — ולמה דווקא הן</span><span class="en">17 words marked for the proofreader — and why those</span></h2>
+  </div>
+  <p class="lede">
+    <span class="he">המגיה אינו קורא 711 מילים באותה תשומת לב. 17 מילים — ‎2.4% מהמסמך — מסומנות לפניו מראש, כל אחת עם הנימוק שלה וגזיר מהתמונה המקורית. רובן קיבלו ציון ביטחון גבוה, כלומר הן בדיוק מה שמערכת המסתמכת על ציון הייתה מפספסת. בכוונה מסמנים יותר מדי ולא פחות מדי: החמצה עולה באמון, מילה מיותרת עולה שניות.</span>
+    <span class="en">A proofreader does not read 711 words with equal attention. Seventeen words — 2.4% of the document — are marked in advance, each with its reason and a cutout of the original image. Most carry a high confidence score, meaning they are exactly what a score-based system would miss. We deliberately mark too many rather than too few: a miss costs trust, an extra word costs seconds.</span>
+  </p>
+  <div class="cases">
+    <div class="case">
+      <figure><img src="assets/rev-bis.png" alt="Word with a tripled letter"></figure>
+      <div class="why"><span class="badge hand">conf 92</span>
+        <p><span class="he">יו״ד משולשת בתוך קיצור — צירוף שאינו קיים. ברור בסריקה, שבור כמילה.</span><span class="en">A tripled yod inside an abbreviation — a combination that does not exist. Clear in the scan, broken as a word.</span></p></div>
+    </div>
+    <div class="case">
+      <figure><img src="assets/rev-misim.png" alt="Word ending in a non-final letter"></figure>
+      <div class="why"><span class="badge hand">conf 91</span>
+        <p><span class="he">מילה המסתיימת באות שאינה סופית, ואין לה חלופה במילון. המכונה לא מנחשת — היא מעבירה הלאה.</span><span class="en">A word ending in a non-final letter, with no dictionary alternative. The machine does not guess — it hands it on.</span></p></div>
+    </div>
+    <div class="case">
+      <figure><img src="assets/rev-nikud.png" alt="Word with vowel marks"></figure>
+      <div class="why"><span class="badge hand">conf 19</span>
+        <p><span class="he">סימן ניקוד בתוך טקסט שאינו מנוקד — וכאן גם הסריקה עצמה מטושטשת. שני הסימנים מצביעים לאותו כיוון.</span><span class="en">A vowel mark inside unvocalised text — and here the scan itself is blurred too. Both signals point the same way.</span></p></div>
+    </div>
+    <div class="case">
+      <figure><img src="assets/rev-hinuch.png" alt="Word with a final letter in the middle"></figure>
+      <div class="why"><span class="badge hand">conf 90</span>
+        <p><span class="he">אות סופית באמצע מילה. המסוכן מכולם: הציון גבוה, הצורה בלתי אפשרית.</span><span class="en">A final-form letter mid-word. The most dangerous kind: high score, impossible shape.</span></p></div>
+    </div>
+    <div class="case">
+      <figure><img src="assets/rev-name.png" alt="Surname with an apostrophe"></figure>
+      <div class="why"><span class="badge hand">conf 75</span>
+        <p><span class="he">גרש בשם משפחה נקרא כיו״ד, והתוצאה היא מילה עברית תקינה לגמרי — מילון לא יעזור כאן. שמות אינם נבדקים במילון, ולכן רשימת המשתתפים כולה עוברת תחת עין אדם. שם משפחה שאושר פעם אחת בכותרת עובד מכאן והלאה על כל המסמך.</span>
+        <span class="en">An apostrophe in a surname read as a yod, producing a perfectly valid Hebrew word — a dictionary is no help here. Names are not dictionary-checked, so the whole participant list goes under a human eye. A surname confirmed once in the header then works across the rest of the document by itself.</span></p></div>
+    </div>
+  </div>
+  <p class="note">
+    <span class="he">חמישה מקומות במסמך הזה לא ניתנים לתפיסה בשום כלל אוטומטי: שם השגיאה יוצרת מילה עברית תקינה אחרת. בדיוק בשבילם קיים שלב ההגהה — ובשבילם חשוב שאדם יעבור על הטקסט כולו, ולא רק על המסומן.</span>
+    <span class="en">Five places in this document cannot be caught by any automatic rule: there the error produces a different, perfectly valid Hebrew word. That is exactly what the proofreading stage is for — and why a person goes over the whole text, not only the marked parts.</span>
+  </p>
+</section>
+
+      
+<section class="stack">
+  <div>
+    <span class="eyebrow"><span class="he">אימות צולב</span><span class="en">Cross-check</span></span>
+    <h2><span class="he">שני מכשירים שונים, אותם מזהים</span><span class="en">Two different instruments, the same identifiers</span></h2>
+  </div>
+  <p class="lede">
+    <span class="he">הסורק והמיקרופון הם מקורות בלתי תלויים. כשמזהה מופיע בשניהם, זו אינה השערה. שלושת מספרי הפרוטוקולים שנדונו בישיבה מופיעים גם בסריקה וגם בהקלטה.</span>
+    <span class="en">The scanner and the microphone are independent sources. When an identifier appears in both, it is not a guess. The three protocol numbers handled in the session appear in the scan and in the recording alike.</span>
+  </p>
+  <div class="tablewrap">
+    <table>
+      <thead><tr>
+        <th><span class="he">מזהה</span><span class="en">Identifier</span></th>
+        <th><span class="he">בסריקה</span><span class="en">In the scan</span></th>
+        <th><span class="he">בהקלטה</span><span class="en">In the recording</span></th>
+        <th><span class="he">משמעות</span><span class="en">Meaning</span></th>
+      </tr></thead>
+      <tbody>
+        <tr><td>858/26</td><td class="yes">✓</td><td class="yes">✓</td><td><span class="he">מספר הישיבה</span><span class="en">session number</span></td></tr>
+        <tr><td>856/26</td><td class="yes">✓</td><td class="yes">✓</td><td><span class="he">סעיף ראשון בסדר היום</span><span class="en">first agenda item</span></td></tr>
+        <tr><td>857/26</td><td class="yes">✓</td><td class="yes">✓</td><td><span class="he">סעיף ראשון בסדר היום</span><span class="en">first agenda item</span></td></tr>
+        <tr><td>2025 / 2026 / 2027</td><td class="yes">✓</td><td class="yes">✓</td><td><span class="he">שנות תקציב וצו מיסים</span><span class="en">budget and tax-order years</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+</section>
+
+<footer>
+  <span class="he">כל החומר בעמוד זה ציבורי ופורסם על ידי המועצה האזורית מרחבים. המדידות בוצעו ב־13–14 בספטמבר 2026 על פרוטוקול מליאה 858/26.</span>
+  <span class="en">All material on this page is public and was published by the Merhavim Regional Council. Measurements were made on 13–14 September 2026 on plenum protocol 858/26.</span>
+</footer>
+
+</div>
+
+<script id="page1-data" type="application/json">[{"w": [{"t": "בס\"ד", "c": 92, "s": ""}]}, {"w": [{"t": "לשכת", "c": 83, "s": ""}, {"t": "מנכ\"לית", "c": 92, "s": ""}, {"t": "המועצה", "c": 93, "s": ""}]}, {"w": [{"t": "פרוטוקול", "c": 97, "s": ""}, {"t": "מליאת", "c": 96, "s": ""}, {"t": "מועצה", "c": 97, "s": ""}, {"t": "מספר", "c": 97, "s": ""}, {"t": "858/26", "c": 97, "s": ""}, {"t": "שהתקיימה", "c": 96, "s": ""}]}, {"w": [{"t": "ב-", "c": 92, "s": ""}, {"t": "10/06/2026", "c": 93, "s": ""}, {"t": "בשעה", "c": 96, "s": ""}, {"t": "17:30", "c": 96, "s": ""}, {"t": "בחדר", "c": 96, "s": ""}, {"t": "הישיבות", "c": 95, "s": ""}, {"t": "במועצה", "c": 91, "s": ""}]}, {"w": [{"t": "משתתפים:", "c": 91, "s": ""}]}, {"w": [{"t": "אסי", "c": 97, "s": ""}, {"t": "יונה,", "c": 91, "s": ""}, {"t": "אשבול", "c": 93, "s": ""}]}, {"w": [{"t": "ארמי", "c": 97, "s": ""}, {"t": "פרגי,", "c": 75, "s": "r"}, {"t": "סגן", "c": 92, "s": ""}, {"t": "ראש", "c": 96, "s": ""}, {"t": "המועצה", "c": 96, "s": ""}, {"t": "עמוס", "c": 97, "s": ""}, {"t": "ארלקי,", "c": 90, "s": ""}, {"t": "ניר", "c": 93, "s": ""}, {"t": "משה", "c": 97, "s": ""}]}, {"w": [{"t": "אילנה", "c": 97, "s": ""}, {"t": "ברקת,", "c": 93, "s": ""}, {"t": "מנכ\"לית", "c": 92, "s": "f"}, {"t": "המועצה", "c": 93, "s": ""}, {"t": "איציק", "c": 95, "s": ""}, {"t": "בן", "c": 96, "s": ""}, {"t": "לולו,", "c": 92, "s": ""}, {"t": "שדה", "c": 93, "s": ""}, {"t": "צבי", "c": 97, "s": ""}]}, {"w": [{"t": "שמעון", "c": 96, "s": ""}, {"t": "פרץ,", "c": 16, "s": ""}, {"t": "גזבר", "c": 91, "s": ""}, {"t": "המועצה", "c": 96, "s": ""}, {"t": "צביקה", "c": 97, "s": ""}, {"t": "קורבשי,", "c": 92, "s": ""}, {"t": "פטיש", "c": 93, "s": ""}]}, {"w": [{"t": "יהושע", "c": 96, "s": ""}, {"t": "קריבאן,", "c": 93, "s": ""}, {"t": "תלמי", "c": 93, "s": ""}, {"t": "בילו", "c": 97, "s": ""}, {"t": "אהרוני", "c": 96, "s": ""}, {"t": "שבתאי,", "c": 92, "s": ""}, {"t": "מבועים", "c": 75, "s": ""}]}, {"w": [{"t": "נועם", "c": 91, "s": "f"}, {"t": "מדר,", "c": 93, "s": ""}, {"t": "שבי", "c": 93, "s": ""}, {"t": "דרוס", "c": 92, "s": ""}, {"t": "רחביה", "c": 96, "s": ""}, {"t": "עומסי,", "c": 92, "s": ""}, {"t": "פדויים", "c": 93, "s": ""}]}, {"w": [{"t": "צדוק", "c": 97, "s": ""}, {"t": "בורה,", "c": 93, "s": ""}, {"t": "בטחה", "c": 93, "s": ""}, {"t": "יעקב", "c": 97, "s": ""}, {"t": "כהן,", "c": 93, "s": ""}, {"t": "מסלול", "c": 93, "s": ""}]}, {"w": [{"t": "חסרים:", "c": 86, "s": ""}]}, {"w": [{"t": "שי", "c": 97, "s": "r"}, {"t": "חגיגי,", "c": 67, "s": "r"}, {"t": "ראש", "c": 93, "s": ""}, {"t": "המועצה", "c": 96, "s": ""}, {"t": "יואב", "c": 92, "s": ""}, {"t": "נגדי,", "c": 92, "s": ""}, {"t": "פעמי", "c": 93, "s": ""}, {"t": "תש\"ו", "c": 71, "s": "f"}]}, {"w": [{"t": "אילנית", "c": 97, "s": ""}, {"t": "אסיף,", "c": 92, "s": ""}, {"t": "ניר", "c": 93, "s": ""}, {"t": "עקיבא", "c": 97, "s": ""}, {"t": "יוני", "c": 95, "s": ""}, {"t": "דימרי,", "c": 93, "s": ""}, {"t": "גילת", "c": 93, "s": ""}]}, {"w": [{"t": "ציון", "c": 89, "s": ""}, {"t": "מלכה,", "c": 93, "s": ""}, {"t": "קלחים", "c": 93, "s": ""}]}, {"w": [{"t": "נושאים", "c": 97, "s": ""}, {"t": "לסדר", "c": 96, "s": ""}, {"t": "היום", "c": 96, "s": ""}, {"t": ":", "c": 92, "s": ""}]}, {"w": [{"t": "1.", "c": 52, "s": ""}, {"t": "לאישור", "c": 97, "s": ""}, {"t": "פרוטוקול", "c": 96, "s": ""}, {"t": "מליאה", "c": 96, "s": ""}, {"t": "857/26+", "c": 93, "s": ""}, {"t": "856/26.", "c": 91, "s": ""}]}, {"w": [{"t": "2.", "c": 72, "s": ""}, {"t": "לאישור", "c": 96, "s": ""}, {"t": "פתיחת", "c": 97, "s": ""}, {"t": "תב\"ר", "c": 90, "s": "f"}, {"t": "\"פרויקטים", "c": 37, "s": "f"}, {"t": "לאנרגיה", "c": 93, "s": ""}, {"t": "מקיימת\"", "c": 86, "s": "f"}, {"t": "בסך", "c": 93, "s": ""}, {"t": "249,500", "c": 93, "s": ""}, {"t": "₪", "c": 97, "s": ""}, {"t": "ממשרד", "c": 96, "s": ""}, {"t": "האנרגיה", "c": 97, "s": ""}]}, {"w": [{"t": "והתשתיות.", "c": 91, "s": ""}]}, {"w": [{"t": "לאישור", "c": 97, "s": ""}, {"t": "פתיחת", "c": 97, "s": ""}, {"t": "תב\"ר", "c": 92, "s": "f"}, {"t": "נגישות", "c": 92, "s": ""}, {"t": "ראיה-ביייס", "c": 92, "s": "r"}, {"t": "חנ\"מ", "c": 92, "s": "f"}, {"t": "עלה", "c": 93, "s": ""}, {"t": "נגב\"", "c": 91, "s": "f"}, {"t": "82,293", "c": 93, "s": ""}, {"t": "₪", "c": 97, "s": ""}, {"t": "ממשדר", "c": 92, "s": ""}, {"t": "החינוך-", "c": 92, "s": ""}]}, {"w": [{"t": "מינהל", "c": 90, "s": ""}, {"t": "הפיתוח.", "c": 85, "s": ""}]}, {"w": [{"t": "לאישור", "c": 96, "s": ""}, {"t": "צו", "c": 93, "s": ""}, {"t": "מיסיס", "c": 91, "s": "r"}, {"t": "לשנת", "c": 93, "s": ""}, {"t": "2027.", "c": 92, "s": ""}]}, {"w": [{"t": "לדיון", "c": 96, "s": ""}, {"t": "ואישור,", "c": 92, "s": ""}, {"t": "בעניין", "c": 92, "s": ""}, {"t": "היות", "c": 87, "s": ""}, {"t": "המועצה", "c": 93, "s": ""}, {"t": "מגישה", "c": 92, "s": ""}, {"t": "תכנית", "c": 93, "s": ""}, {"t": "מס'", "c": 27, "s": ""}, {"t": "651-1506815", "c": 93, "s": ""}, {"t": "תכנית", "c": 92, "s": ""}, {"t": "תקנונית", "c": 92, "s": ""}]}, {"w": [{"t": "ביישובי", "c": 92, "s": ""}, {"t": "המועצה", "c": 93, "s": ""}, {"t": "האזורית", "c": 87, "s": ""}, {"t": "מרחבים", "c": 23, "s": ""}, {"t": "התכנית", "c": 92, "s": ""}, {"t": "חלה", "c": 93, "s": ""}, {"t": "על", "c": 93, "s": ""}, {"t": "כל", "c": 97, "s": ""}, {"t": "מגרשי", "c": 91, "s": ""}, {"t": "ההרחבה", "c": 92, "s": ""}, {"t": "(מגורים", "c": 92, "s": ""}, {"t": "אי)", "c": 92, "s": "r"}]}, {"w": [{"t": "ועוסקת", "c": 92, "s": ""}, {"t": "במס'", "c": 87, "s": ""}, {"t": "נושאים:", "c": 81, "s": "f"}, {"t": "הוראות", "c": 91, "s": ""}, {"t": "בדבר", "c": 93, "s": ""}, {"t": "שינוי", "c": 92, "s": ""}, {"t": "בקווי", "c": 93, "s": ""}, {"t": "בנין,", "c": 92, "s": ""}, {"t": "הוראות", "c": 93, "s": ""}, {"t": "בינוי", "c": 93, "s": ""}, {"t": "ועיצוב", "c": 93, "s": ""}, {"t": "כגון-", "c": 93, "s": ""}]}, {"w": [{"t": "תכסית,", "c": 89, "s": ""}, {"t": "גובה", "c": 93, "s": ""}, {"t": "מבנים,", "c": 92, "s": ""}, {"t": "כניסות", "c": 91, "s": ""}, {"t": "למרתף", "c": 92, "s": ""}, {"t": "מיקום", "c": 83, "s": "f"}, {"t": "בריכות", "c": 92, "s": ""}, {"t": "שחיה", "c": 92, "s": ""}, {"t": "וכיו\"ב.", "c": 92, "s": "f"}, {"t": "וכן", "c": 93, "s": ""}, {"t": "תוספת", "c": 89, "s": ""}, {"t": "שטח", "c": 52, "s": ""}]}, {"w": [{"t": "לבינוי", "c": 92, "s": ""}, {"t": "של", "c": 93, "s": ""}, {"t": "7%", "c": 97, "s": ""}, {"t": "או", "c": 96, "s": ""}, {"t": "50", "c": 97, "s": ""}, {"t": "מ\"ר", "c": 92, "s": "f"}, {"t": "לפי", "c": 92, "s": ""}, {"t": "הגדול", "c": 93, "s": ""}, {"t": "מבניהם.", "c": 75, "s": "f"}, {"t": "הצורך", "c": 92, "s": ""}, {"t": "בתכנית", "c": 92, "s": ""}, {"t": "נובע", "c": 93, "s": ""}, {"t": "לאור", "c": 92, "s": ""}, {"t": "העובדה", "c": 93, "s": ""}, {"t": "כי", "c": 93, "s": "r"}]}, {"w": [{"t": "בהתאם", "c": 90, "s": ""}, {"t": "לנוהלי", "c": 92, "s": ""}, {"t": "מנהל", "c": 92, "s": ""}, {"t": "התכנון-", "c": 92, "s": ""}, {"t": "במסגרת", "c": 92, "s": ""}, {"t": "בקשות", "c": 93, "s": ""}, {"t": "להיתר", "c": 90, "s": ""}, {"t": "לא", "c": 93, "s": ""}, {"t": "ניתן", "c": 92, "s": ""}, {"t": "להגיש", "c": 92, "s": ""}, {"t": "בקשות", "c": 93, "s": ""}, {"t": "להקלה-", "c": 92, "s": ""}]}, {"w": [{"t": "וכל", "c": 97, "s": ""}, {"t": "שינוי", "c": 92, "s": ""}, {"t": "שכזה", "c": 68, "s": ""}, {"t": "דורש", "c": 92, "s": ""}, {"t": "קידום", "c": 93, "s": "f"}, {"t": "תכנית", "c": 91, "s": ""}, {"t": "מפורטת", "c": 92, "s": ""}, {"t": "נקודתית.", "c": 93, "s": ""}]}, {"w": [{"t": "לאישור", "c": 97, "s": ""}, {"t": "הצעת", "c": 96, "s": ""}, {"t": "תקציב", "c": 97, "s": ""}, {"t": "לשנת", "c": 43, "s": ""}, {"t": "2025:", "c": 43, "s": ""}]}, {"w": [{"t": "א.", "c": 84, "s": ""}, {"t": "פטיש", "c": 93, "s": ""}]}, {"w": [{"t": "ב.", "c": 93, "s": ""}, {"t": "בטחה", "c": 93, "s": ""}]}, {"w": [{"t": "לאישור", "c": 97, "s": ""}, {"t": "הצעת", "c": 96, "s": ""}, {"t": "תקציב", "c": 97, "s": ""}, {"t": "לשנת", "c": 96, "s": ""}, {"t": "2026:", "c": 86, "s": ""}]}, {"w": [{"t": "א.", "c": 84, "s": ""}, {"t": "פטיש", "c": 92, "s": ""}]}, {"w": [{"t": "ב.", "c": 93, "s": ""}, {"t": "תלמי", "c": 93, "s": ""}, {"t": "בילו", "c": 96, "s": ""}]}, {"w": [{"t": "ג.", "c": 93, "s": ""}, {"t": "ניר", "c": 93, "s": ""}, {"t": "משה", "c": 96, "s": ""}]}, {"w": [{"t": "ד.", "c": 93, "s": ""}, {"t": "בטחה", "c": 93, "s": ""}]}, {"w": [{"t": "תיקוף", "c": 90, "s": ""}, {"t": "למינוי", "c": 91, "s": ""}, {"t": "של", "c": 93, "s": ""}, {"t": "ארמי", "c": 97, "s": ""}, {"t": "פרגי", "c": 51, "s": "r"}, {"t": "סגן", "c": 93, "s": ""}, {"t": "ראש", "c": 96, "s": ""}, {"t": "המועצה", "c": 97, "s": ""}, {"t": "אזורית", "c": 90, "s": ""}, {"t": "מרחבים", "c": 91, "s": "f"}, {"t": "מ", "c": 93, "s": ""}, {"t": "15/4/24", "c": 97, "s": ""}, {"t": "לנציג", "c": 93, "s": ""}, {"t": "בוועדה", "c": 91, "s": ""}]}, {"w": [{"t": "לתכנון", "c": 93, "s": ""}, {"t": "ובניה", "c": 93, "s": ""}, {"t": "נגב", "c": 93, "s": ""}, {"t": "מערבי.", "c": 91, "s": ""}]}]</script>
+<script id="audio-data" type="application/json">[{"t": "00:00", "x": "זה מה שקורה לאנשים בדיון מסירים."}, {"t": "00:01", "x": "תביאו את הלילה."}, {"t": "00:03", "x": "תביאו את הלילה. סיפרת אותו עכשיו? סיפרת? הוא מדבר. כן. זה השבוע, יום ראשון."}, {"t": "00:09", "x": "חבר'ה, אנחנו מתחילים להקליט, אז..."}, {"t": "00:13", "x": "עוד דבר שתדברו לעניין."}, {"t": "00:16", "x": "טוב, אחרי שנפסיק, אם תרצו, כל העדכונים וכל ה..."}, {"t": "00:19", "x": "טוב, אני,"}, {"t": "00:20", "x": "שלום לכולם, פותח את מליאת המועצה מספר 858/26,"}, {"t": "00:26", "x": "נושאים לסדר-היום."}, {"t": "00:30", "x": "אנחנו נעבור וכבר נדון בהם, וגם לגבי התוספות,"}, {"t": "00:34", "x": "ובסוף נאשר את... או לא נאשר."}, {"t": "00:38", "x": "אז זה נושא ראשון, אישור פרוטוקול מליאה מספר 856/26 פלוס 857/26."}, {"t": "00:46", "x": "זה שני מליאות שהיו לנו, גם מצורף לכם חומר פה, גם של התקציב וגם עדכון תקציב וגם המליאה הרגילה."}, {"t": "00:55", "x": "אז אם יש למישהו איזושהי הערה,"}, {"t": "01:00", "x": "גם לא חייב עכשיו, הוא יכול גם בסוף להגיד את ההערה."}, {"t": "01:02", "x": "2. אישור פתיחת תב\"ר פרויקטים לאנרגיה מקיימת על סך 249,500"}, {"t": "01:08", "x": "ממשרד האנרגיה והתשתיות."}, {"t": "01:12", "x": "תקציב שהתקבל מקול קורא, נכון, שמעון?"}, {"t": "01:16", "x": "כן. לגבי כל מיני פעילויות של אנרגיה ירוקה ומקיימת."}, {"t": "01:22", "x": "3. אישור פתיחת תב\"ר נגישות ראייה בית ספר לחינוך"}, {"t": "01:27", "x": "מיוחד עלי נגב על סך 82,293 ממשרד החינוך וממנהל הפיתוח."}, {"t": "01:32", "x": "כל הזמן אנחנו מקבלים תקציבים לנגישות"}, {"t": "01:37", "x": "לבתי ספר, כל פעם יש נגישות של שמיעה,"}, {"t": "01:40", "x": "יש של ראייה, יש כל מיני דברים כאלה. אנחנו כל הזמן מנגישים כיתה ועוד כיתה ועוד כיתה לפי הצורך של"}, {"t": "01:47", "x": "הילדים בבתי ספר."}, {"t": "01:49", "x": "גם עלי נגב, גם בית ספר לחינוך מיוחד בעלי נגב הוא תחת החסות של הרשות."}, {"t": "01:54", "x": "אז חשוב שתקראו את זה."}, {"t": "01:58", "x": "2. אישור צו מיסים לשנת 2027,"}, {"t": "02:01", "x": "או שאם הוא ניתן לכם סקירה כאן. זה מיסים שאנחנו מאשרים הוא לא שונה עם צו מיסים של שנה הבאה."}, {"t": "02:06", "x": "מה שמשתנה בו זה העדכון המינימלי הקבוע בחוק."}, {"t": "02:10", "x": "זהו, אין שם שום דבר. חשוב לציין שאין תוספות"}, {"t": "02:14", "x": "ארנונה אנחנו לא מעלים ארנונה רק את הטייס האוטומטי. הטייס האוטומטי זה כאילו המדד של המדינה."}, {"t": "02:26", "x": "לא, לא. עדכון לא. זה אצלך, שיש לך אנשי אופוזיציה חכמים, פרופסורים וזה."}, {"t": "02:30", "x": "אפשר להוריד את ה..."}, {"t": "02:32", "x": "טוב, כל הנייר שלך מתרטף שם. אבל אם מישהו רוצה לשאול משהו לגבי הארנונה?"}, {"t": "02:42", "x": "כן. לא. כן, כן. אפשר. כמה אפשר להוריד?"}, {"t": "02:47", "x": "אי אפשר להוריד. אי אפשר להוריד. אי אפשר להוריד את זה. אי אפשר להוריד את זה. אי אפשר להוריד את זה. אי אפשר להוריד את זה. אי אפשר להוריד את זה. הרבה יותר שנה שעברה, הרבה יותר. רגע."}, {"t": "02:53", "x": "מעבר לטייס האוטומטי. לא, לא, לא. רק לעסקים."}, {"t": "02:56", "x": "לא, לא. גם לא. שלושה אחוז. גם לא. שלושה אחוז. גם לא. גם לא. חבר'ה, אנחנו בשנים האחרונות לא עלינו. אגורה מעבר לטייס האוטומטי."}, {"t": "03:04", "x": "מעבר לטייס האוטומטי. אנחנו לא מעלים. נקודה."}, {"t": "03:07", "x": "לא מעלים חוץ מהטייס האוטומטי."}, {"t": "03:09", "x": "בסדר? חשוב להגיד את זה לפרוטוקול. בסדר? שתדעו."}, {"t": "03:14", "x": "אין תוספות בארנונה, אין עלייה."}, {"t": "03:16", "x": "זה הטייס האוטומטי."}, {"t": "03:18", "x": "כמה עלה הטייס האוטומטי זה?"}, {"t": "03:22", "x": "כמו מדד, זה נקרא טייס אוטומטי. זה כמו שהמדד עולה."}, {"t": "03:27", "x": "כן, 3.05. אוקיי, סעיף 5,"}, {"t": "03:48", "x": "דיון ואישור בעניין היות והמועצה מגישה את תוכנית"}, {"t": "03:52", "x": "מס' 651 על 150-6815. זו התוכנית התקנונית שעשינו."}, {"t": "03:59", "x": "המועצה ביצעה תוכנית לכל ההרחבות במועצה גדולית מרחבים."}, {"t": "04:03", "x": "אני לא מדבר על המשקים, אני מדבר על ההרחבות."}, {"t": "04:05", "x": "הגדלנו להם זכויות, הגדלנו להם הקלות."}, {"t": "04:08", "x": "פעם היה, עד סוף 25, 31 לדצמבר 25,"}, {"t": "04:14", "x": "היה מותר לעשות"}, {"t": "04:15", "x": "בהרחבות הקלות"}, {"t": "04:17", "x": "בקו"}, {"t": "04:19", "x": "צידי עד 10%,"}, {"t": "04:22", "x": "זה אוצר קו קדמי או קו אחורי,"}, {"t": "04:24", "x": "בריכה,"}, {"t": "04:26", "x": "הגדלת זכויות עד 50 מטר. כל מה שהיה מותר בהקלות"}, {"t": "04:30", "x": "הופסק על פי חוק."}, {"t": "04:32", "x": "ואלה שיש להם?"}, {"t": "04:33", "x": "אלה שיש. מי שהיה לו כבר זכה."}, {"t": "04:35", "x": "ואז במקום שכל תושב היום שרוצה לבנות בריכה או רוצה לעשות הקלה, רוצה לבנות או רוצה להגדיל זכויות ב-50 מטר, עד 50 מטר,"}, {"t": "04:44", "x": "במקום שכל תושב היה פונה לוועדה המקומית"}, {"t": "04:47", "x": "ועושה תב\"ע בסמכות ועדה מקומית,"}, {"t": "04:50", "x": "אז באה המועצה"}, {"t": "04:52", "x": "ועשתה את התב\"ע לכל המועצה."}, {"t": "04:53", "x": "זו תב\"ע תקנונית, שהיא נותנת לכם אופציה, מי שיש לו בתב\"ע שלו בהרחבה, דוגמה,"}, {"t": "04:59", "x": "ניקח את מושב רנן, ארמי בהרחבה, מותר לו לו. הוא לא משלם הבן אדם? הוא לא משלם על התב\"ע, אבל יש השבחה. אנחנו שילמנו."}, {"t": "05:05", "x": "הפעם הוא היה משלם גם את התב\"ע וגם את ההשבחה."}, {"t": "05:08", "x": "אז אנחנו שילמנו כדי לעודד את האנשים גם לעשות, גם לבנות"}, {"t": "05:12", "x": "וגם להקל על התושבים שלנו."}, {"t": "05:14", "x": "אז היות והמועצה היא מגישה למינהל התכנון,"}, {"t": "05:18", "x": "היינו צריכים את האישור הזה לפי הנוסח הזה באישור המליאה. אבל כמה זוכר את ההשבחה כאילו ב...? תלוי מה אתה בונה. אם קיבלת, תלוי מה אתה עושה, כי יש... אני רוצה לקנות עכשיו עוד פעם. אתה במשק, זה לא חל עליך. זה לא חל עליך, זה לא חל על הבית הזה. אני נתנו פה את המקסימום בהרחבות."}, {"t": "05:36", "x": "דוגמה, זה עוד 50 מטר, ההגדלה בסמכות ועדה מקומית,"}, {"t": "05:40", "x": "או קו בניין צידי,"}, {"t": "05:41", "x": "או בריכה וזה."}, {"t": "05:42", "x": "תלוי מה אתה עושה. לפי מה שאתה עושה, אתה משלם."}, {"t": "05:47", "x": "זה לא בשמיים, אבל מה שעשינו, חסכנו לתושבים גם"}, {"t": "05:51", "x": "זמן וגם ריצה וגם ללכת לאדריכה לעשות תב\"ע, וגם אחרי זה הוא היה משלם את ההשבחה."}, {"t": "05:55", "x": "קיצרנו לו, חסכנו לו לפחות בין 50 ל-60 שקל לכל תושב."}, {"t": "06:00", "x": "סעיף 6, אישור הצעת תקציב לשנת 2025 פטיש וביטחה."}, {"t": "06:07", "x": "הם הגישו כנראה באיחוד."}, {"t": "06:09", "x": "בדיליי."}, {"t": "06:11", "x": "בדיליי. גזבר עבר על התקציב, מאוצר להם בתקציב. עברת? תקין?"}, {"t": "06:15", "x": "כן. אוקיי."}, {"t": "06:16", "x": "7, אישור הצעת תקציב לשנת 2026. מושב פטיש,"}, {"t": "06:21", "x": "מושב תלמי בילוב,"}, {"t": "06:22", "x": "מושב ניר משה וביטחה."}, {"t": "06:24", "x": "יש הערות, שמעון, יש משהו? הכול בסדר?"}, {"t": "06:28", "x": "התקציב עומד ב... אם הזינו את זה פה, זה סימן שזה... זה עבר ביקורת של גזבר המועצה."}, {"t": "06:34", "x": "8, עוד משהו מצחיק,"}, {"t": "06:38", "x": "פשוט זה מעציב, זה לא מצחיק."}, {"t": "06:43", "x": "תיקון למינוי של ערמי פרץ, סגן ראש המועצה האזורית מרחבים."}, {"t": "06:46", "x": "24?"}, {"t": "06:47", "x": "ב-15 באפריל 2024, לנציג ועדה לתכנון ובנייה נגב הערבי."}, {"t": "06:52", "x": "כשנבחרנו, אני אסביר."}, {"t": "06:53", "x": "קודם כל, נבחרנו בדצמבר 2012. מאז יש את אותו נוסח שהיינו מעבירים, שהערמי חבר בוועדה לתכנון ובנייה המרחבית."}, {"t": "07:02", "x": "פתאום הם נזכרו שעכשיו הם רוצים לשנות את הנוסח."}, {"t": "07:05", "x": "אז שינינו להם את הנוסח, למרות שאני כבר חבר קרוב ל-13 שנים."}, {"t": "07:11", "x": "ואי אפשר עכשיו להוציא אותך? אי אפשר להוציא אותי. למה? לא, אפשר להוציא אותי. אה, נו. אם תחליטו שאתם ממנים מישהו אחר."}, {"t": "07:17", "x": "אבל בגלל שאני חבר, הם רוצים לשנות את הנוסח. למה בארצות הברית היית יכול לעשות את הנוסח? לא עכשיו. רציתי, אבל לא עשה את זה. לא הבנתי. למה החידוד עוד פעם?"}, {"t": "07:25", "x": "היה כתוב מינהל תכנון ו... היה חשוב שאני נציג של מועצה אזורית מהמרחבים בוועדה לתכנון ובנייה. מרחבית? הם אומרים, לא, אנחנו רוצים ועדת תכנון נגב מערבי."}, {"t": "07:37", "x": "לא משנה, זה תיקון סו... אז אתה אומר אי אפשר להחליט. כאילו שהוא היה מונה לוועדת תכנון ועדת תכנון ועדת תכנון ועדת תכנון ועדת תכנון ועדת תכנון ועדת תכנון ועדת תכנון ועדת תכנון ועדת תכנון ועדת תכנון ועדת תכנון ועדת תכנון. אישור פתיחת דבר, השלמת ושיפוץ מקוואות פלוס פיתוח ביישובים שדה ג'ווי ואשבול."}, {"t": "07:56", "x": "בשעה טובה אנחנו עומדים לסיים את שיפוץ של שני המקוואות האלה."}, {"t": "08:03", "x": "על הצורך מהיישובים להגדיל בקרוב ל-50 אלף שקל לכל מקווה, כדי לעשות גם מקווה כלים,"}, {"t": "08:10", "x": "ביחד עם עבודות פיתוח"}, {"t": "08:12", "x": "למקוואות,"}, {"t": "08:15", "x": "אז אנחנו מאשרים להם ונגמור את זה ונעשה את זה כמו שצריך."}, {"t": "08:19", "x": "ארמי, אני פה רוצה להעיר הערה. אני בפעם הקודמת הערתי במליאה על הנושא של המקווה ניר משה. מכיר? הוא מטופל במועצה הדתית, הוא יודע."}, {"t": "08:28", "x": "הוא לא בדיוק, אני רוצה שיהיה איזושהי בשורה ליישוב, כי יש על זה ממש מעל תהומת."}, {"t": "08:36", "x": "המצב שם על הפנים."}, {"t": "08:38", "x": "מכיר? ארמי, זה המקווה הבא שמגישים קול קורא?"}, {"t": "08:42", "x": "אני לא יודע אם לך את זה."}, {"t": "08:43", "x": "חבר'ה, אני אסביר לכם."}, {"t": "08:45", "x": "רגע, רגע."}, {"t": "08:46", "x": "אני אסביר לכם. קודם כל, כל נושא המקוואות מטופל על ידי המועצה הדתית. יש לכם יד חופשית ללכת ליניב ולשאול אותו את כל השאלות האלה."}, {"t": "08:55", "x": "נכון. הוא צריך לתת לכם דין וחזור."}, {"t": "08:59", "x": "אני יכול להבטיח לכם דבר אחד. רגע, אני יכול להבטיח לכם דבר אחד. שהוא לא נותן לא דין ולא חשבון. לא, לא, לא. זה לא נכון."}, {"t": "09:04", "x": "אני יכול להגיד לכם דבר אחד. זה לא נכון."}, {"t": "09:07", "x": "הוא עובד. הוא עסוק"}, {"t": "09:09", "x": "לפרסם את עצמו."}, {"t": "09:11", "x": "הוא חושב שהוא מתמודד לעשות מעשה."}, {"t": "09:14", "x": "כאן איזה תקטור."}, {"t": "09:15", "x": "כאן איזה תקטור. תראה אותו. טוב, זה בעיה שלא תקטור. רגע, חברים, חברים. אם יש לכם טענות,"}, {"t": "09:21", "x": "אני מוכן לקבל, אני אביא אותו."}, {"t": "09:23", "x": "הכסף לא אצלו. הכל, הכל. רגע, אני אסביר."}, {"t": "09:27", "x": "בוא, הכסף, הכסף, הוא מגיש את הקולות קוראים."}, {"t": "09:30", "x": "את המצ'ינג, בגלל שאין לו כסף, אנחנו נותנים כמועצה."}, {"t": "09:34", "x": "אני אומר, אבל מי שאחראי על זה, אני לא יודע איזה מיגווה,"}, {"t": "09:40", "x": "פחות טוב או לא טוב. הוא, יש לו סדר עדיפות."}, {"t": "09:42", "x": "אם בא ארלקי עכשיו ואומר, המיגווה של ירמושת מטב קטסטרופה,"}, {"t": "09:47", "x": "בסדר?"}, {"t": "09:47", "x": "אני קורא לו, הוא יגיד לי, תשמע, אני עכשיו, סתם דוגמה, משפצת קלחים."}, {"t": "09:53", "x": "דרך אגב, הוא צריך לעשות את זה עצמאי. הוא עובד בשטח. אני אומר לך, הלחץ של הנציגים או ראשי הוועדים זה לא בריא."}, {"t": "10:01", "x": "הוא, ראש המועצה הדתית, לא, לא, אתם תציפו לו. אני לא אמרתי לחץ."}, {"t": "10:05", "x": "אני אומר, הוא ראש המועצה הדתית. אתם תציפו לו. הוא ראש המועצה הדתית. דרך אגב, לך אני אומר, לך אני אומר,"}, {"t": "10:11", "x": "אתה דווקא בבדואים, יכלת לקחת כסף מתקציב אחר, לעשות שיפוץ שם, לא היית צריך לחכות למשרד הדתות. אצלנו לא ניתן לשיפוץ, זה ניתן להריס. אתה לא אמור לחכות למשרד הדתות. יכלת לקחת... איזה, של הכבוד. אה, לא, זה לא עוד שניים. חבר'ה, חבר'ה, חבר'ה. חבר'ה, אני רוצה להגיד לכם, אתם לא יודעים, יש טהרת המשפחה שהם לוקחים את המקוואות האלה,"}, {"t": "10:34", "x": "הם דואגים להביא כסף. אני במקרה, לא ידעתי מזה."}, {"t": "10:37", "x": "נו בסדר, אבל לא מספיק."}, {"t": "10:39", "x": "הם הביאו משפחות שהילדים שלהם נרצחו והם עושים את זה, הם תרמו הרבה כספים"}, {"t": "10:46", "x": "לזכרם של הילדים האלה."}, {"t": "10:49", "x": "אם מישהו יש לו בעיה, עכשיו אתה רואה שהוא צריך להסתובב והכול,"}, {"t": "10:52", "x": "לא נראה לי שעכשיו בנו איזה מקווה בתלמי בילו, שהמקווה שם הוא משובץ ויבואו בגלל שרוצים לעשות עוד משהו, עוד משהו. אני בודק לו את הסדר העדיפות, תאמין לי. כמו שאתה עושה הסעות לקפלן, בונים שם המקווה באזור תל אביב. הם לא רוצים."}, {"t": "11:09", "x": "הם העבירו את זה להריסה, זה ידוע."}, {"t": "11:11", "x": "צריך לעשות ציבור. תקחו בחשבון שלא קל, באמת, אני אומר לכם."}, {"t": "11:14", "x": "אז מה הבעיה? צריכים לקרוא לזה שתיים וחצי מיליון. עכשיו זה בעיה, תביא, זה בעיה. חבר'ה, קחו בחשבון שלא קל להחזיק 16-17 מקוואות."}, {"t": "11:26", "x": "היום בעיר כמו אופקים יש אולי ארבעה-חמישה מקוואות,"}, {"t": "11:30", "x": "שהיא פי ארבע, פי חמש מאיתנו."}, {"t": "11:32", "x": "זו חתיכת לוגיסטיקה, זו החזקה, זו החזקה שוטפת."}, {"t": "11:38", "x": "באמת, עם כל הביקורת ליניב והשיחת החזקה, חבר'ה, כמו בית מאז."}, {"t": "11:43", "x": "טוב,"}, {"t": "11:44", "x": "בכל מקרה, מי שיש לו זה, שיציף, שיגיד, שילך לדבר עם יניב,"}, {"t": "11:48", "x": "הוא עובד. יש לו בעיה עם יניב, ואנחנו פה."}, {"t": "11:51", "x": "עשר, אישור פתיחת הבר, שיפוצי קיץ וביטחון במוסדות חינוך בסך 3.5 מיליון שקל מהקרן לעבודות פיתוח."}, {"t": "12:01", "x": "בדרך כלל אנחנו בכל שנה משקיעים"}, {"t": "12:07", "x": "בטיחות, קרוב ל-1.5 מיליון שקל,"}, {"t": "12:08", "x": "ומכל מיני תב\"רים שאנחנו מקבלים במשרד החינוך. השנה עדיין לא נפתחו התב\"רים,"}, {"t": "12:14", "x": "הקולות קוראים"}, {"t": "12:16", "x": "ממשרד החינוך."}, {"t": "12:17", "x": "אנחנו מקדימים, למה זה 3.5 מיליון שקל? אנחנו מקדימים מיליון וחצי, זה לכל התיקונים של כל מוסדות החינוך. זה כל הגנים, כל הבתי ספר, כל הכיתות,"}, {"t": "12:26", "x": "כל מה שאתם רואים."}, {"t": "12:27", "x": "בנוסף לזה גם יהיה החלפת"}, {"t": "12:29", "x": "מזגנים ב-500,000 שקל, נכון, ממשרד האנרגיה, שמעון?"}, {"t": "12:35", "x": "‫הגדלנו השנה בעוד 2 מיליון שקלים, ‫אנחנו פותחים בית ספר דתי צומח ‫לבית ספר מבורים בשעה טובה,"}, {"t": "12:40", "x": "‫וזה כבר יתחילו בשיפוצים שם."}, {"t": "12:45", "x": "בית ספר דתי צומח. ‫במקום להסיע ילדים מאזור שובלים ‫בכיתות א'"}, {"t": "12:50", "x": "לבית ספר נחלים, שנמצא פה, ‫אבל יש איזה גמור. ‫-כן, אז אנחנו עכשיו בונים בית ספר צומח ‫שהוא יתחיל מכיתות א', ב', ב', ואז הילדים של שובלים,"}, {"t": "13:02", "x": "הילדים של תשובלים שרוצים ללמוד בבית ספר דתי, עכשיו נפתח. יפתח שנה כאילו ש... הם לא יצטרכו לנסוע עד נחלים."}, {"t": "13:09", "x": "זה לא גומר על נחלים?"}, {"t": "13:10", "x": "לא, לא, לא, לא. זה לא יגרום על נחלים?"}, {"t": "13:12", "x": "אתה יודע אם הילדים שהגיעו לצבא וכל השנים ננסו לזה? יהיה זה, אבל אנחנו על זה. זה לא גורע. לא, אבל גם אם זה היה פוגע, אין מה לעשות את זה בשביל הבמציאות. עכשיו אני אגיד עוד משהו. אני אגיד... אי אפשר לדרוש מילדים בכיתה א', אם יצא בבוקר חצי שעה... אני דווקא בתיכון אומר לכם,"}, {"t": "13:32", "x": "את כל הילדים שלנו. הילד של יעד היום נוסע לנחלים כל בוקר, וזה סיוט. וזה גם הוצאה כספית מיותרת. הנה ארמי יודע כמה הייתי אומר לארמי, אי אפשר שהם ייכנסו לעוד מושבים."}, {"t": "13:42", "x": "זה גם ככה סיוט הנסיעה הזאת."}, {"t": "13:44", "x": "רגע, אני אוסיף רק עוד דבר."}, {"t": "13:45", "x": "אבל אם היו מספיק תלמידים... רגע, יש הרבה ילדים... אז אולי מתניה, תירשמו, יפתח, לא תירשמו, יפתח, לא תירשמו, יפתחו. בגלל זה הם פותחים? יש, יש. עד כמה תלמידים זה בכיתה?"}, {"t": "13:56", "x": "לא יודע להגיד לך. היום יש רישום לשתי כיתות מלאות. 34 תלמידים בכיתה א', רק ב-35 פותחים בכיתה השנייה."}, {"t": "14:03", "x": "34 תלמידים. יש לך את חוק הסרדינים, מה פתאום?"}, {"t": "14:06", "x": "כיתה א' זה נראה לי 21. א' עד גיל. כן, אני חושב פחות, אתה צועק. חבר'ה, היום, נראה לי, לא יודע בדיוק. היום יש שתי כיתות, בסדר? יש רישום לשתי כיתות, ובנחלים יש גם רישום."}, {"t": "14:18", "x": "ברור לך, שימו, כן, אני מדבר על המינימום."}, {"t": "14:21", "x": "ארבעה, לא מי שניים."}, {"t": "14:23", "x": "אתם נהייתם בעלי מקצוע, חברים? זה יפה. ירדו לקומה של החינוך, אני אשלח לכם את העובדים."}, {"t": "14:29", "x": "מה זה, איך קראת לזה? בית ספר? צומח."}, {"t": "14:32", "x": "צומח. דתי צומח."}, {"t": "14:33", "x": "שם בית ספר דתי. דתי מועץ."}, {"t": "14:36", "x": "דתי מועץ. לא, לא. דתי מועץ. לא, לא. דתי מועץ. חברים, אני, אני... כיתה א', מה, השתגעתם? לאן אתם רוצים להגיע? מה שילדים בכיתה א', יאללה, זה נשאר להם במוח."}, {"t": "14:47", "x": "יאללה."}, {"t": "14:48", "x": "מה אמרנו? מה אמרכם? כן."}, {"t": "14:51", "x": "טוב, חברים, זה לא דיון לפה."}, {"t": "14:53", "x": "אם אתם רוצים דיון אחרי זה על הדת,"}, {"t": "14:54", "x": "נשב, נדבר כמה שאתם רוצים. יש לנו חתונה."}, {"t": "14:57", "x": "אנחנו צריכים לתת ממלכתי דתי, ואני חושב שלהריץ ילדים מאזור שובלים למרחבים זה עוול גדול, בסדר? אני לא הייתי מריץ להם. לא, גם עם הפקקים שיש, עזוב."}, {"t": "15:06", "x": "עוד משהו קטן שאני אגיד, אם כבר, ואני סוגר את הסעיף הזה."}, {"t": "15:10", "x": "שתהיו מודעים. יש ילדים שנרשמים לבית ספר שווה דרום,"}, {"t": "15:14", "x": "אוקיי? הוא יותר דתי, הוא יותר חילוני, הוא תורני."}, {"t": "15:18", "x": "אנחנו משחררים."}, {"t": "15:22", "x": "אין הסעות, אנחנו לא אחראים, לא הסעות ולא, זה מי שרוצה לרשום,"}, {"t": "15:26", "x": "זה על אחריותו. שלא יבואו לכם פניות מהיישובים ויגידו, תשמע, לא מסיעים אותנו לבית ספר שווה דרום. אין הסעות."}, {"t": "15:33", "x": "בגלל שפותחים את מבוי."}, {"t": "15:35", "x": "משרד החינוך והמועצה מחויבים לממלכתי או בממלכתי דתי."}, {"t": "15:39", "x": "זאת נקודת הרישום שלנו. בית ספר נחלים או בית ספר מרחבים או בית ספר מבויים,"}, {"t": "15:44", "x": "ובית הספר הדתי הצומח של"}, {"t": "15:46", "x": "מבויים שפותחים עכשיו. בזה נסגר הסעיף הזה."}, {"t": "15:50", "x": "זה רק כיתות א', אבל זה יצמח."}, {"t": "15:53", "x": "לא, אני מדבר, מי שהתחיל בבית הספר אני לא עוד שרוצה. לא, בשערי דרום בכיתות ב' יש? יש דבר כזה?"}, {"t": "15:59", "x": "אבל בית ספר א' עד 5. אבל עכשיו כיתה ב', עד היום למדו בבית ספר שווה דרום?"}, {"t": "16:04", "x": "היה אנשים תלמידים שהסעתם?"}, {"t": "16:06", "x": "אנחנו לא מסיעים אף פעם. אף פעם גם לא הסעתם. אבל יש עכשיו פניות, אנשים פעם לא הסעתם. לא מסיע אף פעם, לא מסיע. חשוב שתכירו את זה, זה יש משהו שהוא זה."}, {"t": "16:16", "x": "סעיף 11: אישור פתיחת תב\"ר הצטיידות ספרייה פלוס בית חם במושב גילת, על סך 250,000 ש\"ח מהקרן לעבודות פיתוח."}, {"t": "16:25", "x": "שיפצנו את הספרייה בגילת."}, {"t": "16:28", "x": "היינו אמורים לחנוך אותה, אבל צריכים לאבזר אותה, וגם את הבית החם,"}, {"t": "16:35", "x": "וזה התב\"ר."}, {"t": "16:37", "x": "תוספות לסדר-היום:"}, {"t": "16:39", "x": "סעיף 12: אישור פתיחת תב\"ר עבודות צלילה ופיתוח חוף הנגב והסביבה,"}, {"t": "16:45", "x": "600,000 ש\"ח מהקרן לעבודות פיתוח."}, {"t": "16:47", "x": "שמעון יסביר לכם בדיוק מה הסיפור. אנחנו במסגרת ההיטלים שאנחנו מוציאים היום לעסקים ולכל מיני גופים,"}, {"t": "16:57", "x": "אנחנו מתרשים לעשות איזושהי עבודה מינימלית כדי להוציא את השומה."}, {"t": "17:01", "x": "שם הוקם תחנה דלק, יש מט\"ש שם של עוף הנגב ועוף הנגב עצמו."}, {"t": "17:09", "x": "כדי שהשומה הזו תעמוד במבחן של בית משפט,"}, {"t": "17:14", "x": "חייב שתבצע שם איזושהי עבודה בשש שנים האחרונות."}, {"t": "17:16", "x": "נו, ביצענו עבודה. עכשיו אנחנו מוציאים עבודה, מדובר על 600,000 והשומות שיוצאות הן בערך ה-15 מיליון שקלים."}, {"t": "17:24", "x": "בסדר, 15 מיליון שקלים."}, {"t": "17:26", "x": "אני אסביר בפירוט יותר אחרי זה."}, {"t": "17:29", "x": "סעיף 13: אישור העברת עודפי מענק 2025 על סך 3 מיליון 570 לעקרונות המועצה."}, {"t": "17:36", "x": "אנחנו כבר אישרנו את הדוח הכספי, מה שקרה, מבקר ביקש שאת הסכום הזה להעביר"}, {"t": "17:43", "x": "מאותו אישור שהיה בקרנות, וזה מה שאנחנו מוציאים."}, {"t": "17:47", "x": "אין פה שום דבר שונה, התקציב אושר בזמנו, הדוחות אושרו,"}, {"t": "17:50", "x": "פשוט לאחר שהמבקר בדק את הדוחות הכספיים וביקש לעשות את התיקון הזה."}, {"t": "17:55", "x": "טוב, אני סוגר את מליאת המועצה,"}, {"t": "17:58", "x": "ואנחנו עוברים להצליח, מי שרוצה לדבר פתוח יכול לדבר."}]</script>
+<script>
+(function(){
+  var root = document.documentElement;
+  root.setAttribute('lang','he'); root.setAttribute('dir','rtl'); root.setAttribute('data-lang','he');
+
+  var beHe = document.getElementById('lang-he'), beEn = document.getElementById('lang-en');
+  function setLang(l){
+    root.setAttribute('data-lang', l);
+    root.setAttribute('lang', l);
+    root.setAttribute('dir', l === 'he' ? 'rtl' : 'ltr');
+    beHe.setAttribute('aria-pressed', String(l === 'he'));
+    beEn.setAttribute('aria-pressed', String(l === 'en'));
+  }
+  beHe.addEventListener('click', function(){ setLang('he'); });
+  beEn.addEventListener('click', function(){ setLang('en'); });
+
+  var lines = JSON.parse(document.getElementById('page1-data').textContent);
+  var txt = document.getElementById('txt');
+  lines.forEach(function(ln){
+    var d = document.createElement('div');
+    d.className = 'ln';
+    ln.w.forEach(function(w, i){
+      var el = document.createElement('w');
+      el.textContent = w.t;
+      if (w.s) el.setAttribute('data-s', w.s);
+      el.title = 'conf ' + w.c + (w.s === 'f' ? ' · corrected by rule' : (w.s === 'r' ? ' · sent to a human' : ''));
+      d.appendChild(el);
+      if (i < ln.w.length - 1) d.appendChild(document.createTextNode(' '));
+    });
+    txt.appendChild(d);
+  });
+
+  var segs = JSON.parse(document.getElementById('audio-data').textContent);
+  var tr = document.getElementById('tr'), moreBtn = document.getElementById('more');
+  function renderSegs(list){
+    var frag = document.createDocumentFragment();
+    list.forEach(function(s){
+      var d = document.createElement('div');
+      d.className = 'seg' + (s.x.indexOf('858/26') > -1 ? ' anchor' : '');
+      var t = document.createElement('time'); t.textContent = s.t;
+      var p = document.createElement('div'); p.className = 't'; p.textContent = s.x;
+      d.appendChild(t); d.appendChild(p); frag.appendChild(d);
+    });
+    tr.appendChild(frag);
+  }
+  var WINDOW = 14;
+  renderSegs(segs.slice(0, WINDOW));
+  moreBtn.addEventListener('click', function(){
+    renderSegs(segs.slice(WINDOW));
+    moreBtn.remove();
+  });
+
+  var q = document.getElementById('q'), hits = document.getElementById('hits');
+  var words = Array.prototype.slice.call(txt.getElementsByTagName('w'));
+  function run(term){
+    words.forEach(function(w){ if (w.firstElementChild) w.textContent = w.textContent; });
+    term = (term || '').trim();
+    if (!term){ hits.textContent = ''; return; }
+    var n = 0, first = null;
+    words.forEach(function(w){
+      var t = w.textContent, i = t.indexOf(term);
+      if (i > -1){
+        n++; if (!first) first = w;
+        w.innerHTML = '';
+        w.appendChild(document.createTextNode(t.slice(0, i)));
+        var m = document.createElement('mark');
+        m.textContent = t.substr(i, term.length);
+        w.appendChild(m);
+        w.appendChild(document.createTextNode(t.slice(i + term.length)));
+      }
+    });
+    hits.textContent = String(n);
+    if (first) first.scrollIntoView({block:'center', behavior:'smooth'});
+  }
+  q.addEventListener('input', function(){ run(q.value); });
+  Array.prototype.forEach.call(document.querySelectorAll('.chip'), function(c){
+    c.addEventListener('click', function(){ q.value = c.getAttribute('data-q'); run(q.value); });
+  });
+
+  q.value = 'מועצה';
+  run('מועצה');
+})();
+</script>
