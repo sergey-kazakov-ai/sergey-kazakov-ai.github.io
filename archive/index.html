@@ -87,7 +87,7 @@ section:first-of-type{border-top:0; padding-top:0}
 
 .ba{display:grid; grid-template-columns:1fr 1fr; gap:18px; align-items:start}
 
-@media (max-width:720px){.ba{grid-template-columns:1fr}}
+@media (max-width:999px){.ba{grid-template-columns:1fr}}
 .pane{border:1px solid var(--line); background:var(--surface); display:flex; flex-direction:column; min-width:0}
 .pane-head{display:flex; justify-content:space-between; align-items:center; gap:10px; padding:10px 14px;
            border-bottom:1px solid var(--line); background:var(--surface2); font-family:var(--mono);
@@ -106,7 +106,7 @@ section:first-of-type{border-top:0; padding-top:0}
    а кегль распознанного текста подобран так, чтобы обе панели кончались вместе.
    Высота скана растёт от ширины, высота текста — от кегля (40 строк, переносов нет),
    поэтому кегль привязан к ширине окна. Замерено: 1320px + 13px → 918 / 942. */
-@media (min-width:721px){
+@media (min-width:1000px){
   .ba,.verdict{--bleed:min(1200px, calc(100vw - 40px));
       width:var(--bleed); margin-inline:calc((100% - var(--bleed))/2)}
   .ba .textbox{font-size:clamp(11px, calc(1.17vw - 1.2px), 13.3px); line-height:1.45}
