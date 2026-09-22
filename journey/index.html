@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Personal journey — working demo</title>
+<meta name="description" content="A demo of a stateful personalization loop: dynamic intake → profile → next best action → checkpoint → recomputed plan.">
+<style>
+  :root{--ink:#16181d;--mut:#5b6270;--line:#dcdfe6;--acc:#1a56db;--ok:#0a7a3d;--warn:#b42318;--bg:#f6f7f9}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+       font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
+  .wrap{max-width:820px;margin:0 auto;padding:22px 16px 64px}
+  header{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:6px}
+  h1{font-size:21px;margin:0 0 4px}
+  .sub{color:var(--mut);font-size:14px;margin:0 0 18px}
+  .card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:18px 20px;margin-bottom:14px}
+  h2{font-size:16px;margin:0 0 10px}
+  .q{font-size:18px;margin:2px 0 12px}
+  button{font:inherit;cursor:pointer;border:1px solid var(--line);background:#fff;
+         border-radius:8px;padding:10px 14px}
+  button:hover{border-color:var(--acc)}
+  button.primary{background:var(--acc);color:#fff;border-color:var(--acc);font-weight:600}
+  button.ghost{color:var(--mut)}
+  .opt{display:block;width:100%;text-align:start;margin:8px 0}
+  .lang{display:flex;gap:6px}
+  .lang button{padding:5px 10px;font-size:13px}
+  .lang button[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .prog{color:var(--mut);font-size:13px;margin-bottom:6px}
+  .field{display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 10px;border-bottom:1px solid var(--line);
+         padding:7px 0;font-size:15px}
+  .field:last-child{border-bottom:0}
+  .field .v{font-weight:600}
+  .from{color:var(--mut);font-size:12px}
+  .badge{display:inline-block;font-size:11px;padding:2px 7px;border-radius:5px;background:#eef2fb;
+         color:var(--acc);font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  .act{border-inline-start:3px solid var(--acc);padding:2px 12px;margin:12px 0}
+  .act .why{color:var(--mut);font-size:14px;margin-top:3px}
+  .nba{background:#eef2fb;border:1px solid #c9d8f7;border-radius:8px;padding:12px 14px;margin:10px 0}
+  .excl{color:var(--mut);font-size:14px;margin-top:10px}
+  .diff-row{padding:10px 0;border-bottom:1px solid var(--line)}
+  .diff-row:last-child{border-bottom:0}
+  .was{color:var(--warn);text-decoration:line-through}
+  .now{color:var(--ok);font-weight:600}
+  .note{background:#fff8ed;border:1px solid #f0c78a;border-radius:8px;padding:11px 14px;
+        font-size:14px;color:#6b4a12;margin:12px 0}
+  .hood{background:#fff;border:1px dashed var(--line);border-radius:10px;padding:16px 18px;margin-top:14px}
+  .hood table{width:100%;border-collapse:collapse;font-size:14px}
+  .hood td{border-bottom:1px solid var(--line);padding:6px 4px;vertical-align:top}
+  .hood td:first-child{color:var(--mut);width:42%}
+  .foot{color:var(--mut);font-size:13px;margin-top:22px;border-top:1px solid var(--line);padding-top:12px}
+  .foot a{color:var(--acc)}
+  .hidden{display:none}
+  [dir="ltr"] .act{border-inline-start:3px solid var(--acc)}
+</style>
+
+<div class="wrap">
+  <header>
+    <div>
+      <h1 id="t-title"></h1>
+      <p class="sub" id="t-sub"></p>
+    </div>
+    <div class="lang">
+      <button onclick="setLang('he')" aria-pressed="true">עברית</button>
+      <button onclick="setLang('en')" aria-pressed="false">EN</button>
+    </div>
+  </header>
+
+  <div class="note" id="t-disclaimer"></div>
+
+  <!-- ЭКРАН 1: опрос -->
+  <div class="card" id="screen-intake">
+    <div class="prog" id="prog"></div>
+    <div class="q" id="qtext"></div>
+    <div id="qopts"></div>
+  </div>
+
+  <!-- ЭКРАН 2: профиль + план -->
+  <div class="card hidden" id="screen-profile">
+    <h2 id="t-profile-h"></h2>
+    <p class="sub" id="t-profile-sub"></p>
+    <div id="fields"></div>
+  </div>
+
+  <div class="card hidden" id="screen-plan">
+    <h2 id="t-plan-h"></h2>
+    <div class="nba"><b id="t-nba-label"></b> <span id="nba"></span></div>
+    <div id="actions"></div>
+    <div class="excl" id="exclusion"></div>
+    <p style="margin:16px 0 0">
+      <button class="primary" onclick="goCheckpoint()" id="t-btn-week"></button>
+      <button class="ghost" onclick="restart()" id="t-btn-restart"></button>
+    </p>
+  </div>
+
+  <!-- ЭКРАН 3: чекпойнт -->
+  <div class="card hidden" id="screen-checkpoint">
+    <h2 id="t-cp-h"></h2>
+    <p class="sub" id="t-cp-sub"></p>
+    <div class="q" id="cptext"></div>
+    <div id="cpopts"></div>
+  </div>
+
+  <!-- ЭКРАН 4: дельта -->
+  <div class="card hidden" id="screen-delta">
+    <h2 id="t-delta-h"></h2>
+    <p class="sub" id="t-delta-sub"></p>
+    <div id="delta-profile"></div>
+    <h2 style="margin-top:18px" id="t-delta-plan-h"></h2>
+    <div id="delta-plan"></div>
+    <p style="margin:16px 0 0">
+      <button class="ghost" onclick="restart()" id="t-btn-restart2"></button>
+    </p>
+  </div>
+
+  <!-- ПОД КАПОТОМ -->
+  <div class="hood">
+    <h2 id="t-hood-h"></h2>
+    <p class="sub" id="t-hood-sub"></p>
+    <table id="hood-table"></table>
+    <p class="sub" style="margin-top:12px" id="t-hood-note"></p>
+  </div>
+
+  <div class="foot" id="t-foot"></div>
+</div>
+
+<script src="engine.js"></script>
+<script>
+/* ─────────── тексты страницы ─────────── */
+const T = {
+  he: {
+    title: 'מסע אישי — דמו עובד',
+    sub: 'תשאול דינמי → פרופיל → הפעולה הבאה → צ׳ק־פוינט → תוכנית שנבנית מחדש. שלוש דקות, בלי הרשמה.',
+    disclaimer: '⚠️ התוכן כאן להמחשה בלבד ואינו ייעוץ רפואי. הדמו נועד להראות מנגנון, לא להמליץ על אימון.',
+    profileH: 'הפרופיל שנבנה',
+    profileSub: 'לא היסטוריית שיחה — שדות עם ערכים, ולכל שדה כתוב מאיזו תשובה הוא הגיע.',
+    planH: 'התוכנית',
+    nbaLabel: 'הפעולה הבאה:',
+    btnWeek: 'שבוע אחרי →',
+    btnRestart: 'להתחיל מחדש',
+    cpH: 'צ׳ק־פוינט — שבוע אחרי',
+    cpSub: 'שלוש שאלות. מה שישתנה כאן ישנה את התוכנית, ויהיה כתוב למה.',
+    deltaH: 'מה השתנה בפרופיל',
+    deltaSub: 'זה ההבדל בין מוצר ובין טופס שמחזיר תשובה: הפרופיל זוכר, וההמלצה נבנית מחדש מהשינוי.',
+    deltaPlanH: 'מה השתנה בתוכנית',
+    nochange: 'שום שדה לא השתנה — ולכן גם התוכנית נשארת.',
+    kept: 'נשאר', added: 'נוסף', removed: 'ירד',
+    hoodH: 'מה כאן מוכן ומה נכתב',
+    hoodSub: 'זו בדיוק ההפרדה שעליה נשאלת השאלה בפרויקט: מה לוקחים מהמדף ומה בונים.',
+    hoodNote: '🔑 בדמו הזה אין אף קריאה למודל שפה. כל ההחלטות הן כללים, ולכל המלצה רשום הכלל שהפעיל אותה. במוצר מודל שפה אחראי על הניסוח — לא על ההחלטה.',
+    foot: 'דמו של סרגיי קזקוב · המצב נשמר בדפדפן שלך בלבד; במוצר זה Supabase עם הרשאות לכל משתמש. ' +
+          '<a href="/">חזרה לעמוד הראשי</a>',
+    hood: [
+      ['אימות והרשאות', 'מהמדף — Supabase'],
+      ['בסיס נתונים ואחסון', 'מהמדף — Supabase'],
+      ['תזמור שלבים והתראות', 'מהמדף — n8n / Make'],
+      ['ניסוח טקסטים', 'מהמדף — LLM API'],
+      ['סכמת הפרופיל', '✍️ נכתב — זה המוצר'],
+      ['מנוע הפעולה הבאה', '✍️ נכתב — זה המוצר'],
+      ['לוגיקת הדלתא בין צ׳ק־פוינטים', '✍️ נכתב — זה המוצר'],
+    ],
+    vals: {
+      none:'כמעט לא', some:'פעם-פעמיים', regular:'שלוש ומעלה', keep:'לשמור רצף', more:'להוסיף אימון',
+      start:'להתחיל', back:'לחזור', time:'אין זמן', energy:'אין כוח בערב', boring:'משעמם לבד',
+      restart:'נוטש אחרי שבוע', morning:'בוקר', midday:'אמצע היום', evening:'ערב',
+      home:'בבית', outside:'בחוץ', gym:'חדר כושר', gym_sub:'מנוי', running:'ריצה',
+      morning_routine:'התעמלות בוקר', nothing:'כלום', '10':'10 דקות', '20':'20 דקות', '40':'40 דקות',
+    },
+  },
+  en: {
+    title: 'Personal journey — working demo',
+    sub: 'Dynamic intake → profile → next best action → checkpoint → a plan rebuilt from what changed. Three minutes, no sign-up.',
+    disclaimer: '⚠️ Content here is illustrative only and is not medical advice. The demo exists to show a mechanism, not to prescribe training.',
+    profileH: 'The profile that was built',
+    profileSub: 'Not a chat history — fields with values, each showing which answer produced it.',
+    planH: 'The plan',
+    nbaLabel: 'Next best action:',
+    btnWeek: 'A week later →',
+    btnRestart: 'Start over',
+    cpH: 'Checkpoint — a week later',
+    cpSub: 'Three questions. What changes here changes the plan, and the reason is written out.',
+    deltaH: 'What changed in the profile',
+    deltaSub: 'This is the difference between a product and a form that returns an answer: the profile remembers, and the recommendation is rebuilt from the change.',
+    deltaPlanH: 'What changed in the plan',
+    nochange: 'No field changed — so the plan stays as it was.',
+    kept: 'kept', added: 'added', removed: 'dropped',
+    hoodH: 'What is off-the-shelf here and what was written',
+    hoodSub: 'This is exactly the split the project asks about: what to take ready-made and what to build.',
+    hoodNote: '🔑 This demo makes no LLM call at all. Every decision is a rule, and each recommendation shows the rule that fired. In the product an LLM handles wording — not the decision.',
+    foot: 'A demo by Sergey Kazakov · State is stored in your browser only; in the product this is Supabase with per-user access rules. ' +
+          '<a href="/">Back to the main page</a>',
+    hood: [
+      ['Auth and access rules', 'off-the-shelf — Supabase'],
+      ['Database and storage', 'off-the-shelf — Supabase'],
+      ['Step orchestration and nudges', 'off-the-shelf — n8n / Make'],
+      ['Wording of texts', 'off-the-shelf — LLM API'],
+      ['Profile schema', '✍️ written — this is the product'],
+      ['Next-best-action engine', '✍️ written — this is the product'],
+      ['Delta logic between checkpoints', '✍️ written — this is the product'],
+    ],
+    vals: {
+      none:'almost none', some:'once or twice', regular:'three or more', keep:'keep the streak',
+      more:'add a session', start:'start', back:'come back', time:'no time', energy:'no evening energy',
+      boring:'boring alone', restart:'quits after a week', morning:'morning', midday:'midday',
+      evening:'evening', home:'home', outside:'outdoors', gym:'gym', gym_sub:'membership',
+      running:'running', morning_routine:'morning routine', nothing:'nothing',
+      '10':'10 min', '20':'20 min', '40':'40 min',
+    },
+  },
+};
+
+let lang = 'he';
+let answers = {}, qi = 0, profile = null, plan = null, cpAnswers = {}, cpi = 0;
+
+/* состояние переживает перезагрузку — это и есть «между сессиями» */
+function save(){ try{ localStorage.setItem('journey', JSON.stringify({answers, profile, plan})); }catch(e){} }
+function load(){ try{ return JSON.parse(localStorage.getItem('journey')||'null'); }catch(e){ return null; } }
+
+function t(k){ return T[lang][k]; }
+function val(v){ return T[lang].vals[v] || v; }
+
+function setLang(l){
+  lang = l;
+  document.documentElement.lang = l;
+  document.documentElement.dir = l === 'he' ? 'rtl' : 'ltr';
+  document.querySelectorAll('.lang button').forEach((b,i) =>
+    b.setAttribute('aria-pressed', String((i===0) === (l==='he'))));
+  paintStatic();
+  if (document.getElementById('screen-intake').classList.contains('hidden')) {
+    if (profile) { renderProfile(); renderPlan(); }
+    if (!document.getElementById('screen-delta').classList.contains('hidden')) renderDelta();
+    if (!document.getElementById('screen-checkpoint').classList.contains('hidden')) renderCp();
+  } else renderQuestion();
+}
+function paintStatic(){
+  const set = (id,k,html) => { const e=document.getElementById(id); if(e) e[html?'innerHTML':'textContent']=t(k); };
+  set('t-title','title'); set('t-sub','sub'); set('t-disclaimer','disclaimer');
+  set('t-profile-h','profileH'); set('t-profile-sub','profileSub'); set('t-plan-h','planH');
+  set('t-nba-label','nbaLabel'); set('t-btn-week','btnWeek'); set('t-btn-restart','btnRestart');
+  set('t-btn-restart2','btnRestart'); set('t-cp-h','cpH'); set('t-cp-sub','cpSub');
+  set('t-delta-h','deltaH'); set('t-delta-sub','deltaSub'); set('t-delta-plan-h','deltaPlanH');
+  set('t-hood-h','hoodH'); set('t-hood-sub','hoodSub'); set('t-hood-note','hoodNote');
+  set('t-foot','foot',true);
+  document.getElementById('hood-table').innerHTML =
+    t('hood').map(r => `<tr><td>${r[0]}</td><td>${r[1]}</td></tr>`).join('');
+}
+
+/* ─────────── экран 1: опрос ─────────── */
+function renderQuestion(){
+  const qs = JOURNEY.visibleQuestions(answers);
+  if (qi >= qs.length) return finishIntake();
+  const q = qs[qi];
+  document.getElementById('prog').textContent = (qi+1) + ' / ' + qs.length;
+  document.getElementById('qtext').textContent = q.t[lang];
+  const box = document.getElementById('qopts'); box.innerHTML = '';
+  JOURNEY.optionsOf(q, answers).forEach(o => {
+    const b = document.createElement('button');
+    b.className = 'opt'; b.textContent = o[lang];
+    b.onclick = () => { answers[q.id] = o.v; qi++; renderQuestion(); };
+    box.appendChild(b);
+  });
+}
+function finishIntake(){
+  profile = JOURNEY.buildProfile(answers);
+  plan = JOURNEY.buildPlan(profile);
+  save();
+  document.getElementById('screen-intake').classList.add('hidden');
+  renderProfile(); renderPlan();
+}
+
+/* ─────────── экран 2: профиль и план ─────────── */
+function renderProfile(){
+  const el = document.getElementById('screen-profile'); el.classList.remove('hidden');
+  const box = document.getElementById('fields'); box.innerHTML = '';
+  Object.keys(profile).forEach(k => {
+    const f = profile[k];
+    const label = (JOURNEY.FIELD_LABELS[k]||{})[lang] || k;
+    const src = f.derived
+      ? (lang==='he' ? 'נגזר מכללים' : 'derived by rule')
+      : (lang==='he' ? 'מתשובה: ' : 'from answer: ') + ((JOURNEY.FIELD_LABELS[f.from]||{})[lang] || f.from);
+    box.insertAdjacentHTML('beforeend',
+      `<div class="field"><span>${label}<div class="from">${src}</div></span>
+       <span class="v">${val(f.value)}</span></div>`);
+  });
+}
+/** Плейсхолдер окна подставляем переведённым — иначе на иврите вылезает «morning». */
+function txt(a){ return a.action[lang].replace('{window}', val(profile.window.value)); }
+
+function renderPlan(){
+  document.getElementById('screen-plan').classList.remove('hidden');
+  document.getElementById('nba').textContent = plan.nba ? txt(plan.nba) : '—';
+  document.getElementById('actions').innerHTML = plan.actions.map(a =>
+    `<div class="act"><span class="badge">${a.rule}</span> ${txt(a)}
+     <div class="why">${a.why[lang]}</div></div>`).join('');
+  document.getElementById('exclusion').innerHTML = plan.exclusion
+    ? `<span class="badge">${plan.exclusion.rule}</span> ${plan.exclusion[lang]}` : '';
+}
+
+/* ─────────── экран 3: чекпойнт ─────────── */
+function goCheckpoint(){
+  cpAnswers = {}; cpi = 0;
+  document.getElementById('screen-plan').classList.add('hidden');
+  document.getElementById('screen-profile').classList.add('hidden');
+  document.getElementById('screen-checkpoint').classList.remove('hidden');
+  renderCp();
+}
+function renderCp(){
+  const q = JOURNEY.CHECKPOINT[cpi];
+  if (!q) return finishCheckpoint();
+  document.getElementById('cptext').textContent = q.t[lang];
+  const box = document.getElementById('cpopts'); box.innerHTML = '';
+  q.options.forEach(o => {
+    const b = document.createElement('button');
+    b.className = 'opt'; b.textContent = o[lang];
+    b.onclick = () => { cpAnswers[q.id] = o.v; cpi++; renderCp(); };
+    box.appendChild(b);
+  });
+}
+function finishCheckpoint(){
+  const before = { profile, plan };
+  const res = JOURNEY.applyCheckpoint(profile, cpAnswers);
+  profile = res.profile;
+  plan = JOURNEY.buildPlan(profile);
+  save();
+  window._delta = { changes: res.changes, diff: JOURNEY.diffPlans(before.plan, plan) };
+  document.getElementById('screen-checkpoint').classList.add('hidden');
+  renderProfile();
+  renderDelta();
+}
+
+/* ─────────── экран 4: дельта — главный экран демо ─────────── */
+function renderDelta(){
+  const d = window._delta; if (!d) return;
+  document.getElementById('screen-delta').classList.remove('hidden');
+  const fl = k => (JOURNEY.FIELD_LABELS[k]||{})[lang] || k;
+  document.getElementById('delta-profile').innerHTML = d.changes.length
+    ? d.changes.map(c => `<div class="diff-row">${fl(c.field)}:
+        <span class="was">${val(String(c.from))}</span> →
+        <span class="now">${val(String(c.to))}</span></div>`).join('')
+    : `<div class="diff-row">${t('nochange')}</div>`;
+  const rows = [];
+  d.diff.removed.forEach(a => rows.push(
+    `<div class="diff-row"><span class="badge">${a.rule}</span>
+     <span class="was">${txt(a)}</span> — ${t('removed')}</div>`));
+  d.diff.added.forEach(a => rows.push(
+    `<div class="diff-row"><span class="badge">${a.rule}</span>
+     <span class="now">${txt(a)}</span> — ${t('added')}<div class="why">${a.why[lang]}</div></div>`));
+  d.diff.kept.forEach(a => rows.push(
+    `<div class="diff-row"><span class="badge">${a.rule}</span> ${txt(a)} — ${t('kept')}</div>`));
+  document.getElementById('delta-plan').innerHTML = rows.join('');
+  document.getElementById('screen-plan').classList.remove('hidden');
+  renderPlan();
+}
+
+function restart(){
+  try{ localStorage.removeItem('journey'); }catch(e){}
+  answers = {}; qi = 0; profile = null; plan = null; window._delta = null;
+  ['screen-profile','screen-plan','screen-checkpoint','screen-delta']
+    .forEach(id => document.getElementById(id).classList.add('hidden'));
+  document.getElementById('screen-intake').classList.remove('hidden');
+  renderQuestion();
+}
+
+/* старт: если состояние осталось с прошлого захода — показываем его, это и есть суть демо */
+paintStatic();
+const saved = load();
+if (saved && saved.profile) {
+  answers = saved.answers; profile = saved.profile; plan = saved.plan;
+  document.getElementById('screen-intake').classList.add('hidden');
+  renderProfile(); renderPlan();
+} else {
+  renderQuestion();
+}
+</script>
+</html>
