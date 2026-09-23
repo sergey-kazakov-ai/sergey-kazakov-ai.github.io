@@ -206,11 +206,13 @@
 
   function buildPlan(profile) {
     const fired = RULES.filter(r => r.when(profile));
-    const actions = fired.slice(0, 3).map(r => ({
-      rule: r.id,
-      action: { he: fill(r.action.he, profile), en: fill(r.action.en, profile) },
-      why: r.why,
-    }));
+    // Языки перебираем по ключам, а не списком: иначе добавленный язык тихо теряется
+    // (так и вышло с русским — тексты были, а в плане оставались he и en).
+    const actions = fired.slice(0, 3).map(r => {
+      const action = {};
+      Object.keys(r.action).forEach(l => { action[l] = fill(r.action[l], profile); });
+      return { rule: r.id, action, why: r.why };
+    });
     const excl = profile.failed && EXCLUSIONS[profile.failed.value]
       ? EXCLUSIONS[profile.failed.value] : null;
     return { actions, nba: actions[0] || null, exclusion: excl, capacity: profile.capacity.value };
@@ -283,6 +285,94 @@
       kept: after.actions.filter(a => idsBefore.includes(a.rule)),
     };
   }
+
+  /* ─────────────── Русский слой ───────────────
+   * Добавлен 23.09 по просьбе Сергея: сначала пройти поток на русском, потом судить об иврите.
+   * Держим отдельным словарём, а не третьим полем в каждой строке, — иначе структуры выше
+   * перестают читаться.
+   */
+  const RU = {
+    q: {
+      level: 'Сколько вы двигаетесь за обычную неделю сейчас?',
+      goal: 'Какая ближайшая цель?',
+      barrier: 'Что на самом деле останавливает?',
+      window: 'Когда вы реально свободны?',
+      place: 'Где удобно?',
+      gym_access: 'Абонемент сейчас действует?',
+      minutes: 'Сколько минут за раз — реально?',
+      failed: 'Что уже пробовали и бросили?',
+    },
+    opt: {
+      'level.none': 'Почти никак', 'level.some': 'Раз-два в неделю', 'level.regular': 'Три раза и чаще',
+      'goal.keep': 'Не потерять регулярность', 'goal.more': 'Добавить одну тренировку в неделю',
+      'goal.start': 'Просто начать и не бросить', 'goal.back': 'Вернуться после долгого перерыва',
+      'barrier.time': 'Нет окна времени', 'barrier.energy': 'К вечеру уже нет сил',
+      'barrier.boring': 'Одному скучно', 'barrier.restart': 'Начинаю и бросаю через неделю',
+      'window.morning': 'Утро', 'window.midday': 'Середина дня', 'window.evening': 'Вечер',
+      'place.home': 'Дома', 'place.outside': 'На улице', 'place.gym': 'В зале',
+      'gym_access.yes': 'Да', 'gym_access.no': 'Нет',
+      'minutes.10': 'До 10', 'minutes.20': 'Около 20', 'minutes.40': '40 и больше',
+      'failed.gym_sub': 'Абонемент в зал', 'failed.running': 'Бег',
+      'failed.morning_routine': 'Утреннюю зарядку', 'failed.nothing': 'Ничего',
+      'done.0': 'Ни одной', 'done.some': 'Часть', 'done.all': 'Все',
+      'blocker_now.same': 'То же, что и раньше', 'blocker_now.energy': 'Не было сил',
+      'blocker_now.time': 'Не было времени', 'blocker_now.none': 'Ничего, всё получилось',
+      'window_now.same': 'Да', 'window_now.morning': 'Сдвинулось на утро',
+      'window_now.evening': 'Сдвинулось на вечер',
+    },
+    cp: {
+      done: 'Сколько занятий на самом деле случилось за неделю?',
+      blocker_now: 'Что помешало на этой неделе?',
+      window_now: 'Окно времени осталось тем же?',
+    },
+    rule: {
+      R1: { a: 'Два блока по {min} минут, привязанных к тому, что и так происходит каждый день',
+            w: 'Барьер — окно времени, поэтому сначала укорачиваем и цепляем к существующей привычке' },
+      R2: { a: 'Перенести занятие в окно «{window}» — до того, как день вас опустошит',
+            w: 'Барьер — силы вечером, поэтому меняем час, а не содержание' },
+      R3: { a: 'Назначить одно занятие в неделю с кем-то — или телефонный разговор на ходу',
+            w: 'Барьер социальный, значит и решение социальное, а не тренировочное' },
+      R4: { a: 'Ежедневный минимум, который трудно пропустить: {min} минут каждый день, даже когда не хочется',
+            w: 'Проблема — бросить через неделю, поэтому сначала регулярность, нагрузка потом' },
+      R5: { a: 'Добавить третье занятие в то же окно', w: 'Недельная ёмкость позволяет три' },
+      R6: { a: 'Домашнее занятие без инвентаря — чтобы место не было отговоркой',
+            w: 'Место определилось как «дома» (или выведено из того, что абонемента нет)' },
+    },
+    excl: {
+      gym_sub: 'Не предлагаю абонемент в зал — он уже был брошен',
+      running: 'Не предлагаю бег — он уже был брошен',
+      morning_routine: 'Не предлагаю классическую утреннюю зарядку — она уже была брошена',
+    },
+    fields: {
+      level: 'Уровень активности', goal: 'Цель', barrier: 'Главный барьер', window: 'Окно времени',
+      place: 'Место', minutes: 'Длительность', failed: 'Уже не сработало', capacity: 'Недельная ёмкость',
+      checkpoint: 'чекпойнт',
+    },
+  };
+
+  /** Раскладываем русский слой по тем же структурам, чтобы страница не знала об исключениях. */
+  (function applyRu() {
+    const opt = (qid, o) => { o.ru = RU.opt[qid + '.' + o.v] || o.en; };
+    QUESTIONS.forEach(q => {
+      q.t.ru = RU.q[q.id] || q.t.en;
+      if (q.options) q.options.forEach(o => opt(q.id, o));
+      if (q.optionsFor) {
+        const orig = q.optionsFor;
+        q.optionsFor = a => orig(a).map(o => (opt(q.id, o), o));
+      }
+    });
+    CHECKPOINT.forEach(q => {
+      q.t.ru = RU.cp[q.id] || q.t.en;
+      q.options.forEach(o => opt(q.id, o));
+    });
+    RULES.forEach(r => {
+      const tr = RU.rule[r.id];
+      if (tr) { r.action.ru = tr.a; r.why.ru = tr.w; }
+    });
+    Object.keys(EXCLUSIONS).forEach(k => { EXCLUSIONS[k].ru = RU.excl[k] || EXCLUSIONS[k].en; });
+    Object.keys(FIELD_LABELS).forEach(k => { FIELD_LABELS[k].ru = RU.fields[k] || FIELD_LABELS[k].en; });
+    FIELD_LABELS.checkpoint = { he: 'צ׳ק־פוינט', en: 'checkpoint', ru: 'чекпойнт' };
+  })();
 
   global.JOURNEY = {
     QUESTIONS, CHECKPOINT, FIELD_LABELS,

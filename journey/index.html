@@ -62,6 +62,7 @@
     <div class="lang">
       <button onclick="setLang('he')" aria-pressed="true">עברית</button>
       <button onclick="setLang('en')" aria-pressed="false">EN</button>
+      <button onclick="setLang('ru')" aria-pressed="false">RU</button>
     </div>
   </header>
 
@@ -144,6 +145,7 @@ const T = {
     deltaPlanH: 'מה השתנה בתוכנית',
     nochange: 'שום שדה לא השתנה — ולכן גם התוכנית נשארת.',
     kept: 'נשאר', added: 'נוסף', removed: 'ירד',
+    derived: 'נגזר מכללים', fromAnswer: 'מתשובה: ',
     hoodH: 'מה כאן מוכן ומה נכתב',
     hoodSub: 'זו בדיוק ההפרדה שעליה נשאלת השאלה בפרויקט: מה לוקחים מהמדף ומה בונים.',
     hoodNote: '🔑 בדמו הזה אין אף קריאה למודל שפה. כל ההחלטות הן כללים, ולכל המלצה רשום הכלל שהפעיל אותה. במוצר מודל שפה אחראי על הניסוח — לא על ההחלטה.',
@@ -183,6 +185,7 @@ const T = {
     deltaPlanH: 'What changed in the plan',
     nochange: 'No field changed — so the plan stays as it was.',
     kept: 'kept', added: 'added', removed: 'dropped',
+    derived: 'derived by rule', fromAnswer: 'from answer: ',
     hoodH: 'What is off-the-shelf here and what was written',
     hoodSub: 'This is exactly the split the project asks about: what to take ready-made and what to build.',
     hoodNote: '🔑 This demo makes no LLM call at all. Every decision is a rule, and each recommendation shows the rule that fired. In the product an LLM handles wording — not the decision.',
@@ -206,6 +209,47 @@ const T = {
       '10':'10 min', '20':'20 min', '40':'40 min',
     },
   },
+  ru: {
+    title: 'Личный маршрут — работающее демо',
+    sub: 'Динамический опрос → профиль → следующее действие → чекпойнт → план, пересобранный по изменению. Три минуты, без регистрации.',
+    disclaimer: '⚠️ Содержимое здесь иллюстративное и не является медицинской рекомендацией. Демо показывает механику, а не предписывает тренировки.',
+    profileH: 'Собранный профиль',
+    profileSub: 'Не история переписки — поля со значениями, и у каждого написано, из какого ответа оно взялось.',
+    planH: 'План',
+    nbaLabel: 'Следующее действие:',
+    btnWeek: 'Неделю спустя →',
+    btnRestart: 'Начать заново',
+    cpH: 'Чекпойнт — неделю спустя',
+    cpSub: 'Три вопроса. Что изменится здесь — изменит план, и будет написано почему.',
+    deltaH: 'Что изменилось в профиле',
+    deltaSub: 'Это и есть разница между продуктом и формой, возвращающей ответ: профиль помнит, а рекомендация пересобирается из изменения.',
+    deltaPlanH: 'Что изменилось в плане',
+    nochange: 'Ни одно поле не изменилось — значит и план остаётся.',
+    kept: 'осталось', added: 'добавлено', removed: 'ушло',
+    derived: 'выведено правилом', fromAnswer: 'из ответа: ',
+    hoodH: 'Что здесь готовое, а что написано',
+    hoodSub: 'Это ровно то разделение, о котором спрашивают в проекте: что взять с полки, а что строить.',
+    hoodNote: '🔑 В этом демо нет ни одного вызова языковой модели. Все решения — правила, и у каждой рекомендации показано, какое правило сработало. В продукте языковая модель отвечает за формулировку, а не за решение.',
+    foot: 'Демо Сергея Казакова · Состояние хранится только в вашем браузере; в продукте это Supabase с правами на пользователя. ' +
+          '<a href="/">На главную</a>',
+    hood: [
+      ['Вход и права доступа', 'с полки — Supabase'],
+      ['База и хранилище', 'с полки — Supabase'],
+      ['Оркестрация шагов и напоминания', 'с полки — n8n / Make'],
+      ['Формулировки текстов', 'с полки — LLM API'],
+      ['Схема профиля', '✍️ написано — это и есть продукт'],
+      ['Движок следующего действия', '✍️ написано — это и есть продукт'],
+      ['Логика дельты между чекпойнтами', '✍️ написано — это и есть продукт'],
+    ],
+    vals: {
+      none:'почти никак', some:'раз-два', regular:'три и чаще', keep:'держать регулярность',
+      more:'добавить занятие', start:'начать', back:'вернуться', time:'нет времени',
+      energy:'нет сил вечером', boring:'скучно одному', restart:'бросает через неделю',
+      morning:'утро', midday:'середина дня', evening:'вечер', home:'дома', outside:'на улице',
+      gym:'зал', gym_sub:'абонемент', running:'бег', morning_routine:'утренняя зарядка',
+      nothing:'ничего', '10':'10 минут', '20':'20 минут', '40':'40 минут',
+    },
+  },
 };
 
 let lang = 'he';
@@ -221,9 +265,10 @@ function val(v){ return T[lang].vals[v] || v; }
 function setLang(l){
   lang = l;
   document.documentElement.lang = l;
-  document.documentElement.dir = l === 'he' ? 'rtl' : 'ltr';
+  document.documentElement.dir = l === 'he' ? 'rtl' : 'ltr';   // he — RTL, en и ru — LTR
+  const order = ['he','en','ru'];
   document.querySelectorAll('.lang button').forEach((b,i) =>
-    b.setAttribute('aria-pressed', String((i===0) === (l==='he'))));
+    b.setAttribute('aria-pressed', String(order[i] === l)));
   paintStatic();
   if (document.getElementById('screen-intake').classList.contains('hidden')) {
     if (profile) { renderProfile(); renderPlan(); }
@@ -274,9 +319,8 @@ function renderProfile(){
   Object.keys(profile).forEach(k => {
     const f = profile[k];
     const label = (JOURNEY.FIELD_LABELS[k]||{})[lang] || k;
-    const src = f.derived
-      ? (lang==='he' ? 'נגזר מכללים' : 'derived by rule')
-      : (lang==='he' ? 'מתשובה: ' : 'from answer: ') + ((JOURNEY.FIELD_LABELS[f.from]||{})[lang] || f.from);
+    const src = f.derived ? t('derived')
+      : t('fromAnswer') + ((JOURNEY.FIELD_LABELS[f.from]||{})[lang] || f.from);
     box.insertAdjacentHTML('beforeend',
       `<div class="field"><span>${label}<div class="from">${src}</div></span>
        <span class="v">${val(f.value)}</span></div>`);
