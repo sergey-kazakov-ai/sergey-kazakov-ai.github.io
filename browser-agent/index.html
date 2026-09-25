@@ -33,6 +33,7 @@
  .limits{background:var(--card);border:1px solid var(--line);border-left:3px solid #d29922;border-radius:12px;padding:18px 20px}
  .limits h3{margin:0 0 10px;font-size:16px} .limits li{margin-bottom:8px;color:var(--dim)}
  .limits b{color:var(--txt)}
+ .num{text-align:right;font-variant-numeric:tabular-nums}
  .foot{color:var(--dim);font-size:12px;margin:22px 2px 0;max-width:80ch}
 </style>
 <div class="wrap">
@@ -42,11 +43,44 @@
 откуда оно взялось. Два файла из трёх — с заранее известным ответом, поэтому отчёт проверяет
 сам себя, а не просит верить на слово.</p>
 <section class="case good">
-      <h2>Оригинал (контроль) <span class="score">0.0<small>/100</small></span></h2>
+      <h2>Оригинал (контроль) <span class="score">10.0<small>/100</small></span></h2>
       <div class="verdict">✔ вердикт совпал с правдой</div>
       <div class="cols">
         <div><img class="orig" src="assets/clean_scene_clean.jpg" alt="исходный кадр"></div>
-        <div><table class='check'><tr><td>подлог был на самом деле</td><td><b>нет</b></td></tr><tr><td>конвейер сказал</td><td><b>чисто (0.0/100)</b></td></tr></table><table class="parts"><tr><td colspan="4" class="why">ни один сигнал не набрал баллов</td></tr></table></div>
+        <div><table class='check'><tr><td>подлог был на самом деле</td><td><b>нет</b></td></tr><tr><td>конвейер сказал</td><td><b>чисто</b></td></tr><tr><td>балл по правилам</td><td><b>10.0/100</b></td></tr><tr><td>вердикт модели</td><td><b>0.25</b></td></tr><tr><td>правило</td><td><b>правка, если балл ≥ 50 или вердикт модели ≥ 0.6</b></td></tr></table><table class="parts"><tr><td class="pts">+10.0</td><td class="of">из 40</td>
+             <td><b>vision_verdict</b><div class="why">На ela_hotspot луна выделяется чётким контуром с равномерной подсветкой границы, отличным по характеру от остальных объектов сцены; На noise_hotspot внутри круга луны текстура шума более гладкая и однородная по сравнению с зернистым фоном неба; EXIF и metadata_text содержат несостыковку во времени (</div></td>
+             <td class="src">vision</td></tr></table></div>
+      </div>
+      <div class="targets"><div class="target ok">
+            <div class="thead"><span class="badge ok">прошло</span> local
+              <span class="sec">0.0 с</span></div>
+            <div class="why">своя машина, чужих сервисов не трогаем</div>
+            <ul><li><b>container_quality</b>: 88<div class='why'>качество JPEG определено сравнением таблицы квантования файла с эталонными таблицами той же библиотеки</div></li><li><b>exif</b>: {&quot;Make&quot;: &quot;DemoCam&quot;, &quot;Model&quot;: &quot;DC-216056&quot;, &quot;Software&quot;: &quot;DemoCam firmware 1.2&quot;, &quot;DateTime&quot;: &quot;2026:09:23 11:04:17&quot;, &quot;ExifTag&quot;: &quot;133&quot;, &quot;FNumber&quot;: &quot;(28, 10<div class='why'>EXIF прочитан на месте, без обращения к сервисам</div></li></ul></div><div class="target ok">
+            <div class="thead"><span class="badge ok">прошло</span> Forensically (29a.ch)
+              <span class="sec">17.9 с</span></div>
+            <div class="why">robots.txt не запрещает</div>
+            <ul><li><b>ela_hotspot</b>: {&quot;x0&quot;: 325, &quot;y0&quot;: 535, &quot;x1&quot;: 363, &quot;y1&quot;: 611, &quot;blocks&quot;: 5, &quot;contrast&quot;: 21.37}<div class='why'>карта ELA снята с canvas; кластер из 5 блоков с плотной россыпью ярких точек, плотность к фону ×21.37</div></li><li><b>noise_hotspot</b>: {&quot;x0&quot;: 250, &quot;y0&quot;: 573, &quot;x1&quot;: 344, &quot;y1&quot;: 611, &quot;blocks&quot;: 6, &quot;contrast&quot;: 9.95}<div class='why'>карта шума снята с canvas; кластер из 6 блоков, плотность к фону ×9.95</div></li><li><b>clone_view</b>: &quot;снято как улика, в балл не идёт&quot;<div class='why'>инструмент не отдаёт результат машиночитаемо; на контрольном подлоге точную копию не показал, подсветил солнце</div></li><li><b>metadata_text</b>: &quot;Make: DemoCam\nModel: DC-216056\nSoftware: DemoCam firmware 1.2\nModifyDate: Wed Sep 23 2026 14:04:17 GMT+0300 (Israel Daylight Time)\nFNumber: 2.800<div class='why'>таблица Meta Data прочитана по ячейкам — текстом, не картинкой</div></li></ul></div><div class="target deny">
+            <div class="thead"><span class="badge deny">отказ</span> FotoForensics
+              <span class="sec">0.0 с</span></div>
+            <div class="why">robots.txt запрещает /upload-file.php</div>
+            <ul></ul></div><div class="target ok">
+            <div class="thead"><span class="badge ok">прошло</span> vision-модель
+              <span class="sec">0.0 с</span></div>
+            <div class="why">разбор снятых улик</div>
+            <ul><li><b>vision_verdict</b>: 0.25<div class='why'>На ela_hotspot луна выделяется чётким контуром с равномерной подсветкой границы, отличным по характеру от остальных объектов сцены; На noise_hotspot внутри круга луны текстура шума более гладкая и однородная по сравнению с зернистым фоном неба; EXIF и metadata_text содержат несостыковку во времени (</div></li></ul></div></div>
+      <div class="shots"><figure><img loading="lazy" src="assets/clean_1_clones.jpg" alt="clones">
+                     <figcaption>Clone Detection</figcaption></figure><figure><img loading="lazy" src="assets/clean_1_ela.jpg" alt="ela">
+                     <figcaption>Error Level Analysis</figcaption></figure><figure><img loading="lazy" src="assets/clean_1_metadata.jpg" alt="metadata">
+                     <figcaption>Meta Data</figcaption></figure><figure><img loading="lazy" src="assets/clean_1_noise.jpg" alt="noise">
+                     <figcaption>Noise Analysis</figcaption></figure></div>
+    </section><section class="case good">
+      <h2>Точная копия без пересохранения <span class="score">28.8<small>/100</small></span></h2>
+      <div class="verdict">✔ вердикт совпал с правдой</div>
+      <div class="cols">
+        <div><img class="orig" src="assets/obvious_scene_obvious.jpg" alt="исходный кадр"></div>
+        <div><table class='check'><tr><td>подлог был на самом деле</td><td><b>да</b></td></tr><tr><td>конвейер сказал</td><td><b>правка</b></td></tr><tr><td>балл по правилам</td><td><b>28.8/100</b></td></tr><tr><td>вердикт модели</td><td><b>0.72</b></td></tr><tr><td>правило</td><td><b>правка, если балл ≥ 50 или вердикт модели ≥ 0.6</b></td></tr><tr><td>совпадение указанной области с настоящей</td><td><b>IoU = 0.0</b></td></tr></table><table class="parts"><tr><td class="pts">+28.8</td><td class="of">из 40</td>
+             <td><b>vision_verdict</b><div class="why">На clone_view заметно наложение двух краёв у пятого цилиндра (розовый+красный контур) — похоже на дублирование объекта; На ela_hotspot и noise_hotspot именно этот цилиндр имеет двойную/раздвоенную верхнюю границу с иным откликом, чем у остальных; Аномалия локализована в одном связном участке, а не р</div></td>
+             <td class="src">vision</td></tr></table></div>
       </div>
       <div class="targets"><div class="target ok">
             <div class="thead"><span class="badge ok">прошло</span> local
@@ -56,49 +90,30 @@
             <div class="thead"><span class="badge ok">прошло</span> Forensically (29a.ch)
               <span class="sec">17.5 с</span></div>
             <div class="why">robots.txt не запрещает</div>
-            <ul><li><b>ela_hotspot</b>: {&quot;x0&quot;: 118, &quot;y0&quot;: 516, &quot;x1&quot;: 193, &quot;y1&quot;: 554, &quot;blocks&quot;: 5, &quot;contrast&quot;: 23.93}<div class='why'>карта ELA снята с canvas; кластер из 5 блоков с плотной россыпью ярких точек, плотность к фону ×23.93</div></li><li><b>noise_hotspot</b>: {&quot;x0&quot;: 250, &quot;y0&quot;: 516, &quot;x1&quot;: 325, &quot;y1&quot;: 611, &quot;blocks&quot;: 9, &quot;contrast&quot;: 12.65}<div class='why'>карта шума снята с canvas; кластер из 9 блоков, плотность к фону ×12.65</div></li><li><b>clone_view</b>: &quot;снято как улика, в балл не идёт&quot;<div class='why'>инструмент не отдаёт результат машиночитаемо; на контрольном подлоге точную копию не показал, подсветил солнце</div></li><li><b>metadata_text</b>: &quot;Make: DemoCam\nModel: DC-216056\nSoftware: DemoCam firmware 1.2\nModifyDate: Wed Sep 23 2026 14:04:17 GMT+0300 (Israel Daylight Time)\nFNumber: 2.800<div class='why'>таблица Meta Data прочитана по ячейкам — текстом, не картинкой</div></li></ul></div><div class="target deny">
+            <ul><li><b>ela_hotspot</b>: {&quot;x0&quot;: 118, &quot;y0&quot;: 497, &quot;x1&quot;: 174, &quot;y1&quot;: 516, &quot;blocks&quot;: 3, &quot;contrast&quot;: 21.65}<div class='why'>карта ELA снята с canvas; кластер из 3 блоков с плотной россыпью ярких точек, плотность к фону ×21.65</div></li><li><b>noise_hotspot</b>: {&quot;x0&quot;: 817, &quot;y0&quot;: 516, &quot;x1&quot;: 892, &quot;y1&quot;: 611, &quot;blocks&quot;: 13, &quot;contrast&quot;: 11.84}<div class='why'>карта шума снята с canvas; кластер из 13 блоков, плотность к фону ×11.84</div></li><li><b>clone_view</b>: &quot;снято как улика, в балл не идёт&quot;<div class='why'>инструмент не отдаёт результат машиночитаемо; на контрольном подлоге точную копию не показал, подсветил солнце</div></li><li><b>metadata_text</b>: &quot;Make: DemoCam\nModel: DC-216056\nSoftware: DemoCam firmware 1.2\nModifyDate: Wed Sep 23 2026 14:04:17 GMT+0300 (Israel Daylight Time)\nFNumber: 2.800<div class='why'>таблица Meta Data прочитана по ячейкам — текстом, не картинкой</div></li></ul></div><div class="target deny">
             <div class="thead"><span class="badge deny">отказ</span> FotoForensics
               <span class="sec">0.0 с</span></div>
             <div class="why">robots.txt запрещает /upload-file.php</div>
-            <ul></ul></div></div>
-      <div class="shots"><figure><img loading="lazy" src="assets/clean_1_clones.jpg" alt="clones">
-                     <figcaption>Clone Detection</figcaption></figure><figure><img loading="lazy" src="assets/clean_1_ela.jpg" alt="ela">
-                     <figcaption>Error Level Analysis</figcaption></figure><figure><img loading="lazy" src="assets/clean_1_metadata.jpg" alt="metadata">
-                     <figcaption>Meta Data</figcaption></figure><figure><img loading="lazy" src="assets/clean_1_noise.jpg" alt="noise">
-                     <figcaption>Noise Analysis</figcaption></figure></div>
-    </section><section class="case bad">
-      <h2>Точная копия без пересохранения <span class="score">0.0<small>/100</small></span></h2>
-      <div class="verdict">✘ вердикт разошёлся с правдой</div>
-      <div class="cols">
-        <div><img class="orig" src="assets/obvious_scene_obvious.jpg" alt="исходный кадр"></div>
-        <div><table class='check'><tr><td>подлог был на самом деле</td><td><b>да</b></td></tr><tr><td>конвейер сказал</td><td><b>чисто (0.0/100)</b></td></tr><tr><td>совпадение указанной области с настоящей</td><td><b>IoU = 0.002</b></td></tr></table><table class="parts"><tr><td colspan="4" class="why">ни один сигнал не набрал баллов</td></tr></table></div>
-      </div>
-      <div class="targets"><div class="target ok">
-            <div class="thead"><span class="badge ok">прошло</span> local
+            <ul></ul></div><div class="target ok">
+            <div class="thead"><span class="badge ok">прошло</span> vision-модель
               <span class="sec">0.0 с</span></div>
-            <div class="why">своя машина, чужих сервисов не трогаем</div>
-            <ul><li><b>container_quality</b>: 88<div class='why'>качество JPEG определено сравнением таблицы квантования файла с эталонными таблицами той же библиотеки</div></li><li><b>exif</b>: {}<div class='why'>EXIF прочитан на месте, без обращения к сервисам</div></li></ul></div><div class="target ok">
-            <div class="thead"><span class="badge ok">прошло</span> Forensically (29a.ch)
-              <span class="sec">17.5 с</span></div>
-            <div class="why">robots.txt не запрещает</div>
-            <ul><li><b>ela_hotspot</b>: {&quot;x0&quot;: 817, &quot;y0&quot;: 649, &quot;x1&quot;: 892, &quot;y1&quot;: 668, &quot;blocks&quot;: 4, &quot;contrast&quot;: 20.19}<div class='why'>карта ELA снята с canvas; кластер из 4 блоков с плотной россыпью ярких точек, плотность к фону ×20.19</div></li><li><b>noise_hotspot</b>: {&quot;x0&quot;: 817, &quot;y0&quot;: 516, &quot;x1&quot;: 892, &quot;y1&quot;: 573, &quot;blocks&quot;: 8, &quot;contrast&quot;: 15.31}<div class='why'>карта шума снята с canvas; кластер из 8 блоков, плотность к фону ×15.31</div></li><li><b>clone_view</b>: &quot;снято как улика, в балл не идёт&quot;<div class='why'>инструмент не отдаёт результат машиночитаемо; на контрольном подлоге точную копию не показал, подсветил солнце</div></li></ul></div><div class="target deny">
-            <div class="thead"><span class="badge deny">отказ</span> FotoForensics
-              <span class="sec">0.0 с</span></div>
-            <div class="why">robots.txt запрещает /upload-file.php</div>
-            <ul></ul></div></div>
+            <div class="why">разбор снятых улик</div>
+            <ul><li><b>vision_verdict</b>: 0.72<div class='why'>На clone_view заметно наложение двух краёв у пятого цилиндра (розовый+красный контур) — похоже на дублирование объекта; На ela_hotspot и noise_hotspot именно этот цилиндр имеет двойную/раздвоенную верхнюю границу с иным откликом, чем у остальных; Аномалия локализована в одном связном участке, а не р</div></li></ul></div></div>
       <div class="shots"><figure><img loading="lazy" src="assets/obvious_1_clones.jpg" alt="clones">
                      <figcaption>Clone Detection</figcaption></figure><figure><img loading="lazy" src="assets/obvious_1_ela.jpg" alt="ela">
                      <figcaption>Error Level Analysis</figcaption></figure><figure><img loading="lazy" src="assets/obvious_1_metadata.jpg" alt="metadata">
                      <figcaption>Meta Data</figcaption></figure><figure><img loading="lazy" src="assets/obvious_1_noise.jpg" alt="noise">
                      <figcaption>Noise Analysis</figcaption></figure></div>
     </section><section class="case good">
-      <h2>Правка с пересохранением <span class="score">60.0<small>/100</small></span></h2>
+      <h2>Правка с пересохранением <span class="score">88.8<small>/100</small></span></h2>
       <div class="verdict">✔ вердикт совпал с правдой</div>
       <div class="cols">
         <div><img class="orig" src="assets/tampered_scene_tampered.jpg" alt="исходный кадр"></div>
-        <div><table class='check'><tr><td>подлог был на самом деле</td><td><b>да</b></td></tr><tr><td>конвейер сказал</td><td><b>правка (60.0/100)</b></td></tr><tr><td>совпадение указанной области с настоящей</td><td><b>IoU = 0.341</b></td></tr></table><table class="parts"><tr><td class="pts">+60.0</td><td class="of">из 60</td>
-             <td><b>ela_hotspot</b><div class="why">карта ELA снята с canvas; кластер из 21 блоков с плотной россыпью ярких точек, плотность к фону ×32.28</div></td>
-             <td class="src">forensically</td></tr></table></div>
+        <div><table class='check'><tr><td>подлог был на самом деле</td><td><b>да</b></td></tr><tr><td>конвейер сказал</td><td><b>правка</b></td></tr><tr><td>балл по правилам</td><td><b>88.8/100</b></td></tr><tr><td>вердикт модели</td><td><b>0.72</b></td></tr><tr><td>правило</td><td><b>правка, если балл ≥ 50 или вердикт модели ≥ 0.6</b></td></tr><tr><td>совпадение указанной области с настоящей</td><td><b>IoU = 0.476</b></td></tr></table><table class="parts"><tr><td class="pts">+60.0</td><td class="of">из 60</td>
+             <td><b>ela_hotspot</b><div class="why">карта ELA снята с canvas; кластер из 26 блоков с плотной россыпью ярких точек, плотность к фону ×34.27</div></td>
+             <td class="src">forensically</td></tr><tr><td class="pts">+28.8</td><td class="of">из 40</td>
+             <td><b>vision_verdict</b><div class="why">На noise_hotspot видна выраженная область с иным зерном (мелкий контрастный шум) именно на двух центрально-правых цилиндрах, отличающаяся от однородного шумового паттерна остального кадра; На ela_hotspot та же зона показывает повышенный и более плотный отклик по сравнению с соседними объектами схоже</div></td>
+             <td class="src">vision</td></tr></table></div>
       </div>
       <div class="targets"><div class="target ok">
             <div class="thead"><span class="badge ok">прошло</span> local
@@ -106,31 +121,49 @@
             <div class="why">своя машина, чужих сервисов не трогаем</div>
             <ul><li><b>container_quality</b>: 95<div class='why'>качество JPEG определено сравнением таблицы квантования файла с эталонными таблицами той же библиотеки</div></li><li><b>exif</b>: {&quot;Make&quot;: &quot;DemoCam&quot;, &quot;Model&quot;: &quot;DC-216056&quot;, &quot;Software&quot;: &quot;DemoCam firmware 1.2&quot;, &quot;DateTime&quot;: &quot;2026:09:23 11:04:17&quot;, &quot;ExifTag&quot;: &quot;133&quot;, &quot;FNumber&quot;: &quot;(28, 10<div class='why'>EXIF прочитан на месте, без обращения к сервисам</div></li></ul></div><div class="target ok">
             <div class="thead"><span class="badge ok">прошло</span> Forensically (29a.ch)
-              <span class="sec">17.7 с</span></div>
+              <span class="sec">17.6 с</span></div>
             <div class="why">robots.txt не запрещает</div>
-            <ul><li><b>ela_hotspot</b>: {&quot;x0&quot;: 779, &quot;y0&quot;: 478, &quot;x1&quot;: 892, &quot;y1&quot;: 592, &quot;blocks&quot;: 21, &quot;contrast&quot;: 32.28}<div class='why'>карта ELA снята с canvas; кластер из 21 блоков с плотной россыпью ярких точек, плотность к фону ×32.28</div></li><li><b>noise_hotspot</b>: {&quot;x0&quot;: 817, &quot;y0&quot;: 497, &quot;x1&quot;: 892, &quot;y1&quot;: 592, &quot;blocks&quot;: 12, &quot;contrast&quot;: 12.24}<div class='why'>карта шума снята с canvas; кластер из 12 блоков, плотность к фону ×12.24</div></li><li><b>clone_view</b>: &quot;снято как улика, в балл не идёт&quot;<div class='why'>инструмент не отдаёт результат машиночитаемо; на контрольном подлоге точную копию не показал, подсветил солнце</div></li><li><b>metadata_text</b>: &quot;Make: DemoCam\nModel: DC-216056\nSoftware: DemoCam firmware 1.2\nModifyDate: Wed Sep 23 2026 14:04:17 GMT+0300 (Israel Daylight Time)\nFNumber: 2.800<div class='why'>таблица Meta Data прочитана по ячейкам — текстом, не картинкой</div></li></ul></div><div class="target deny">
+            <ul><li><b>ela_hotspot</b>: {&quot;x0&quot;: 779, &quot;y0&quot;: 478, &quot;x1&quot;: 892, &quot;y1&quot;: 668, &quot;blocks&quot;: 26, &quot;contrast&quot;: 34.27}<div class='why'>карта ELA снята с canvas; кластер из 26 блоков с плотной россыпью ярких точек, плотность к фону ×34.27</div></li><li><b>noise_hotspot</b>: {&quot;x0&quot;: 817, &quot;y0&quot;: 516, &quot;x1&quot;: 874, &quot;y1&quot;: 611, &quot;blocks&quot;: 10, &quot;contrast&quot;: 11.5}<div class='why'>карта шума снята с canvas; кластер из 10 блоков, плотность к фону ×11.5</div></li><li><b>clone_view</b>: &quot;снято как улика, в балл не идёт&quot;<div class='why'>инструмент не отдаёт результат машиночитаемо; на контрольном подлоге точную копию не показал, подсветил солнце</div></li><li><b>metadata_text</b>: &quot;Make: DemoCam\nModel: DC-216056\nSoftware: DemoCam firmware 1.2\nModifyDate: Wed Sep 23 2026 14:04:17 GMT+0300 (Israel Daylight Time)\nFNumber: 2.800<div class='why'>таблица Meta Data прочитана по ячейкам — текстом, не картинкой</div></li></ul></div><div class="target deny">
             <div class="thead"><span class="badge deny">отказ</span> FotoForensics
               <span class="sec">0.0 с</span></div>
             <div class="why">robots.txt запрещает /upload-file.php</div>
-            <ul></ul></div></div>
+            <ul></ul></div><div class="target ok">
+            <div class="thead"><span class="badge ok">прошло</span> vision-модель
+              <span class="sec">0.0 с</span></div>
+            <div class="why">разбор снятых улик</div>
+            <ul><li><b>vision_verdict</b>: 0.72<div class='why'>На noise_hotspot видна выраженная область с иным зерном (мелкий контрастный шум) именно на двух центрально-правых цилиндрах, отличающаяся от однородного шумового паттерна остального кадра; На ela_hotspot та же зона показывает повышенный и более плотный отклик по сравнению с соседними объектами схоже</div></li></ul></div></div>
       <div class="shots"><figure><img loading="lazy" src="assets/tampered_1_clones.jpg" alt="clones">
                      <figcaption>Clone Detection</figcaption></figure><figure><img loading="lazy" src="assets/tampered_1_ela.jpg" alt="ela">
                      <figcaption>Error Level Analysis</figcaption></figure><figure><img loading="lazy" src="assets/tampered_1_metadata.jpg" alt="metadata">
                      <figcaption>Meta Data</figcaption></figure><figure><img loading="lazy" src="assets/tampered_1_noise.jpg" alt="noise">
                      <figcaption>Noise Analysis</figcaption></figure></div>
     </section>
+<div class="limits" style="border-left-color:#4493f8">
+<h3>Разброс модели: сколько раз спросить, прежде чем верить</h3>
+<p style="color:var(--dim);margin:0 0 12px;max-width:80ch">Один вызов не отличает свойство файла
+от разброса модели. Улики снимаются один раз, разбор повторяется. На ранней версии запроса
+чистый файл однажды получил 0,62 — то есть перешагнул порог. После этого замер стал обязательным:</p>
+<table class="parts">
+<tr><td></td><td class="num">мин</td><td class="num">макс</td><td class="num">размах</td><td class="num">вызовов</td></tr>
+<tr><td>Оригинал (контроль)</td><td class='num'>0.12</td><td class='num'>0.25</td><td class='num'>0.13</td><td class='num'>5</td></tr><tr><td>Правка с пересохранением</td><td class='num'>0.68</td><td class='num'>0.82</td><td class='num'>0.14</td><td class='num'>5</td></tr><tr><td>Точная копия без пересохранения</td><td class='num'>0.62</td><td class='num'>0.72</td><td class='num'>0.10</td><td class='num'>5</td></tr></table>
+<p style="color:var(--dim);font-size:12px;margin:12px 0 0">Разделение держится на всех вызовах,
+но запас до порога — сотые доли. В боевой системе решение принимается по медиане нескольких
+вызовов, а не по одному.</p></div>
 <div class="limits">
 <h3>Чего этот PoC не делает — сказано прямо</h3>
 <ul>
-<li><b>Точную копию без пересохранения конвейер не видит.</b> Третий файл — участок, скопированный
-внутри кадра и сохранённый с тем же качеством. ELA живёт на разнице в истории сжатия; её тут нет,
-и балл честно равен нулю. Ловится это сопоставлением по особым точкам — отдельная работа.</li>
+<li><b>Правила не видят копию, сохранённую с тем же качеством.</b> Третий файл — участок,
+скопированный внутри кадра без пересохранения. ELA живёт на разнице в истории сжатия, её там нет,
+и по правилам балл 28,8 из 100. Подлог там нашла только модель — и в этом весь смысл связки:
+правила дают воспроизводимое число, модель видит то, подо что правила не написаны.</li>
 <li><b>Noise Analysis в балл не идёт.</b> На контрольном прогоне дала ×12.65 на чистом файле против
 ×12.24 на подделке — то есть не различает. Скриншот остаётся уликой, баллов не даёт.</li>
-<li><b>Clone Detection внешнего инструмента не читается машиной.</b> Своё «клонов нет» он держит в
-скрытом узле, разметку поверх картинки не рисует, а на файле с точной копией подсветил солнце.</li>
-<li><b>Порог откалиброван на трёх файлах.</b> Этого мало для боевого порога: на реальном корпусе
-его надо считать заново, вместе с долей ложных тревог.</li>
+<li><b>Clone Detection внешнего инструмента не читается машиной и промахивается.</b> Своё
+«клонов нет» он держит в узле с display:none, разметку поверх картинки не рисует, а на файле,
+где участок 180×180 скопирован буквально, при трёх наборах порогов копию не показал — зато
+подсветил солнце. Ту же копию модель на его же скриншоте описала словами.</li>
+<li><b>Порог откалиброван на трёх файлах и 15 вызовах модели.</b> Для боевого порога этого мало:
+на реальном корпусе его надо считать заново вместе с долей ложных тревог.</li>
 <li><b>Один из сервисов, названных в задании, отклонён самим агентом</b> — не по вкусу, а по его
 robots.txt, где закрыт ровно эндпойнт загрузки. Это не обход и не «строгость ради строгости»:
 на таких запретах строится претензия, и решается это договорённостью или официальным API,
@@ -138,6 +171,6 @@ robots.txt, где закрыт ровно эндпойнт загрузки. Э
 </ul></div>
 <p class="foot">Снимки на этой странице пересохранены в JPEG ради веса страницы;
 исходные PNG и весь код агента лежат в комплекте проекта. Прогон:
-2026-09-23T19:29:25. Внешний инструмент — Forensically (29a.ch), считает в браузере,
+2026-09-25T16:49:18. Внешний инструмент — Forensically (29a.ch), считает в браузере,
 на стороне клиента.</p>
 </div></html>
